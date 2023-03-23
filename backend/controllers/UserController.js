@@ -2,8 +2,7 @@ const asyncHandler = require('express-async-handler')
 const Users = require('../models/userModel') 
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-
-
+const nodemailer = require('nodemailer')
 
 
 //Function that enables us to Signup
@@ -30,11 +29,35 @@ const registerUser = asyncHandler(async(req, res) => {
         email, 
         password: hashedPassword
     })
-
+    
     if(!user){
         res.status(400)
         throw new Error("Account not registered")
     }
+    
+         //Welcome Mail in addition
+         var transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+              user: process.env.NODE_MAILER_USER,
+              pass: process.env.NODE_MAILER_PASS,
+            },
+          });
+          var mailOptions = {
+            from: process.env.NODE_MAILER_USER,
+            to: user.email,
+            subject: "Welcome to Farmer Place App",
+            html: `<html><head><style>h1 {color: #000000;} p {font-size: 18px;}</style></head><body><div style="margin: auto; text-align: center"><h1>Happy to see you ${user.user_name}</h1><br><p style="color: #0000ff;">Thanks for signing up to Farmer Place!</p><br><br><a href="https://www.google.co.in/">Click Here to get started</a></div></body></html>`
+        };
+          transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log("Email sent: " + info.response);
+            }
+          });
+        
+
 
     res.status(201).json({
         _id: user.id,
@@ -44,8 +67,10 @@ const registerUser = asyncHandler(async(req, res) => {
         token: await generateToken(user.id),
         message: "You are registered"
     })
-    
+
 })
+  
+
 
 //Function which enables User to Login
 const loginUser = asyncHandler(async(req, res) => {
@@ -77,7 +102,7 @@ const loginUser = asyncHandler(async(req, res) => {
 const deleteUser = asyncHandler(async (req, res) => {
     const userdelete = await Users.findById(req.params.id);
   
-    if (req.admin && req.user._id.toString() !== userdelete.user.toString()) {
+    if (req.user && req.user._id.toString() !== userdelete.user.toString()) {
       res.status(401);
       throw new Error('User not authorized');
     } else {
@@ -86,8 +111,17 @@ const deleteUser = asyncHandler(async (req, res) => {
     }
   });
 
+const getAllusers = asyncHandler(async(req,res) => {
+const getAllusers = await Users.find();
 
-//Function that enables to Logout
+if(!req.Admin){
+    throw new Error('Admin not Authorized')
+}
+else{
+
+}
+})
+//Function that enables to Reset Password
 
 //To Generate Tokens
 const generateToken = async(id) => {
