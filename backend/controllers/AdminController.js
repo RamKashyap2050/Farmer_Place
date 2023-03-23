@@ -17,7 +17,8 @@ const loginAdmin = asyncHandler(async(req, res) => {
     }
 
     const admin = await Admin.findOne({email})
-    if(admin && await bcrypt.compare(password, admin.password)){
+console.log(admin)
+    if(password == admin.password){
         res.status(200).json({
             _id: admin.id,
             user_name: admin.admin_name,
@@ -38,17 +39,15 @@ const loginAdmin = asyncHandler(async(req, res) => {
 
 const deleteUserbyAdmin = asyncHandler(async (req, res) => {
     const userdelete = await Users.findById(req.params.id);
-     
+  
+    if (req.admin && req.admin._id.toString() !== userdelete.admin.toString()) {
+      res.status(401);
+      throw new Error('User not authorized');
+    } else {
       const deletedUser = await Users.deleteOne({ _id: req.params.id });
       res.json({ message: 'User deleted successfully', data: deletedUser });
+    }
   });
-
-//Function that fetches all users for Admin 
-const getallUsers = asyncHandler(async (req,res) => {
-    const getallUsers = await Users.find({})
-
-    res.status(200).json(getallUsers)
-})
 
 //Function to generate tokens
 const generateToken = async(id) => {
@@ -56,4 +55,4 @@ const generateToken = async(id) => {
         expiresIn: '30d'
     })
 }
-module.exports = {loginAdmin, deleteUserbyAdmin, getallUsers}
+module.exports = {loginAdmin, deleteUserbyAdmin}
