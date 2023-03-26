@@ -1,0 +1,10 @@
+
+.card{
+    max-width: 350px;
+    margin: 5rem auto;
+    text-align: center;
+    border: black 1px solid;
+    padding: 20px;
+    border-radius: 3%;
+    
+  }

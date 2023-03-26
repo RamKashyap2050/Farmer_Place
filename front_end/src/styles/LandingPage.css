@@ -1,0 +1,33 @@
+.LandingPage{
+    margin-top: 40%;
+    width: 400px;
+    text-align: center;
+    margin: auto;
+
+}
+
+.landingpageimg{
+    width: 150px;
+    height: 150px;
+}
+
+.landingpage-btn-danger{
+    background-color: #d3304a;
+    color: white;
+    margin-bottom: 10px;
+    width: 250px;
+    border: none;
+    border-radius: 20px;
+padding: 10px;
+}
+
+.landingpage-btn-primary{
+    background-color: #1E88E5;
+    color: white;
+    width: 250px;
+    border: none;
+    border-radius: 20px;
+    padding: 10px;
+
+
+}

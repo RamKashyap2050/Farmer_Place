@@ -1,0 +1,142 @@
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+.page{
+  margin: auto;
+  text-align: center;
+  width: 400px;
+  display: list-item;
+  margin-top: 10%;
+  padding: 0 20px;
+}
+
+
+
+
+/*.landingpage{
+  width: 300px;
+}
+.register{
+  background-color: #e6e6e6;
+  padding: 20px;
+}
+.form,
+.content {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #e6e6e6;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-family: inherit;
+}
+
+.form-group label {
+  text-align: left;
+  display: block;
+  margin: 0 0 5px 3px;
+}
+
+.btn1 {
+  padding: 10px 20px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  background: #000;
+  color: #fff;  
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  appearance: button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+
+.lnk{
+  text-decoration: none;
+
+}
+
+.lnk:hover{
+  text-decoration: none;
+
+}
+
+
+.card{
+  max-width: 350px;
+  margin: 5rem auto;
+  text-align: center;
+  border: black 1px solid;
+  padding: 20px;
+  border-radius: 3%;
+  
+}
+.underline{
+  width: 80px;
+    height: 5px;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    color: aquamarine;
+}
+
+.profilephoto{
+width: 200px;
+height: 200px;
+margin: auto;
+text-align: center;
+border-radius: 50%;
+}
+
+.guidetobackpage{
+  height: 80%;
+  margin-bottom: 0;
+}
+
+table {
+  border: 1px solid black;
+  width: 100%;
+  margin: auto;
+  text-align: center;
+}
+th{
+  border: 1px solid black;
+  padding: 20px;
+}
+td{
+  border: 1px solid black;
+  padding: 20px;
+}
+
+
+
+.results{
+  max-width: 400px;
+  margin-right: auto;
+} */
