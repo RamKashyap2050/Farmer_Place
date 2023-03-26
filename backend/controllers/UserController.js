@@ -47,7 +47,7 @@ const registerUser = asyncHandler(async(req, res) => {
             from: process.env.NODE_MAILER_USER,
             to: user.email,
             subject: "Welcome to Farmer Place App",
-            html: `<html><head><style>h1 {color: #000000;} p {font-size: 18px;}</style></head><body><div style="margin: auto; text-align: center"><h1>Happy to see you ${user.user_name}</h1><br><p style="color: #0000ff;">Thanks for signing up to Farmer Place!</p><br><br><a href="https://www.google.co.in/">Click Here to get started</a></div></body></html>`
+            html: `<html><head><style>h1 {color: #000000;} p {font-size: 18px;}</style></head><body><div style="margin: auto; text-align: center"><h1>Happy to see you ${user.user_name}</h1><br><p style="color: #0000ff;">Thanks for signing up to Farmer Place!</p><br><br><a href="https://localhost:3000/dashboard/">Click Here to get started</a></div></body></html>`
         };
           transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
@@ -106,20 +106,37 @@ const deleteUser = asyncHandler(async (req, res) => {
       res.status(401);
       throw new Error('User not authorized');
     } else {
+      var transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.NODE_MAILER_USER,
+          pass: process.env.NODE_MAILER_PASS,
+        },
+      });
+      var mailOptions = {
+        from: process.env.NODE_MAILER_USER,
+        to: userdelete.email,
+        subject: "We are Sorry to see you go!!",
+        html: `<html><head><style>h1 {color: #000000;} p {font-size: 18px;}</style></head><body><div style="margin: auto; text-align: center"><h1>Please Help us ${userdelete.user_name} to Improve by giving feedback </h1><br><br><br><a href="https://localhost:3000/feedback/">Click Here to give a Feedback</a><br /><br /><a href="https://localhost:3000/signupuser">Click Here if you did it by Mistake</a></div></body></html>`
+    };
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Email sent: " + info.response);
+        }
+      });
       const deletedUser = await Users.deleteOne({ _id: req.params.id });
       res.json({ message: 'User deleted successfully', data: deletedUser });
+    
     }
+
+
   });
 
 const getAllusers = asyncHandler(async(req,res) => {
 const getAllusers = await Users.find();
 
-if(!req.Admin){
-    throw new Error('Admin not Authorized')
-}
-else{
-
-}
 })
 //Function that enables to Reset Password
 
@@ -130,4 +147,4 @@ const generateToken = async(id) => {
     })
 }
 
-module.exports = {registerUser, loginUser, deleteUser}
+module.exports = {registerUser, loginUser, deleteUser, getAllusers}
