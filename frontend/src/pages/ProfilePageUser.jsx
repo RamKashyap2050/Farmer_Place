@@ -32,8 +32,8 @@ function ProfilePageUser() {
   const onDelete = () => {
     
     Axios.delete(`http://localhost:3002/Users/delete/${user?._id}`)
-    dispatch(logout())
     navigate('/signupuser')
+    dispatch(logout())
   }
 
 

@@ -4,6 +4,7 @@ const Admin = require('../models/adminModal')
 const Users = require('../models/userModel')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const { deleteOne } = require('../models/adminModal')
 
 
 
@@ -37,10 +38,13 @@ const loginAdmin = asyncHandler(async(req, res) => {
 //Function that enables us to Delete User accounts
 
 const deleteUserbyAdmin = asyncHandler(async (req, res) => {
-    const userdelete = await Users.findById(req.params.id);
-     
-      const deletedUser = await Users.deleteOne({ _id: req.params.id });
-      res.json({ message: 'User deleted successfully', data: deletedUser });
+    const userdelete = await Users.findById({ _id: req.params.id});
+    const deletedUser = await Users.deleteOne({ _id: req.params.id });
+    res.json({ message: 'User deleted successfully', data: deletedUser });
+
+
+         
+    
   });
 
 //Function that fetches all users for Admin 

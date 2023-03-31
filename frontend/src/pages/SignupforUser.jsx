@@ -10,11 +10,13 @@ function SignupforUser() {
     email: '',
     password: '',
     password2: '',
-    phone:''
+    phone:'',
+    image:''
   })
 
-  const { user_name, email, password, password2, phone } = formData
-
+  const { user_name, email, password, password2, phone, image } = formData
+  const imageUrl = image ? URL.createObjectURL(image) : null;
+  console.log(imageUrl)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -35,11 +37,19 @@ function SignupforUser() {
   }, [user, isError, isSuccess, message, navigate, dispatch])
 
   const onChange = (e) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }))
-  }
+    if (e.target.type === 'file') {
+      const file = e.target.files[0];
+      setFormData((prevState) => ({
+        ...prevState,
+        image: file,
+      }));
+    } else {
+      setFormData((prevState) => ({
+        ...prevState,
+        [e.target.name]: e.target.value,
+      }));
+    }
+  };
 
   const onSubmit = (e) => {
     e.preventDefault()
@@ -51,7 +61,8 @@ function SignupforUser() {
         user_name,
         email,
         password,
-        phone
+        phone,
+        image
       }
 
       dispatch(register(userData))
@@ -122,6 +133,17 @@ function SignupforUser() {
               name='phone'
               value={phone}
               placeholder='Phone Number'
+              onChange={onChange}
+            />
+          </div>
+          <div className='form-group'>
+          {imageUrl && <img src={imageUrl} alt="Selected Image" className='profilephoto'/>}
+            <input
+              type='file'
+              className='form-control'
+              id='image'
+              name='image'
+              placeholder='Choose a Picture for Profile Photo'
               onChange={onChange}
             />
           </div>

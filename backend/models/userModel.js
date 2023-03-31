@@ -17,6 +17,10 @@ const userSchema = mongoose.Schema({
     password: {
         type: String,
         required: [true, 'Please enter your password']
+    },
+    AccountStatus: {
+        type: Boolean,
+        default: true
     }
 },
 {   collection: 'Users',
