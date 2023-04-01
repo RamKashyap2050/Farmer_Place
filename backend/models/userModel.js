@@ -18,6 +18,10 @@ const userSchema = mongoose.Schema({
         type: String,
         required: [true, 'Please enter your password']
     },
+    image: {
+        data:Buffer,
+        ContentType: String
+    },
     AccountStatus: {
         type: Boolean,
         default: true

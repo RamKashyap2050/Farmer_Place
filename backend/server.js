@@ -11,11 +11,13 @@ const multer = require('multer')
 const GridFsStorage = require('multer-gridfs-storage')
 const Grid = require('gridfs-stream')
 const methodOverride = require('method-override')
+const fileupload = require('express-fileupload')
 PORT = process.env.PORT || 5001
 connectDB()
 
 
 const app = express()
+app.use(fileupload())
 app.use(cors())
 app.use(express.json())
 app.use(methodOverride('_method'))

@@ -1,7 +1,7 @@
 {
-  "name": "kayr",
+  "name": "FarmerPlace",
   "version": "1.0.0",
-  "description": "Medical app",
+  "description": "Social Media app",
   "main": "backend/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -20,6 +20,7 @@
     "env": "^0.0.2",
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
+    "express-fileupload": "^1.4.0",
     "gridfs-stream": "^1.1.1",
     "jsonwebtoken": "^9.0.0",
     "method-override": "^3.0.0",
@@ -30,6 +31,6 @@
     "react-bootstrap": "^2.7.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.21"
+    "nodemon": "^2.0.22"
   }
 }

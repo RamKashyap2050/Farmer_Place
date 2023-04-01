@@ -15,8 +15,6 @@ function SignupforUser() {
   })
 
   const { user_name, email, password, password2, phone, image } = formData
-  const imageUrl = image ? URL.createObjectURL(image) : null;
-  console.log(imageUrl)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -80,7 +78,7 @@ function SignupforUser() {
       <span class="line"></span><br /><br />
 
       <section className='form'>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} enctype="multipart/form-data">
           <div className='form-group'>
             <input
               type='text'
@@ -137,7 +135,6 @@ function SignupforUser() {
             />
           </div>
           <div className='form-group'>
-          {imageUrl && <img src={imageUrl} alt="Selected Image" className='profilephoto'/>}
             <input
               type='file'
               className='form-control'
