@@ -37,15 +37,22 @@ const loginAdmin = asyncHandler(async(req, res) => {
 
 //Function that enables us to Delete User accounts
 
-const deleteUserbyAdmin = asyncHandler(async (req, res) => {
-    const userdelete = await Users.findById({ _id: req.params.id});
-    const deletedUser = await Users.deleteOne({ _id: req.params.id });
-    res.json({ message: 'User deleted successfully', data: deletedUser });
+// const deleteUserbyAdmin = asyncHandler(async (req, res) => {
+//     const userdelete = await Users.findById({ _id: req.params.id});
+//     const deletedUser = await Users.deleteOne({ _id: req.params.id });
+//     res.json({ message: 'User deleted successfully', data: deletedUser });
 
+// });
 
-         
-    
-  });
+//Function that enables Account status of User
+const blockbyadmin =  asyncHandler(async(req,res) => {
+    const user = await Users.findByIdAndUpdate(
+        req.params.id, 
+        { AccountStatus: false }, // set the account_status to false
+        { new: true } // return the updated document
+      );
+
+})
 
 //Function that fetches all users for Admin 
 const getallUsers = asyncHandler(async (req,res) => {
@@ -162,4 +169,4 @@ const generateToken = async(id) => {
         expiresIn: '30d'
     })
 }
-module.exports = {loginAdmin, deleteUserbyAdmin, getallUsers, sendpasswordlinkforAdmin, changepasswordAdmin, forgotpasswordAdmin}
+module.exports = {loginAdmin, blockbyadmin, getallUsers, sendpasswordlinkforAdmin, changepasswordAdmin, forgotpasswordAdmin}

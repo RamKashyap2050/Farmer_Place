@@ -29,10 +29,15 @@ const AllUsersAdmin = () => {
     })
     },[])
 
-  const deleteuser = (key) => {
-  Axios.delete(`http://localhost:3002/Admin/delete/${key}`)
-
-  }
+//   const deleteuser = (key) => {
+//   Axios.delete(`http://localhost:3002/Admin/delete/${key}`)
+// }
+    const blockUser = (key) => {
+      Axios.put(`http://localhost:3002/Admin/updatetofalse/${key}`)
+    }
+    const unblockUser = (key) => {
+      Axios.put(`http://localhost:3002/Admin/updatetotrue/${key}`)
+    }
 
   const imageUrls = results.map(user => {
     const imageBuffer = user?.image?.data;
@@ -58,7 +63,8 @@ const AllUsersAdmin = () => {
                       <th>Name</th>
                       <th>Email</th>
                       <th>Phone</th>
-                      <th>Delete</th>
+                      <th>Unblock</th>
+                      <th>Block</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -75,10 +81,15 @@ const AllUsersAdmin = () => {
     <td>{val.email}</td>
     <td>{val.phone}</td>
     <td>
-      <button className='btn-danger' onClick={() => {deleteuser(val._id)}}>
-        Delete
+    <button className='btn-primary'>
+        Unblock
       </button>
     </td> 
+    <td>
+    <button className='btn-danger' onClick={() => {blockUser(val._id)}}>
+        Block
+      </button>
+    </td>
   </tr>
 ))}
 

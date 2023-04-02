@@ -89,30 +89,42 @@ const registerUser = asyncHandler(async(req, res) => {
 
 
 //Function which enables User to Login
-const loginUser = asyncHandler(async(req, res) => {
-    const {email, password} = req.body
-    
-    if(!email || !password){
-        res.status(400)
-        throw new Error("Please enter all the fields")
-    }
+const loginUser = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
 
-    const user = await Users.findOne({email})
+  if (!email || !password) {
+    res.status(400);
+    throw new Error("Please enter all the fields");
+  }
 
-    if(user && await bcrypt.compare(password, user.password)){
+  const user = await Users.findOne({ email });
+
+  if (user) {
+    if (user.AccountStatus == true) {
+      const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+      if (isPasswordMatch) {
         res.status(200).json({
-            _id: user.id,
-            user_name: user.user_name,
-            phone: user.phone,
-            email: user.email,
-            image: user.image,
-            token: await generateToken(user.id)
-        })
-    }else{
-        res.status(400)
-        throw new Error("User not found")
+          _id: user.id,
+          user_name: user.user_name,
+          phone: user.phone,
+          email: user.email,
+          image: user.image,
+          token: await generateToken(user.id),
+        });
+      } else {
+        res.status(400);
+        throw new Error("Incorrect password");
+      }
+    } else {
+      res.status(401);
+      throw new Error("User account is blocked");
     }
-})
+  } else {
+    res.status(400);
+    throw new Error("User not found");
+  }
+});
 
 
 //Function that enables us to Delete our account 
