@@ -7,8 +7,10 @@ import { FaPowerOff,FaUserEdit, FaRegTimesCircle, FaList, FaShoppingBag } from "
 import Footer from '../components/Footer';
 import HeaderforUser from '../components/HeaderforUser';
 import Free from '../Free_Sample_By_Wix.jpg'
+import { decode } from 'jpeg-js';
+import { validateImage } from "image-validator";
+import { Buffer } from 'buffer'
 import '../styles/ProfilePageUser.css'
-import { Modal } from 'react-bootstrap'
 function ProfilePageUser() {
   const [show, setshow] = useState(false)
   const handleClose = () => setshow(false);
@@ -36,13 +38,18 @@ function ProfilePageUser() {
     dispatch(logout())
   }
 
-
+  const imageBuffer = user?.image;
+  const base64String = Buffer.from(imageBuffer).toString('base64');
+  const imageUrl = `data:image/jpeg;base64,${base64String}`;
+  
   return (
  <>
  <HeaderforUser />
     <div className='page'>
-      <img className='profilephoto' src={Free} alt="hello" />
-      <div className='card'>
+    {/* {decoded && ( <img className='profilephoto' src={`data:image/jpeg;base64,${btoa(decoded.data)}`} alt='hello' /> )}       */}
+    {imageUrl && <img className='profilephoto' src={imageUrl} alt='User profile' />}
+
+          <div className='card'>
       <h1 className='mb-4 p-3'>Profile</h1><br /><br />
       <span className='line'></span><br /><br />
       <h2>Welcome {user?.user_name}</h2>
