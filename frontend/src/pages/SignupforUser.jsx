@@ -44,7 +44,7 @@ function SignupforUser() {
     } else {
       setFormData((prevState) => ({
         ...prevState,
-        [e.target.name]: e.target.value,
+        [e.target.value]: e.target.value,
       }));
     }
   };
@@ -78,7 +78,7 @@ function SignupforUser() {
       <span class="line"></span><br /><br />
 
       <section className='form'>
-        <form onSubmit={onSubmit} enctype="multipart/form-data">
+        <form onSubmit={onSubmit} encType="multipart/form-data">
           <div className='form-group'>
             <input
               type='text'

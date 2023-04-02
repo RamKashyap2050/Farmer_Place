@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { FaSignInAlt } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
 import { login, reset } from '../features/auth/authSlice'
 import '../styles/LoginforUser.css'
 function LoginforUser() {
@@ -98,7 +98,7 @@ function LoginforUser() {
           </div>
         </form>
       </section>
-
+    <ToastContainer />
     </>
   )
 }

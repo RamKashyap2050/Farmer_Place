@@ -6,6 +6,9 @@ import { useSelector } from 'react-redux'
 import '../styles/AllUsersAdmin.css'
 import HeaderforAdmin from '../components/HeaderforAdmin'
 import Footer from '../components/Footer'
+import { Buffer } from 'buffer'
+
+
 const AllUsersAdmin = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -30,6 +33,17 @@ const AllUsersAdmin = () => {
   Axios.delete(`http://localhost:3002/Admin/delete/${key}`)
 
   }
+
+  const imageUrls = results.map(user => {
+    const imageBuffer = user?.image?.data;
+    if (!imageBuffer) {
+      return null;
+    }
+    const base64String = Buffer.from(imageBuffer).toString('base64');
+    const imageUrl = `data:image/jpeg;base64,${base64String}`;
+    return imageUrl;
+  });
+
   return (<>
   <HeaderforAdmin />
     <div className='results'>
@@ -40,6 +54,7 @@ const AllUsersAdmin = () => {
             <table>
                   <thead>
                     <tr>
+                      <th>Profile Photo</th>
                       <th>Name</th>
                       <th>Email</th>
                       <th>Phone</th>
@@ -48,13 +63,25 @@ const AllUsersAdmin = () => {
                 </thead>
                 <tbody>
                 {results.map((val,key) => (
-                    <tr key={key}>
-                          <td>{val.user_name}</td>
-                          <td>{val.email}</td>
-                          <td>{val.phone}</td>
-                          <td><button className='btn-danger' onClick={() => {deleteuser(val._id)}}>Delete</button></td> 
-                      </tr>
-                ))}
+  <tr key={key}>
+    {imageUrls.map((imageUrl, index) => (
+      index === key ? (
+        <td key={index}>
+          {imageUrl && <img className='Dashboardprofilephoto' src={imageUrl} alt='User profile' />}
+        </td>
+      ) : null
+    ))}
+    <td>{val.user_name}</td>
+    <td>{val.email}</td>
+    <td>{val.phone}</td>
+    <td>
+      <button className='btn-danger' onClick={() => {deleteuser(val._id)}}>
+        Delete
+      </button>
+    </td> 
+  </tr>
+))}
+
 
               </tbody>
               
