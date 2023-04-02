@@ -9,6 +9,6 @@ router.route('/login/').post(loginUser)
 router.route('/sendpasswordlink/').post(sendpasswordlink)
 router.route('/forgotpassword/:id/:token').get(forgotpassword)
 router.route('/:id/:token').post(changepassword)
-router.route('/delete/:id').delete(deleteUser)
+router.route('/delete/:id').delete(protect,deleteUser)
 
 module.exports = router

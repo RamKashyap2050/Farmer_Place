@@ -27,9 +27,9 @@ function ProfilePageUser() {
     }
   },[user,navigate])
   const onLogout = () => {
+    navigate('/loginuser')
     dispatch(logout())
     dispatch(reset())
-    navigate('/loginuser')
   }
   const onDelete = () => {
     
@@ -37,8 +37,11 @@ function ProfilePageUser() {
     navigate('/signupuser')
     dispatch(logout())
   }
-
-  const imageBuffer = user?.image;
+  console.log('user: ', user)
+  const imageBuffer = user?.image?.data;
+  if(!imageBuffer){
+    return null;
+  }
   const base64String = Buffer.from(imageBuffer).toString('base64');
   const imageUrl = `data:image/jpeg;base64,${base64String}`;
   
