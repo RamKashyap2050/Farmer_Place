@@ -81,7 +81,7 @@ const AllUsersAdmin = () => {
     <td>{val.email}</td>
     <td>{val.phone}</td>
     <td>
-    <button className='btn-primary'>
+    <button className='btn-primary' onClick={() => {unblockUser(val._id)}}>
         Unblock
       </button>
     </td> 

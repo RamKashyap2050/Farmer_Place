@@ -54,6 +54,15 @@ const blockbyadmin =  asyncHandler(async(req,res) => {
 
 })
 
+//Function that enables Account status of User
+const unblockbyadmin =  asyncHandler(async(req,res) => {
+    const user = await Users.findByIdAndUpdate(
+        req.params.id, 
+        { AccountStatus: true }, // set the account_status to false
+        { new: true } // return the updated document
+      );
+
+})
 //Function that fetches all users for Admin 
 const getallUsers = asyncHandler(async (req,res) => {
     const getallUsers = await Users.find({})
@@ -169,4 +178,4 @@ const generateToken = async(id) => {
         expiresIn: '30d'
     })
 }
-module.exports = {loginAdmin, blockbyadmin, getallUsers, sendpasswordlinkforAdmin, changepasswordAdmin, forgotpasswordAdmin}
+module.exports = {loginAdmin, blockbyadmin,unblockbyadmin, getallUsers, sendpasswordlinkforAdmin, changepasswordAdmin, forgotpasswordAdmin}

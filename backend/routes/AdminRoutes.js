@@ -5,8 +5,7 @@ const protect = require('../middlewares/protect')
 
 
 router.route('/login/').post(loginAdmin)
-// router.route('/delete/:id').delete(deleteUserbyAdmin)
-// router.route('/updatetotrue/:id').put(unblockbyadmin)
+router.route('/updatetotrue/:id').put(unblockbyadmin)
 router.route('/updatetofalse/:id').put(blockbyadmin)
 
 router.route('/getallUsers').get(getallUsers)
