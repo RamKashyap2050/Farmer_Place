@@ -44,7 +44,7 @@ function SignupforUser() {
     } else {
       setFormData((prevState) => ({
         ...prevState,
-        [e.target.value]: e.target.value,
+        [e.target.name]: e.target.value,
       }));
     }
   };
@@ -55,13 +55,12 @@ function SignupforUser() {
     if (password !== password2) {
       toast.error('Passwords do not match')
     } else {
-      const userData = {
-        user_name,
-        email,
-        password,
-        phone,
-        image
-      }
+      const userData = new FormData();
+      userData.append('user_name', user_name);
+      userData.append('email', email);
+      userData.append('password', password);
+      userData.append('phone', phone);
+      userData.append('image', image);
 
       dispatch(register(userData))
     }

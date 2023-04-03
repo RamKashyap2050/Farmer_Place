@@ -13,6 +13,7 @@ import ProfilePageUser from './pages/ProfilePageUser';
 import AllUsersAdmin from './pages/AllUsersAdmin';
 import ForgotPasswordAdmin from './pages/forgotpasswordadmin';
 import ResetPasswordAdmin from './pages/Resetpasswordadmin';
+import Feedpage from './pages/Feedpage';
 function App() {
   return (
     <>
@@ -37,6 +38,7 @@ function App() {
           <Route path='/reset-password/:id/:token' element={<ResetPasswordForm />} />
           <Route path='/forgotpasswordAdmin' element={<ForgotPasswordAdmin />} />
           <Route path='/reset-password-admin/:id/:token' element={<ResetPasswordAdmin />} />
+          <Route path='/feedpage' element={<Feedpage/>}/>
         </Routes>
     </div>
       </Router>
