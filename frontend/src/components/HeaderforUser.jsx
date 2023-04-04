@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styles/Header.css';
-
+import { Link } from 'react-router-dom';
 const HeaderforUser = () => {
   return (
     <header>
@@ -9,9 +9,9 @@ const HeaderforUser = () => {
       </div>
       <nav>
         <ul>
-          <li><a href="#">Feed</a></li>
-          <li><a href="#">Market Place</a></li>
-          <li className="account"><a href="#">Account <i className="fas fa-user"></i></a></li>
+          <Link to='/Feedpage'><li><a href="#">Feed</a></li></Link>
+          <li><a href="#">Market Place</a></li>&nbsp;
+          <Link to='/dashboard'><li className="account"><a href="#">Account <i className="fas fa-user"></i></a></li></Link>
         </ul>
       </nav>
     </header>

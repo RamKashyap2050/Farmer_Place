@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import { login, reset } from '../features/auth/authSlice'
 import '../styles/LoginforUser.css'
+import ContactUs from '../components/ContactUs'
 function LoginforUser() {
   const [formData, setFormData] = useState({
     email: '',
@@ -99,6 +100,8 @@ function LoginforUser() {
         </form>
       </section>
     <ToastContainer />
+    <ContactUs />
+
     </>
   )
 }

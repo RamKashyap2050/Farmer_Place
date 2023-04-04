@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { register, reset } from '../features/auth/authSlice'
 import Header from '../components/HeaderforUser'
+import ContactUs from '../components/ContactUs'
 function SignupforUser() {
   const [formData, setFormData] = useState({
     user_name: '',
@@ -152,6 +153,7 @@ function SignupforUser() {
         </form>
       </section>
     </div>
+    <ContactUs />
     </>
   )
 }
