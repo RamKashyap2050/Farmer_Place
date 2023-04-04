@@ -78,9 +78,7 @@ const ResetPasswordForm = () => {
 
     return (
         <>
-            {/* {
-                data2 ? ( */}
-                    <>
+          
                         <section>
                             <div className="form">
                                 <div className="form_heading">
@@ -101,12 +99,6 @@ const ResetPasswordForm = () => {
                                 <ToastContainer />
                             </div>
                         </section>
-                    </>
-            {/* //     ) : <Box sx={{ display: 'flex', justifyContent: "center", alignItems: "center", height: "100vh" }}>
-            //         Loading... &nbsp;
-            //         <CircularProgress />
-            //     </Box>
-            // } */}
         </>
     )
 }

@@ -33,7 +33,7 @@ const ForgotPasswordForm = () => {
 
             const data = await res.json();
 
-            if (data.status == 201) {
+            if (data.status === 201) {
                 setEmail("");
                 setMessage(true)
             } else {

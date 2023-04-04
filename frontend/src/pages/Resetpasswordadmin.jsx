@@ -24,7 +24,7 @@ const ResetPasswordAdmin = () => {
 
         const data = await res.json()
 
-        if (data.status == 201) {
+        if (data.status === 201) {
             console.log("user valid")
         } else {
             history("*")
@@ -58,7 +58,7 @@ const ResetPasswordAdmin = () => {
 
             const data = await res.json()
 
-            if (data.status == 201) {
+            if (data.status === 201) {
                 setPassword("")
                 setMessage(true)
             } else {
@@ -77,9 +77,7 @@ const ResetPasswordAdmin = () => {
     }, [])
 
     return (
-        <>
-            {/* {
-                data2 ? ( */}
+    
                     <>
                         <section>
                             <div className="form">
@@ -102,12 +100,6 @@ const ResetPasswordAdmin = () => {
                             </div>
                         </section>
                     </>
-            {/* //     ) : <Box sx={{ display: 'flex', justifyContent: "center", alignItems: "center", height: "100vh" }}>
-            //         Loading... &nbsp;
-            //         <CircularProgress />
-            //     </Box>
-            // } */}
-        </>
     )
 }
 

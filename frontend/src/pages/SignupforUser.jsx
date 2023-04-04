@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { register, reset } from '../features/auth/authSlice'
-import Header from '../components/HeaderforUser'
 import ContactUs from '../components/ContactUs'
 function SignupforUser() {
   const [formData, setFormData] = useState({
@@ -19,7 +18,7 @@ function SignupforUser() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
+  const { user, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   )
 

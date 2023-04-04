@@ -1,12 +1,16 @@
-import React from 'react'
-import HeaderforUser from '../components/HeaderforUser'
+
+import React, {useState} from 'react';
+import HeaderforUser from '../components/HeaderforUser';
 import Footer from '../components/Footer'
+import '../styles/Feedpage.css'
+
 
 const Feedpage = () => {
+
   return (
     <>
-      <HeaderforUser />
-      <form action="#" method="POST" enctype="multipart/form-data" className='form'>
+    <HeaderforUser />
+    <form action="#" method="POST" enctype="multipart/form-data" className='form'>
   <div class="form-group">
     <label for="title" class="text-white">Title:</label>
     <input type="text" id="title" name="title" class="form-control form-control-lg" required />
@@ -23,7 +27,7 @@ const Feedpage = () => {
 </form>
       <Footer />
     </>
-  )
+  );
 }
 
 export default Feedpage

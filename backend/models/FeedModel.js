@@ -2,22 +2,24 @@ const { Int32 } = require('bson')
 const mongoose = require('mongoose')
 
 const feedSchema = mongoose.Schema({
-    user_name: {
+    
+    user:{
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: 'Users',
+        },
+    title: {
         type: String,
-        required: [true, 'Please enter your first name']
+        required: [true, 'Please enter a Title']
     },
-    phone: {
+    content: {
         type: String,
-        required: [true, 'Please enter your phone']
+        required: [true, 'Please enter Content']
     },
     image: {
         data:Buffer,
         ContentType: String
     },
-    AccountStatus: {
-        type: Boolean,
-        default: true
-    }
 },
 {   collection: 'Feed',
     timestamp: true

@@ -44,7 +44,7 @@ const DashboardForAdmin = () => {
         <div className="page">
 
         <img className='profilephoto' src={Free} alt="hello" />
-      <h2>Welcome Admin <br /> {Admin?.user_name}</h2>
+      <h2>Welcome Admin <br /><br /> {Admin?.user_name}</h2>
 
         </div><br /><br />
         <span className='line'></span><br /><br />

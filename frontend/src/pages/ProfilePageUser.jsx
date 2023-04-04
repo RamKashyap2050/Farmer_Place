@@ -6,15 +6,10 @@ import Axios from 'axios'
 import { FaPowerOff,FaUserEdit, FaRegTimesCircle, FaList, FaShoppingBag } from "react-icons/fa";
 import Footer from '../components/Footer';
 import HeaderforUser from '../components/HeaderforUser';
-import Free from '../Free_Sample_By_Wix.jpg'
-import { decode } from 'jpeg-js';
-import { validateImage } from "image-validator";
 import { Buffer } from 'buffer'
 import '../styles/ProfilePageUser.css'
 function ProfilePageUser() {
-  const [show, setshow] = useState(false)
-  const handleClose = () => setshow(false);
-  const handleShow = () => setshow(true);
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const {user} = useSelector((state) => state.auth) 
@@ -49,7 +44,6 @@ function ProfilePageUser() {
  <>
  <HeaderforUser />
     <div className='page'>
-    {/* {decoded && ( <img className='profilephoto' src={`data:image/jpeg;base64,${btoa(decoded.data)}`} alt='hello' /> )}       */}
     {imageUrl && <img className='profilephoto' src={imageUrl} alt='User profile' />}
 
           <div className='card'>

@@ -11,7 +11,6 @@ import { Buffer } from 'buffer'
 
 const AllUsersAdmin = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
   const [results, setResults] = useState([])
   const { Admin } = useSelector((state) => state.auth) 
   
@@ -21,17 +20,14 @@ const AllUsersAdmin = () => {
       navigate('/loginadmin')
     }
   },[Admin,navigate])
-
+  //This will fetch all users for Admin for Blocking and Unblocking Purposes
   useEffect(() => {
       Axios.get("http://localhost:3002/Admin/getallUsers").then((response) => {
     setResults(response.data)
     console.log(response.data)
     })
     },[])
-
-//   const deleteuser = (key) => {
-//   Axios.delete(`http://localhost:3002/Admin/delete/${key}`)
-// }
+    //This will do Blocking and Unblocking
     const blockUser = (key) => {
       Axios.put(`http://localhost:3002/Admin/updatetofalse/${key}`)
     }

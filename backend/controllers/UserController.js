@@ -3,20 +3,7 @@ const Users = require('../models/userModel')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
-const { use } = require('../routes/userRoutes')
-// const multer = require('multer')
 
-
-// //Storage Function for Multer
-// const Storage = multer.diskStorage({
-//   destination: 'uploads',
-//   filename: (req, file, cb) => {
-//     cb(null, file.originalname)
-//   }
-// })
-
-//Uploads CMD
-// const upload = multer({ dest: 'uploads/' })
 
 //Function that enables us to Signup
 const registerUser = asyncHandler(async(req, res) => {
@@ -167,7 +154,6 @@ const getAllusers = asyncHandler(async(req,res) => {
 const getAllusers = await Users.find();
 
 })
-//Function that enables to Reset Password
 
 //To Generate Tokens
 const generateToken = async(id) => {
