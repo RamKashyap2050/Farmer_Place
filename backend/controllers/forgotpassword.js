@@ -38,7 +38,7 @@ const sendpasswordlink = asyncHandler(async(req,res)=>{
               from:process.env.NODE_MAILER_USER,
               to: userfind.email,
               subject:"Sending Email For password Reset",
-              html: `<html><head><style>h1 {color: #000000;} p {font-size: 18px;}</style></head><body><div style="margin: auto; text-align: center"><br><p style="color: #0000ff;">You are Just one Click away from Resetting your Password</p><br><br><a href=${link}>Click Here to get started</a></div></body></html>`          }
+              html: `<html><head><style>h1 {color: #000000;} p {font-size: 18px;}</style></head><body><div style="margin: auto; text-align: center"><br><p style="color: #0000ff;">You are Just one Click away from Resetting your Password</p><br><br><a href=${link}>Click Here</a></div></body></html>`          }
 
           transporter.sendMail(mailOptions,(error,info)=>{
               if(error){

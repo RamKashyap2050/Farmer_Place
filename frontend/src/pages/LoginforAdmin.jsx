@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { FaSignInAlt } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
 import { LoginAdmin, reset } from '../features/auth/authSlice'
 import "../styles/LoginforAdmin.css"
 function LoginforAdmin() {
@@ -98,7 +98,6 @@ function LoginforAdmin() {
         <Link to='/forgotpasswordAdmin'>Forgot Password?</Link><br /><br />
       <Link to='/'>  Go Back to Landing Page</Link>
       </section>
-
     </>
   )
 }

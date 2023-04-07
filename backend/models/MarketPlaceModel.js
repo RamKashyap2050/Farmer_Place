@@ -1,28 +1,28 @@
 const { Int32 } = require('bson')
 const mongoose = require('mongoose')
 
-const feedSchema = mongoose.Schema({
+const marketplaceSchema = mongoose.Schema({
     
     user:{
           type: mongoose.Schema.Types.ObjectId,
           required: true,
           ref: 'Users',
         },
-    title: {
+    product_name: {
         type: String,
         required: [true, 'Please enter a Title']
     },
-    content: {
+    product_description: {
         type: String,
         required: [true, 'Please enter Content']
     },
-    post_image: {
+    product_image: {
         data:Buffer,
         ContentType: String
     },
 },
-{   collection: 'Feed',
+{   collection: 'MarketPlace',
     timestamp: true
 }) 
 
-module.exports = mongoose.model('Feed', feedSchema)
+module.exports = mongoose.model('MarketPlace', marketplaceSchema)

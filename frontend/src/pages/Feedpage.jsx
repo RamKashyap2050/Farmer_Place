@@ -1,31 +1,102 @@
-
-import React, {useState} from 'react';
+import React, {useState, useEffect } from 'react';
+import { useSelector} from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import HeaderforUser from '../components/HeaderforUser';
 import Footer from '../components/Footer'
 import '../styles/Feedpage.css'
-
+import SearchBar from '../components/Searchbar';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Feedpage = () => {
+  const navigate = useNavigate()
+  const {user} = useSelector((state) => state.auth) 
+  const { token } = useSelector((state) => state.auth.user);
+
+  const [formData, setFormData] = useState({
+    title: '',
+    content:'',
+    post_image:''
+  })
+  const { title, content, post_image } = formData
+
+
+  useEffect(() => {
+    console.log('useEffect triggered with user:', user)
+    if (!user){
+      navigate('/loginuser')
+    }
+  },[user,navigate])
+
+  const onChange = (e) => {
+    if (e.target.type === 'file') {
+      const file = e.target.files[0];
+      setFormData((prevState) => ({
+        ...prevState,
+        post_image: file,
+      }))
+    } else {
+      setFormData((prevState) => ({
+        ...prevState,
+        [e.target.name]: e.target.value,
+      }));
+    }
+  };
+
+  const onSubmit = async(e) => {
+    e.preventDefault()
+
+      const userData = new FormData();
+      userData.append('title',title);
+      userData.append('content', content);
+      userData.append('post_image', post_image);
+
+      
+  try {
+    const response = await fetch('http://localhost:3002/Feed', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      body: userData
+      
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const data = await response.json();
+
+    // Do something with the response data
+    console.log(data);
+  } catch (error) {
+    console.error('Error:', error);
+    toast.error('Error occurred while posting the data');
+  }
+
+  }
 
   return (
     <>
-    <HeaderforUser />
-    <form action="#" method="POST" enctype="multipart/form-data" className='form'>
+    <HeaderforUser /><br />
+    <SearchBar />
+    <form onSubmit={onSubmit} encType="multipart/form-data" className='form'>
   <div class="form-group">
     <label for="title" class="text-white">Title:</label>
-    <input type="text" id="title" name="title" class="form-control form-control-lg" required />
+    <input type="text" id="title" name="title" class="form-control form-control-lg" required  value={title} onChange={onChange}/>
   </div>
   <div class="form-group">
     <label for="content" class="text-white">Content:</label>
-    <textarea id="content" name="content" class="form-control form-control-lg" rows="6" required></textarea>
+    <textarea id="content" name="content" class="form-control form-control-lg" rows="6" required value={content} onChange={onChange}></textarea>
   </div>
   <div class="form-group">
-    <label for="image" class="text-white">Image:</label>
-    <input type="file" id="image" name="image" class="form-control-file" />
+    <label for="image" class="text-white" >Image:</label>
+    <input type="file" id="post_image" name="post_image" class="form-control-file" onChange={onChange}/>
   </div>
-  <button type="submit" class="btn btn-primary btn-lg btn-block">Post</button>
+  <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
 </form>
       <Footer />
+      <ToastContainer />
     </>
   );
 }

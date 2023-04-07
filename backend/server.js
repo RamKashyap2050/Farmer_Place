@@ -28,6 +28,7 @@ app.use(express.urlencoded({extended : true}))
 
 app.use('/Users', require('./routes/userRoutes'))
 app.use('/Admin', require('./routes/AdminRoutes'))
+app.use('/Feed', require('./routes/FeedRoutes'))
 
 
 app.use(errorHandler)

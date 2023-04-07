@@ -28,7 +28,7 @@ const loginAdmin = asyncHandler(async(req, res) => {
         })
     }else{
         res.status(400)
-        throw new Error("User not found")
+        throw new Error("Incorrect Admin credentails")
     }
 })
 
