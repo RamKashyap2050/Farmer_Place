@@ -1,7 +1,14 @@
 const asyncHandler = require('express-async-handler')
 const Feed = require('../models/FeedModel')
 const User = require('../models/userModel')
+const getallposts = asyncHandler(async (req, res) => {
+  const getallposts = await Feed.find()
+    .populate("user", "user_name image")
+    .select("title content user post_image");
 
+  res.status(200).json(getallposts);
+});
+//To get posts of one user
 const getFeed = asyncHandler(async (req, res) => {
   const feed = await Feed.find({ user: req.user.id })
 
@@ -52,4 +59,5 @@ module.exports = {
   getFeed,
   setFeedPost,
   deleteFeed,
+  getallposts
 }

@@ -6,6 +6,7 @@ import Footer from '../components/Footer'
 import '../styles/Feedpage.css'
 import SearchBar from '../components/Searchbar';
 import { ToastContainer, toast } from 'react-toastify';
+import AllUserPostFeedforUser from '../components/AllUserPostFeedforUser';
 
 const Feedpage = () => {
   const navigate = useNavigate()
@@ -58,17 +59,18 @@ const Feedpage = () => {
         'Authorization': `Bearer ${token}`
       },
       body: userData
-      
     });
-
+    toast.success('Posted Succesfully')
     if (!response.ok) {
       throw new Error('Network response was not ok');
+      
     }
 
-    const data = await response.json();
-
-    // Do something with the response data
-    console.log(data);
+    setFormData({
+      title: '',
+      content:'',
+      post_image:''
+    });
   } catch (error) {
     console.error('Error:', error);
     toast.error('Error occurred while posting the data');
@@ -80,6 +82,7 @@ const Feedpage = () => {
     <>
     <HeaderforUser /><br />
     <SearchBar />
+    <h1 style={{textAlign:"center"}}>Enter Something to post!!</h1>
     <form onSubmit={onSubmit} encType="multipart/form-data" className='form'>
   <div class="form-group">
     <label for="title" class="text-white">Title:</label>
@@ -94,7 +97,8 @@ const Feedpage = () => {
     <input type="file" id="post_image" name="post_image" class="form-control-file" onChange={onChange}/>
   </div>
   <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
-</form>
+</form><br /><br />
+<AllUserPostFeedforUser />
       <Footer />
       <ToastContainer />
     </>
