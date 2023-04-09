@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Link } from 'react-router-dom'
 const HeaderforAdmin = () => {
   return (
   <>
@@ -9,7 +9,7 @@ const HeaderforAdmin = () => {
       </div>
       <nav>
         <ul>
-          <li className="account"><a href="#">Dashboard <i className="fas fa-user"></i></a></li>
+          <Link to='/dashboardAdmin'><li className="account">Dashboard <i className="fas fa-user"></i></li></Link>
         </ul>
       </nav>
     </header>

@@ -3,23 +3,24 @@ import { useSelector} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import HeaderforUser from '../components/HeaderforUser';
 import Footer from '../components/Footer'
-import '../styles/Feedpage.css'
+import '../styles/MarketPlace.css'
 import SearchBar from '../components/Searchbar';
 import { ToastContainer, toast } from 'react-toastify';
-import AllUserPostFeedforUser from '../components/AllUserPostFeedforUser';
+import AllMarketPlaceProductsforUser from '../components/AllMarketPlaceProductsforUser ';
 
-const Feedpage = () => {
+
+
+const MarketPlace = () => {
   const navigate = useNavigate()
   const {user} = useSelector((state) => state.auth) 
   const { token } = useSelector((state) => state.auth.user);
 
   const [formData, setFormData] = useState({
-    title: '',
-    content:'',
-    post_image:''
+    product_name: '',
+    product_description:'',
+    product_image:''
   })
-  
-  const { title, content, post_image } = formData
+  const { product_name, product_description, product_image } = formData
 
 
   useEffect(() => {
@@ -34,7 +35,7 @@ const Feedpage = () => {
       const file = e.target.files[0];
       setFormData((prevState) => ({
         ...prevState,
-        post_image: file,
+        product_image: file,
       }))
     } else {
       setFormData((prevState) => ({
@@ -48,13 +49,13 @@ const Feedpage = () => {
     e.preventDefault()
 
       const userData = new FormData();
-      userData.append('title',title);
-      userData.append('content', content);
-      userData.append('post_image', post_image);
+      userData.append('product_name',product_name);
+      userData.append('product_description', product_description);
+      userData.append('product_image', product_image);
 
       
   try {
-    const response = await fetch('http://localhost:3002/Feed', {
+    const response = await fetch('http://localhost:3002/MarketPlace', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -68,9 +69,9 @@ const Feedpage = () => {
     }
 
     setFormData({
-      title: '',
-      content:'',
-      post_image:''
+      product_name: '',
+      product_description:'',
+      product_image:''
     });
   } catch (error) {
     console.error('Error:', error);
@@ -83,27 +84,37 @@ const Feedpage = () => {
     <>
     <HeaderforUser /><br />
       <SearchBar />
-    <h1 style={{textAlign:"center"}}>Enter Something to post!!</h1>
-        <form onSubmit={onSubmit} encType="multipart/form-data" className='form'>
+
+    <div class="container">
+  <div class="products-container">
+    <AllMarketPlaceProductsforUser />
+  </div>
+
+  <div class="form-container">
+  <h3 style={{textAlign:"center", fontWeight:"bold"}}>Wanna Sell Something!!</h3>
+
+    <form onSubmit={onSubmit} encType="multipart/form-data" className='marketplaceform'>
       <div class="form-group">
-        <label for="title" class="text-white">Title:</label>
-        <input type="text" id="title" name="title" class="form-control form-control-lg" required  value={title} onChange={onChange}/>
+        <label for="title" class="text-white">Product Name</label>
+        <input type="text" id="product_name" name="product_name" class="form-control form-control-lg" required  value={product_name} onChange={onChange}/>
       </div>
       <div class="form-group">
-        <label for="content" class="text-white">Content:</label>
-        <textarea id="content" name="content" class="form-control form-control-lg" rows="6" required value={content} onChange={onChange}></textarea>
+        <label for="content" class="text-white">Product Description</label>
+        <textarea id="product_description" name="product_description" class="form-control form-control-lg" rows="6" required value={product_description} onChange={onChange}></textarea>
       </div>
       <div class="form-group">
         <label for="image" class="text-white" >Image:</label>
-        <input type="file" id="post_image" name="post_image" class="form-control-file" onChange={onChange}/>
+        <input type="file" id="product_image" name="product_image" class="form-control-file" onChange={onChange}/>
       </div>
       <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
-    </form><br /><br />
-            <AllUserPostFeedforUser />
+    </form>
+  </div>
+</div>
+
             <Footer />
       <ToastContainer />
     </>
   );
 }
 
-export default Feedpage
+export default MarketPlace

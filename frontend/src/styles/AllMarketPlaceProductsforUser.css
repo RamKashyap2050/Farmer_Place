@@ -1,0 +1,83 @@
+/* .card {
+    width: 250px;
+    height: 400px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: left;
+  }
+  
+  .card h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .card h5 {
+    font-size: 16px;
+    font-style: italic;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .card h5 img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .card p {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .card img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  } */
+
+  .Marketcard{
+    width: 300px;
+    height: 450px;
+    background-color: #fff;
+    /* border: 1px solid #ccc; */
+    padding: 20px;
+  }
+
+  .marketplaceimg{
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  .DashboardprofilephotoMarket {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  h5 {
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+  }
+  .user-details {
+    display: inline-block;
+    max-width: 100px; /* adjust the width based on your layout */
+    /* text-align: left; */
+  }
+  .phone-number {
+    display: inline-block;
+    /* text-align: right; */
+  }
+  .MarketPlaceInventory{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    column-gap: 10px;
+    row-gap: 15px;
+  }

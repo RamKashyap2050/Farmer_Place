@@ -14,6 +14,9 @@ import AllUsersAdmin from './pages/AllUsersAdmin';
 import ForgotPasswordAdmin from './pages/forgotpasswordadmin';
 import ResetPasswordAdmin from './pages/Resetpasswordadmin';
 import Feedpage from './pages/Feedpage';
+import MarketPlace from './pages/MarketPlace';
+import AllListingsforAdmin from './pages/AllListingsforAdmin';
+import AllPostsforAdmin from './pages/AllPostsforAdmin';
 function App() {
   return (
     <>
@@ -39,6 +42,9 @@ function App() {
           <Route path='/forgotpasswordAdmin' element={<ForgotPasswordAdmin />} />
           <Route path='/reset-password-admin/:id/:token' element={<ResetPasswordAdmin />} />
           <Route path='/feedpage' element={<Feedpage/>}/>
+          <Route path='/marketplace' element={<MarketPlace />}/>
+          <Route path='/getallistingsforadmin' element={<AllListingsforAdmin/>} />
+          <Route path='/getallpostsforadmin' element={<AllPostsforAdmin/>} />
         </Routes>
     </div>
       </Router>

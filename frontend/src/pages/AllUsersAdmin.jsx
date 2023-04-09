@@ -93,7 +93,6 @@ const AllUsersAdmin = () => {
               </tbody>
               
           </table><br /><br />
-          <Link to='/dashboardAdmin'>Go back to Dashboard</Link>
 
         </div>
     </div>

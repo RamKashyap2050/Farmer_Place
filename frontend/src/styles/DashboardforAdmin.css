@@ -3,8 +3,18 @@
     max-width: 350px;
     margin: 5rem auto;
     text-align: center;
-    border: black 1px solid;
+    /* border: black 1px solid; */
     padding: 20px;
     border-radius: 3%;
     
   }
+
+  .page{
+    margin: auto;
+    text-align: center;
+    width: 400px;
+    display: list-item;
+    margin-top: 10%;
+    padding: 0 20px;
+  }
+  

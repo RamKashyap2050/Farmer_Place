@@ -4,9 +4,8 @@ const Admin = require('../models/adminModal')
 const Users = require('../models/userModel')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const { deleteOne } = require('../models/adminModal')
-
-
+const Feed = require('../models/FeedModel')
+const MarketPlace = require('../models/MarketPlaceModel')
 
 //Function which enables User to Login
 const loginAdmin = asyncHandler(async(req, res) => {
@@ -70,7 +69,35 @@ const getallUsers = asyncHandler(async (req,res) => {
     res.status(200).json(getallUsers)
 })
 
+//Function to get all the Listings
+const getallProducts = asyncHandler(async (req, res) => {
+    const getallproducts = await MarketPlace.find()
+      .populate("user", "user_name image email")
+      .select("product_name product_description user product_image");
+  
+    res.status(200).json(getallproducts);
+  });
+//Function to delete Listings
+const deleteListings = asyncHandler(async(req,res) => {
+    const deletedListing = await MarketPlace.deleteOne({ _id: req.params.id });
+    res.json({ message: 'Lisiting deleted successfully', data: deletedListing });
+}) 
 
+
+
+//Function to get all the Posts
+const getallPosts = asyncHandler(async (req, res) => {
+    const getallposts = await Feed.find()
+      .populate("user", "user_name image")
+      .select("title content user post_image");
+  
+    res.status(200).json(getallposts);
+  });
+ //Funcction to delete Posts by users 
+ const deleteFeed = asyncHandler(async(req,res) => {
+    const deletedFeed = await Feed.deleteOne({ _id: req.params.id });
+    res.json({ message: 'Post deleted successfully', data: deletedFeed });
+}) 
 
 const keysecret = process.env.JWT_SECRET
 
@@ -178,4 +205,16 @@ const generateToken = async(id) => {
         expiresIn: '30d'
     })
 }
-module.exports = {loginAdmin, blockbyadmin,unblockbyadmin, getallUsers, sendpasswordlinkforAdmin, changepasswordAdmin, forgotpasswordAdmin}
+module.exports = {loginAdmin, 
+    blockbyadmin,
+    unblockbyadmin, 
+    getallUsers,
+    getallPosts,
+    getallProducts, 
+    sendpasswordlinkforAdmin, 
+    changepasswordAdmin, 
+    forgotpasswordAdmin,
+    deleteListings,
+    deleteFeed
+
+}

@@ -9,8 +9,8 @@ const HeaderforUser = () => {
       </div>
       <nav>
         <ul>
-          <Link to='/Feedpage'><li><a href="#">Feed</a></li></Link>
-          <li><a href="#">Market Place</a></li>&nbsp;
+          <Link to='/Feedpage'><li><a href="#">Feed</a></li></Link>&nbsp;&nbsp;
+          <Link to='/marketplace'><li><a href="#">Market Place</a></li></Link>&nbsp;&nbsp;
           <Link to='/dashboard'><li className="account"><a href="#">Account <i className="fas fa-user"></i></a></li></Link>
         </ul>
       </nav>

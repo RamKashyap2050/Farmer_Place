@@ -1,0 +1,5 @@
+.AdminFeedpage{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    max-width: 400px;
+}

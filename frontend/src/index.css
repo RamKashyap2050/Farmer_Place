@@ -6,19 +6,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-.page{
-  margin: auto;
-  text-align: center;
-  width: 400px;
-  display: list-item;
-  margin-top: 10%;
-  padding: 0 20px;
 }
 
 

@@ -1,16 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import Axios from 'axios';
-import '../styles/Alluserposts.css'
+import '../styles/AllMarketPlaceProductsforUser.css'
 import { Buffer } from 'buffer';
-const AllUserPostFeedforUser = () => {
+const AllMarketPlaceProductsforUser = () => {
   const [results, setResults] = useState([]);
 
   useEffect(() => {
-    Axios.get("http://localhost:3002/Feed/getallposts")
+    Axios.get("http://localhost:3002/MarketPlace/getallproducts")
       .then((response) => {
         const populatedData = response.data.map((post) => ({
           ...post,
           user_name: post.user.user_name,
+          email: post.user.email,
         }));
         setResults(populatedData);
         console.log(populatedData);
@@ -19,7 +20,7 @@ const AllUserPostFeedforUser = () => {
   }, []);
 
   const imageUrls = results.map(user => {
-    const imageBuffer = user?.post_image?.data;
+    const imageBuffer = user?.product_image?.data;
     if (!imageBuffer) {
       return null;
     }
@@ -40,19 +41,21 @@ const AllUserPostFeedforUser = () => {
 
   return (
     <>
-      {results.map((val,key) => (
-       <>
-        <div key={key} className='Feedpage'>
-            <h1>{val.title}</h1> 
-            <h5 style={{fontStyle:"italic", fontWeight:"bold"}}>{profileimageUrls[key] && <img src={profileimageUrls[key]} alt='Post Image' className='Dashboardprofilephoto'/>}  &nbsp;&nbsp;{val.user_name}</h5>
-            <p>{val.content}</p>
-            {imageUrls[key] && <img src={imageUrls[key]} alt='Post Image' className='feedimage'/>} 
-           
-        </div><br/><br/>
-       </>
-      ))}
+    <h1>Farmer Market Place</h1>
+    <div className='MarketPlaceInventory'>
+   {results.map((val,key) => (
+    <div key={key} className="Marketcard">
+      <h1>{val.product_name}</h1>
+      <p>{val.product_description}</p>
+      {imageUrls[key] && <img src={imageUrls[key]} alt="Post Image" className='marketplaceimg'/>}
+      <h5>{profileimageUrls[key] && <img src={profileimageUrls[key]} alt="Post Image" className='Dashboardprofilephoto'/>} &nbsp;&nbsp;{val.user_name} <br /> &nbsp;&nbsp;{val.email}</h5>
+    
+    </div>
+    
+  ))}
+    </div>
     </>
   );
 };
 
-export default AllUserPostFeedforUser;
+export default AllMarketPlaceProductsforUser;

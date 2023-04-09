@@ -1,0 +1,36 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  
+  .form-container {
+    width: 18%;
+    padding: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-control-lg {
+    font-size: 16px;
+    padding: 10px;
+  }
+  
+  .form-control-file {
+    padding-top: 10px;
+  }
+  
+  .btn-block {
+    display: block;
+    width: 100%;
+  }
+  
+  .products-container {
+    width: 82%;
+    padding: 20px;
+  }
+.marketplaceform{
+    padding-left: 20px;
+}

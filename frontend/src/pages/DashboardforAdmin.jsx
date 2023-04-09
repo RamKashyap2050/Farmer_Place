@@ -37,7 +37,23 @@ const DashboardForAdmin = () => {
           navigate('/getallUserforAdmin')
         }
     }
-  
+    const onListings = () => {
+      if(!Admin){
+        navigate('/loginadmin')
+      }
+      else{
+        navigate('/getallistingsforadmin')
+      }
+     
+  }
+  const onPosts = () => {
+    if(!Admin){
+      navigate('/loginadmin')
+    }
+    else{
+      navigate('/getallpostsforadmin')
+    }
+  }
   return (
     <>
         <HeaderforAdmin />
@@ -51,8 +67,8 @@ const DashboardForAdmin = () => {
 
     <div className='card'>
 
-      <button onClick={onLogout} className='btn1 btn-secondary btn-block mb-2'>Manage users Content&nbsp;&nbsp;<FaList /></button>
-      <button onClick={onLogout} className='btn1 btn-secondary btn-block mb-2'>Manage users Listings&nbsp;&nbsp;<FaShoppingBag /></button>
+      <button onClick={onPosts} className='btn1 btn-secondary btn-block mb-2'>Manage users Content&nbsp;&nbsp;<FaList /></button>
+      <button onClick={onListings} className='btn1 btn-secondary btn-block mb-2'>Manage users Listings&nbsp;&nbsp;<FaShoppingBag /></button>
       <button onClick={onBlock} className='btn1 btn-secondary btn-block mb-3'>Block User Accounts&nbsp;<FaRegTimesCircle /></button>
       <button onClick={onLogout} className='btn1 btn-danger btn-block mb-2'>Logout&nbsp;&nbsp;<FaPowerOff /></button>
     </div>
