@@ -83,14 +83,15 @@ const MarketPlace = () => {
   return (
     <>
     <HeaderforUser /><br />
-      <SearchBar />
 
     <div class="container">
   <div class="products-container">
+  <SearchBar />
     <AllMarketPlaceProductsforUser />
   </div>
 
   <div class="form-container">
+
   <h3 style={{textAlign:"center", fontWeight:"bold"}}>Wanna Sell Something!!</h3>
 
     <form onSubmit={onSubmit} encType="multipart/form-data" className='marketplaceform'>

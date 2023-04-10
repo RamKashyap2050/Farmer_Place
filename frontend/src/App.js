@@ -1,6 +1,4 @@
 import {BrowserRouter as Router, Routes,Route} from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import Header from './components/HeaderforUser'
 import 'react-toastify/dist/ReactToastify.css'
 import LandingPage from './pages/LandingPage';
 import LoginforAdmin from './pages/LoginforAdmin';
@@ -17,11 +15,11 @@ import Feedpage from './pages/Feedpage';
 import MarketPlace from './pages/MarketPlace';
 import AllListingsforAdmin from './pages/AllListingsforAdmin';
 import AllPostsforAdmin from './pages/AllPostsforAdmin';
+import Feedback from './pages/Feedback';
 function App() {
   return (
     <>
 
-{/* <Header /> */}
 <Router />
 
 
@@ -45,6 +43,7 @@ function App() {
           <Route path='/marketplace' element={<MarketPlace />}/>
           <Route path='/getallistingsforadmin' element={<AllListingsforAdmin/>} />
           <Route path='/getallpostsforadmin' element={<AllPostsforAdmin/>} />
+          <Route path='/feedback' element={<Feedback/>} />
         </Routes>
     </div>
       </Router>

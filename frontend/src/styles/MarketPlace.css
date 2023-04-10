@@ -5,8 +5,8 @@
   }
   
   .form-container {
-    width: 18%;
-    padding: 20px;
+    width: 30%;
+    /* padding: 20px; */
   }
   
   .form-group {
@@ -28,8 +28,8 @@
   }
   
   .products-container {
-    width: 82%;
-    padding: 20px;
+    width: 70%;
+    /* padding: 20px; */
   }
 .marketplaceform{
     padding-left: 20px;

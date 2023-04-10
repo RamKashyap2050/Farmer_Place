@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
-import { FaPowerOff, FaRegTimesCircle, FaList, FaShoppingBag } from "react-icons/fa";
+import { FaPowerOff, FaRegTimesCircle, FaList, FaShoppingBag,FaCheck } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux'
 import { logout, reset } from '../features/auth/authSlice';
 import Footer from '../components/Footer';
@@ -53,6 +53,12 @@ const DashboardForAdmin = () => {
     else{
       navigate('/getallpostsforadmin')
     }
+ 
+  }
+  const onFeedback= () => {
+    if(!Admin){
+      navigate('/loginadmin')
+    }
   }
   return (
     <>
@@ -69,6 +75,7 @@ const DashboardForAdmin = () => {
 
       <button onClick={onPosts} className='btn1 btn-secondary btn-block mb-2'>Manage users Content&nbsp;&nbsp;<FaList /></button>
       <button onClick={onListings} className='btn1 btn-secondary btn-block mb-2'>Manage users Listings&nbsp;&nbsp;<FaShoppingBag /></button>
+      <button onClick={onFeedback} className='btn1 btn-secondary btn-block mb-3'>Checkout Feedbacks&nbsp;<FaCheck /></button>
       <button onClick={onBlock} className='btn1 btn-secondary btn-block mb-3'>Block User Accounts&nbsp;<FaRegTimesCircle /></button>
       <button onClick={onLogout} className='btn1 btn-danger btn-block mb-2'>Logout&nbsp;&nbsp;<FaPowerOff /></button>
     </div>

@@ -5,7 +5,7 @@ const User = require('../models/userModel')
 
 const getallproducts = asyncHandler(async (req, res) => {
   const getallproducts = await MarketPlace.find()
-    .populate("user", "user_name image email")
+    .populate("user", "user_name image email AccountStatus")
     .select("product_name product_description user product_image");
 
   res.status(200).json(getallproducts);

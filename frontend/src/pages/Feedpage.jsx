@@ -7,6 +7,7 @@ import '../styles/Feedpage.css'
 import SearchBar from '../components/Searchbar';
 import { ToastContainer, toast } from 'react-toastify';
 import AllUserPostFeedforUser from '../components/AllUserPostFeedforUser';
+import FewMarketPlaceProducts from '../components/FewMarketPlaceProducts';
 
 const Feedpage = () => {
   const navigate = useNavigate()
@@ -18,7 +19,7 @@ const Feedpage = () => {
     content:'',
     post_image:''
   })
-  
+
   const { title, content, post_image } = formData
 
 
@@ -82,24 +83,33 @@ const Feedpage = () => {
   return (
     <>
     <HeaderforUser /><br />
-      <SearchBar />
-    <h1 style={{textAlign:"center"}}>Enter Something to post!!</h1>
+          <div className='Feedpagecontainer'>
+          <div className='Feedpage'>
+            
+        <h1 style={{textAlign:"center"}}>Enter Something to post!!</h1>
+        <span class="line"></span><br /><br />
+
         <form onSubmit={onSubmit} encType="multipart/form-data" className='form'>
-      <div class="form-group">
-        <label for="title" class="text-white">Title:</label>
-        <input type="text" id="title" name="title" class="form-control form-control-lg" required  value={title} onChange={onChange}/>
+        <div class="form-group">
+          <label for="title" class="text-white">Title:</label>
+          <input type="text" id="title" name="title" class="form-control form-control-lg" required  value={title} onChange={onChange}/>
+        </div>
+        <div class="form-group">
+          <label for="content" class="text-white">Content:</label>
+          <textarea id="content" name="content" class="form-control form-control-lg" rows="6" required value={content} onChange={onChange}></textarea>
+        </div>
+        <div class="form-group">
+          <label for="image" class="text-white" >Image:</label>
+          <input type="file" id="post_image" name="post_image" class="form-control-file" onChange={onChange}/>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+        </form><br /><br />
+        <AllUserPostFeedforUser />
       </div>
-      <div class="form-group">
-        <label for="content" class="text-white">Content:</label>
-        <textarea id="content" name="content" class="form-control form-control-lg" rows="6" required value={content} onChange={onChange}></textarea>
+      <div className='feedpagemarket'>
+        <FewMarketPlaceProducts />
       </div>
-      <div class="form-group">
-        <label for="image" class="text-white" >Image:</label>
-        <input type="file" id="post_image" name="post_image" class="form-control-file" onChange={onChange}/>
-      </div>
-      <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
-    </form><br /><br />
-            <AllUserPostFeedforUser />
+          </div>
             <Footer />
       <ToastContainer />
     </>

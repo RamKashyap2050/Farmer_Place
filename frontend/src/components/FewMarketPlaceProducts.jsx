@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import Axios from 'axios';
-import '../styles/AllMarketPlaceProductsforUser.css'
+import { Link } from 'react-router-dom';
+import '../styles/FewMarket.css'
 import { Buffer } from 'buffer';
-const AllMarketPlaceProductsforUser = () => {
+const FewMarketPlaceProducts = () => {
   const [results, setResults] = useState([]);
 
   useEffect(() => {
@@ -38,14 +39,15 @@ const AllMarketPlaceProductsforUser = () => {
     return imageUrl;
   });
 
+
   return (
-    <>
-    <h1 style={{textAlign:"center", margin:"auto"}}>Farmer Market Place</h1>
+    <div className='FewMarketPlaceInventory'>
+    <h1 style={{textAlign:"center", marginBottom:'20px'}}>Market Place</h1>
     <span class="line"></span><br /><br />
-    <div className='MarketPlaceInventory'>
-   {results.map((val,key) => (
+    <div>
+   {results.slice(0,5).map((val,key) => (
     val.user.AccountStatus == true ? (   
-    <div key={key} className="Marketcard">
+    <div key={key} className="FewMarketcard">
     <h1>{val.product_name}</h1>
     <p>{val.product_description}</p>
     {imageUrls[key] && <img src={imageUrls[key]} alt="Post Image" className='marketplaceimg'/>}
@@ -55,9 +57,10 @@ const AllMarketPlaceProductsforUser = () => {
   ): null
     
   ))}
+    <Link to='/marketplace'>  <button type='submit' className='btn btn-block'>See More</button></Link>
     </div>
-    </>
+    </div>
   );
 };
 
-export default AllMarketPlaceProductsforUser;
+export default FewMarketPlaceProducts;

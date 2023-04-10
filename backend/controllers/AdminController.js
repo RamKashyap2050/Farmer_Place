@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const Feed = require('../models/FeedModel')
 const MarketPlace = require('../models/MarketPlaceModel')
+const nodemailer = require('nodemailer')
 
 //Function which enables User to Login
 const loginAdmin = asyncHandler(async(req, res) => {
@@ -32,35 +33,84 @@ const loginAdmin = asyncHandler(async(req, res) => {
 })
 
  
-//Function that enables to Logout
-
-//Function that enables us to Delete User accounts
-
-// const deleteUserbyAdmin = asyncHandler(async (req, res) => {
-//     const userdelete = await Users.findById({ _id: req.params.id});
-//     const deletedUser = await Users.deleteOne({ _id: req.params.id });
-//     res.json({ message: 'User deleted successfully', data: deletedUser });
-
-// });
 
 //Function that enables Account status of User
 const blockbyadmin =  asyncHandler(async(req,res) => {
+ try{
     const user = await Users.findByIdAndUpdate(
         req.params.id, 
         { AccountStatus: false }, // set the account_status to false
         { new: true } // return the updated document
       );
+      const userformail = await Users.findById({ _id : req.params.id })
+
+      var transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.NODE_MAILER_USER,
+          pass: process.env.NODE_MAILER_PASS,
+        },
+      });
+     const mailOptions = {
+        from:process.env.NODE_MAILER_USER,
+        to: userformail.email,
+        subject:"Blocked Account",
+        html: `<html><head></head><body><div><br><p> Hello ${userformail.user_name} Your account has been blocked by Admin<br />All your Content and Listings has been put on hold <br /><br/> Contact Admin @thefarmerplace62@gmail.com for more details. </p><br><br></div></body></html>`          }
+
+     transporter.sendMail(mailOptions,(error,info)=>{
+     if(error){
+        console.log("error",error);
+        res.status(401).json({status:401,message:"email not send"})
+     }else{
+        console.log("Email sent",info.response);
+        res.status(201).json({status:201,message:"Email sent Succsfully"})
+     }
+    })
+}
+    catch (error) {
+        console.log("Error updating user:", error);
+        res.status(500).json({ status: 500, message: "Internal server error" });
+      }
 
 })
 
 //Function that enables Account status of User
 const unblockbyadmin =  asyncHandler(async(req,res) => {
+    try{
     const user = await Users.findByIdAndUpdate(
         req.params.id, 
         { AccountStatus: true }, // set the account_status to false
         { new: true } // return the updated document
       );
+      const userformail = await Users.findById({ _id : req.params.id })
 
+      var transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.NODE_MAILER_USER,
+          pass: process.env.NODE_MAILER_PASS,
+        },
+      });
+     const mailOptions = {
+        from:process.env.NODE_MAILER_USER,
+        to: userformail.email,
+        subject:"Unblocked Account",
+        html: `<html><head></head><body><div><br><p> Hip Hip Hurray ${userformail.user_name} your account has been unblocked by Admin<br />We are happy to see you back again  <br /><br/> Have happy blogging at Farmer Place </p><br><br></div></body></html>`          }
+
+     transporter.sendMail(mailOptions,(error,info)=>{
+     if(error){
+        console.log("error",error);
+        res.status(401).json({status:401,message:"email not send"})
+     }else{
+        console.log("Email sent",info.response);
+        res.status(201).json({status:201,message:"Email sent Succsfully"})
+     }
+    })
+}
+    catch (error) {
+        console.log("Error updating user:", error);
+        res.status(500).json({ status: 500, message: "Internal server error" });
+      }
 })
 //Function that fetches all users for Admin 
 const getallUsers = asyncHandler(async (req,res) => {
@@ -68,6 +118,8 @@ const getallUsers = asyncHandler(async (req,res) => {
 
     res.status(200).json(getallUsers)
 })
+
+
 
 //Function to get all the Listings
 const getallProducts = asyncHandler(async (req, res) => {
@@ -77,6 +129,9 @@ const getallProducts = asyncHandler(async (req, res) => {
   
     res.status(200).json(getallproducts);
   });
+
+
+  
 //Function to delete Listings
 const deleteListings = asyncHandler(async(req,res) => {
     const deletedListing = await MarketPlace.deleteOne({ _id: req.params.id });

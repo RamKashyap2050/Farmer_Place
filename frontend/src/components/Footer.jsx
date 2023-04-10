@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
 import "../styles/Footer.css"
+import { Link } from 'react-router-dom';
 function Footer() {
   return (
     <footer className="footer">
@@ -11,9 +12,9 @@ function Footer() {
       <div className="footer-right">
         <div className="footer-column">
           <ul>
-            <li>About Us</li>
-            <li>Contact Us</li>
-            <li>Feedback</li>
+            <li>About Us</li><br />
+            <li>Contact Us</li><br />
+            <Link to='/feedback'><li>Feedback</li></Link>
           </ul>
         </div>
         <div className="footer-column">
