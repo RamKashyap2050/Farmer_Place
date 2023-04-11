@@ -16,6 +16,8 @@ import MarketPlace from './pages/MarketPlace';
 import AllListingsforAdmin from './pages/AllListingsforAdmin';
 import AllPostsforAdmin from './pages/AllPostsforAdmin';
 import Feedback from './pages/Feedback';
+import ManagePostsforUser from './pages/ManagePostsforUser';
+import ManageMarketPlace from './pages/ManageMarketPlace';
 function App() {
   return (
     <>
@@ -44,6 +46,9 @@ function App() {
           <Route path='/getallistingsforadmin' element={<AllListingsforAdmin/>} />
           <Route path='/getallpostsforadmin' element={<AllPostsforAdmin/>} />
           <Route path='/feedback' element={<Feedback/>} />
+          <Route path='/manageuserpost' element={<ManagePostsforUser/>}/>
+          <Route path='/manageuserproduct' element={<ManageMarketPlace/>}/>
+
         </Routes>
     </div>
       </Router>

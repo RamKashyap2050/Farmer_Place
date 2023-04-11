@@ -6,6 +6,7 @@ import '../styles/AllpostforAdmin.css'
 import HeaderforAdmin from '../components/HeaderforAdmin';
 import Footer from '../components/Footer';
 import { ToastContainer, toast } from 'react-toastify';
+import { FaRegTimesCircle, FaTrashAlt } from 'react-icons/fa';
 
 const AllPostsforAdmin = () => {
   const [results, setResults] = useState([]);
@@ -65,7 +66,10 @@ const AllPostsforAdmin = () => {
         <div key={key} className='Feedpage'>
             <h1 style={{display:"flex", justifyContent:"space-between"}}>
                 <span>{val.title}</span>
-                <button className='btn btn-danger' onClick={() => handleDelete(val._id)}>Delete</button>
+                <div style={{display:"flex", justifyContent:"space-evenly"}}>
+                <button className='btn btn-primary' onClick={() => handleDelete(val._id)}>Block <FaRegTimesCircle/></button>&nbsp;
+                <button className='btn btn-danger' onClick={() => handleDelete(val._id)}>Delete <FaTrashAlt/></button>
+                </div>
             </h1> 
             <h5 style={{fontStyle:"italic", fontWeight:"bold"}}>{profileimageUrls[key] && <img src={profileimageUrls[key]} alt='Post Image' className='Dashboardprofilephoto'/>}  &nbsp;&nbsp;{val.user_name}</h5>
             <p>{val.content}</p>

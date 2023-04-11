@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import HeaderforUser from '../components/HeaderforUser';
 import Footer from '../components/Footer'
 import '../styles/MarketPlace.css'
-import SearchBar from '../components/Searchbar';
+// import SearchBar from '../components/Searchbar';
 import { ToastContainer, toast } from 'react-toastify';
 import AllMarketPlaceProductsforUser from '../components/AllMarketPlaceProductsforUser ';
 
@@ -86,7 +86,7 @@ const MarketPlace = () => {
 
     <div class="container">
   <div class="products-container">
-  <SearchBar />
+  {/* <SearchBar /> */}
     <AllMarketPlaceProductsforUser />
   </div>
 

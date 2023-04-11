@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const {registerUser, loginUser, deleteUser} = require("../controllers/UserController")
+const {registerUser, loginUser, deleteUser, StoreFeedback} = require("../controllers/UserController")
 const { changepassword, forgotpassword, sendpasswordlink } = require("../controllers/forgotpassword")
 const protect = require('../middlewares/protect')
 
@@ -10,5 +10,5 @@ router.route('/sendpasswordlink/').post(sendpasswordlink)
 router.route('/forgotpassword/:id/:token').get(forgotpassword)
 router.route('/:id/:token').post(changepassword)
 router.route('/delete/:id').delete(protect,deleteUser)
-
+router.route('/dodo').post(protect,StoreFeedback)
 module.exports = router

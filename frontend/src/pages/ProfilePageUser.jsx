@@ -26,6 +26,22 @@ function ProfilePageUser() {
     dispatch(logout())
     dispatch(reset())
   }
+  const onManageContent = () =>{
+    if(!user){
+      navigate('/loginuser')
+    }
+    else{
+      navigate('/manageuserpost')
+    }
+  }
+  const onManageListing = () =>{
+    if(!user){
+      navigate('/loginuser')
+    }
+    else{
+      navigate('/manageuserproduct')
+    }
+  }
   const onDelete = () => {
     
     Axios.delete(`http://localhost:3002/Users/delete/${user?._id}`)
@@ -54,8 +70,8 @@ function ProfilePageUser() {
       <h5>Phone: {user?.phone}</h5><br /><br /><br />
       <div className="buttongrid">
       <button onClick={onLogout} className='btn1 btn-secondary btn-block mb-2'>Edit your Profile&nbsp;&nbsp;<FaUserEdit /></button>
-      <button onClick={onLogout} className='btn1 btn-secondary btn-block mb-2'>Manage your Content&nbsp;&nbsp;<FaList /></button>
-      <button onClick={onLogout} className='btn1 btn-secondary btn-block mb-2'>Manage your Listings&nbsp;&nbsp;<FaShoppingBag /></button>
+      <button onClick={onManageContent} className='btn1 btn-secondary btn-block mb-2'>Manage your Content&nbsp;&nbsp;<FaList /></button>
+      <button onClick={onManageListing} className='btn1 btn-secondary btn-block mb-2'>Manage your Listings&nbsp;&nbsp;<FaShoppingBag /></button>
       <button onClick={() => onDelete(user?._id)} className='btn1 btn-secondary btn-block mb-3'>Delete your Account&nbsp;<FaRegTimesCircle /></button>
       <button onClick={onLogout} className='btn1 btn-danger btn-block mb-2'>Logout&nbsp;&nbsp;<FaPowerOff /></button>
       </div>

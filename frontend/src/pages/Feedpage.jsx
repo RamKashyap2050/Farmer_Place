@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import HeaderforUser from '../components/HeaderforUser';
 import Footer from '../components/Footer'
 import '../styles/Feedpage.css'
-import SearchBar from '../components/Searchbar';
 import { ToastContainer, toast } from 'react-toastify';
 import AllUserPostFeedforUser from '../components/AllUserPostFeedforUser';
 import FewMarketPlaceProducts from '../components/FewMarketPlaceProducts';

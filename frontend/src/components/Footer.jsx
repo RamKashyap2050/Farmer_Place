@@ -13,7 +13,7 @@ function Footer() {
         <div className="footer-column">
           <ul>
             <li>About Us</li><br />
-            <li>Contact Us</li><br />
+            <li>Careers</li><br />
             <Link to='/feedback'><li>Feedback</li></Link>
           </ul>
         </div>

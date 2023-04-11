@@ -13,6 +13,8 @@ const getallproducts = asyncHandler(async (req, res) => {
 //To get posts of one user
 const getproducts = asyncHandler(async (req, res) => {
   const marketplace = await MarketPlace.find({ user: req.user.id })
+  .populate("user", "user_name email image AccountStatus")
+  .select("product_name product_description user product_image")
 
   res.status(200).json(marketplace)
 })

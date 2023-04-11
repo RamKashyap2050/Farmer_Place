@@ -50,7 +50,6 @@ const AllMarketPlaceProductsforUser = () => {
     <p>{val.product_description}</p>
     {imageUrls[key] && <img src={imageUrls[key]} alt="Post Image" className='marketplaceimg'/>}
     <h5>{profileimageUrls[key] && <img src={profileimageUrls[key]} alt="Post Image" className='Dashboardprofilephoto'/>} &nbsp;&nbsp;{val.user_name} <br /> &nbsp;&nbsp;{val.email}</h5>
-  
   </div>
   ): null
     

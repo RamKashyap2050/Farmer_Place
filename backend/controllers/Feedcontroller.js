@@ -11,6 +11,8 @@ const getallposts = asyncHandler(async (req, res) => {
 //To get posts of one user
 const getFeed = asyncHandler(async (req, res) => {
   const feed = await Feed.find({ user: req.user.id })
+  .populate("user", "user_name image AccountStatus")
+  .select("title content user post_image");
 
   res.status(200).json(feed)
 })
@@ -50,8 +52,7 @@ const deleteFeed = asyncHandler(async (req, res) => {
     throw new Error('User not authorized')
   }
 
-  await feed.remove()
-
+  const feedeleted = await Feed.deleteOne(feed)
   res.status(200).json({ id: req.params.id })
 })
 

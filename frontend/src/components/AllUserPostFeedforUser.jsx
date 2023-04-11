@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import "../styles/Alluserposts.css";
 import { Buffer } from "buffer";
-import { FaSearch } from "react-icons/fa";
-
+import { FaSearch, FaExclamationTriangle } from "react-icons/fa";
+import { ToastContainer} from "react-toastify";
 const AllUserPostFeedforUser = () => {
   const [results, setResults] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -27,10 +27,11 @@ const AllUserPostFeedforUser = () => {
   useEffect(() => {
     const filtered = results.filter(
       (post) =>
-        post.user_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.content.toLowerCase().includes(searchTerm.toLowerCase())
+        (post.user_name && post.user_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (post.content && post.content.toLowerCase().includes(searchTerm.toLowerCase()))
     );
     setFilteredResults(filtered);
+    
 
     const filteredImageUrls = filtered.map((post) => {
       const imageBuffer = post.post_image?.data;
@@ -54,6 +55,8 @@ const AllUserPostFeedforUser = () => {
     });
     setFilteredProfileImageUrls(filteredProfileImageUrls);
   }, [searchTerm, results]);
+
+
 
   return (
     <>
@@ -83,7 +86,11 @@ const AllUserPostFeedforUser = () => {
       {filteredResults.map((val, key) =>
         val.user.AccountStatus == true ? (
           <div key={key} className="Feedpage">
-            <h1>{val.title}</h1>
+            <h1 style={{display:"flex", justifyContent:"space-between"}}>
+              {val.title}
+              <button className="btn btn-warning" >Report <FaExclamationTriangle/></button>
+            </h1>
+
             <h5 style={{ fontStyle: "italic", fontWeight: "bold" }}>
               {filteredProfileImageUrls[key] && (
                 <img
@@ -101,10 +108,13 @@ const AllUserPostFeedforUser = () => {
                 alt="Post Image"
                 className="feedimage"
               />
-            )}
+              
+            )}<br/><br/>
+                  <input type='text' placeholder='Add a Comment Here' className="form-control form-control lg"/>
           </div>
         ) : null
       )}
+      <ToastContainer />
     </>
   );
 };

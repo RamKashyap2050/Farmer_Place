@@ -3,7 +3,7 @@ const Users = require('../models/userModel')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
-
+const Feedback = require('../models/FeedbackModal')
 
 //Function that enables us to Signup
 const registerUser = asyncHandler(async(req, res) => {
@@ -150,9 +150,23 @@ const deleteUser = asyncHandler(async (req, res) => {
 
   });
 
-const getAllusers = asyncHandler(async(req,res) => {
-const getAllusers = await Users.find();
+// const getAllusers = asyncHandler(async(req,res) => {
+// const getAllusers = await Users.find();
 
+// })
+
+
+//FeedbackForm from Users
+const StoreFeedback = asyncHandler(async(req,res) => {
+  const {subject,message} = req.body
+    await Feedback.create({
+        subject,
+        message,
+        user: req.user.id, 
+    })
+  res.status(201).json({
+    message:"Succesfully Stored Feedback"
+  })
 })
 
 //To Generate Tokens
@@ -162,4 +176,4 @@ const generateToken = async(id) => {
     })
 }
 
-module.exports = {registerUser, loginUser, deleteUser, getAllusers}
+module.exports = {registerUser, loginUser, deleteUser, StoreFeedback}

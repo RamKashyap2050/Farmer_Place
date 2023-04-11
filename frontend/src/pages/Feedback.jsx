@@ -1,16 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/FeedbackForm.css';
-import { FaUser, FaEnvelope, FaComments } from 'react-icons/fa';
+import {  FaEnvelope, FaComments } from 'react-icons/fa';
 import HeaderforUser from '../components/HeaderforUser';
 import Footer from '../components/Footer';
+import { ToastContainer, toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 const Feedback = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const navigate = useNavigate()
+  const {user} = useSelector((state) => state.auth); 
+  const {token}  = useSelector((state) => state.auth.user) 
+  useEffect(() => {
+    console.log('useEffect triggered with user:', user)
+    if (!user){
+      navigate('/loginuser')
+    }
+  },[user,navigate])
+  const [formData, setFormData] = useState({
+    subject: '',
+    message: ''
+  })
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // handle form submission here
+
+  const {subject, message} = formData;
+
+  const onchange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const onSubmit = async(e) => {
+    e.preventDefault()
+
+      const userData = new FormData();
+      userData.append('subject',subject);
+      userData.append('message', message);
+
+      
+  try {
+    const response = await fetch('http://localhost:3002/Users/dodo/', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      body: userData
+
+    });
+    toast.success('Posted Succesfully')
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+      
+    }
+
+    setFormData({
+      subject: '',
+      message:'',
+    });
+  } catch (error) {
+    console.error('Error:', error);
+    toast.error('Error occurred while posting the data');
+  }
+
   }
 
   return (
@@ -18,33 +70,20 @@ const Feedback = () => {
     <HeaderforUser /><br /><br /><br />
     <div className="feedback-form-container">
       <h2>Feedback Form</h2><br /><span className='line'></span><br />
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={onSubmit}>
         <div className="form-group">
-          <label htmlFor="name">Name</label>
+          <label htmlFor="name">Subject</label>
           <div className="input-group">
             <input
               type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter your name"
+              id="subject"
+              name='subject'
+              value={subject}
+              onChange={onchange}
+              placeholder="Enter your Subject"
               required
             />
-            <span className="input-group-icon"><FaUser /></span>
-          </div>
-        </div>
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <div className="input-group">
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              required
-            />
-            <span className="input-group-icon"><FaEnvelope /></span>
+            <span className="input-group-icon"><FaEnvelope/></span>
           </div>
         </div>
         <div className="form-group">
@@ -52,8 +91,9 @@ const Feedback = () => {
           <div className="input-group">
             <textarea
               id="message"
+              name='message'
               value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={onchange}
               placeholder="Enter your message"
               required
             />
@@ -64,6 +104,7 @@ const Feedback = () => {
       </form>
     </div>
     <Footer />
+    <ToastContainer />
     </>
   );
 };
