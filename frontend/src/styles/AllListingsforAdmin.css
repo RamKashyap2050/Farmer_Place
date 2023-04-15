@@ -40,4 +40,15 @@
     row-gap: 15px;
   }
 
+  @media screen and (max-width:600px) {
+    .AdminMarketPlaceInventory{
+      display: list-item;
+    }
+    .AdminMarketcard{
+      margin: auto;
+      text-align: center;
+    }
+    
+  }
+
   

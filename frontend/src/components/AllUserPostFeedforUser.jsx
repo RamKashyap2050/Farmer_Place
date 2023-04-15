@@ -1,15 +1,30 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
+import { useSelector } from "react-redux";
 import "../styles/Alluserposts.css";
 import { Buffer } from "buffer";
-import { FaSearch, FaExclamationTriangle } from "react-icons/fa";
-import { ToastContainer} from "react-toastify";
+import { FaSearch, FaExclamationTriangle, FaComment, FaTelegram, FaThumbsUp } from "react-icons/fa";
+import { ToastContainer, toast} from "react-toastify";
+import { FaHeart } from "react-icons/fa";
+import Comments from "./comments";
+
 const AllUserPostFeedforUser = () => {
   const [results, setResults] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredResults, setFilteredResults] = useState([]);
   const [filteredImageUrls, setFilteredImageUrls] = useState([]);
   const [filteredProfileImageUrls, setFilteredProfileImageUrls] = useState([]);
+  const [show, setShow] = useState(false);
+  const [comment,setComment] = useState("")
+  let [likes,setLikes] = useState("")
+
+  const handleClick = () => {
+    setShow(true);
+  };
+
+
+  const {user} = useSelector((state) => state.auth) 
+  const {token} = useSelector((state) => state.auth.user) 
 
   useEffect(() => {
     Axios.get("http://localhost:3002/Feed/getallposts")
@@ -57,6 +72,55 @@ const AllUserPostFeedforUser = () => {
   }, [searchTerm, results]);
 
 
+  const handleReport = (post) => {
+    Axios.post("http://localhost:3002/Users/report", {
+      title: post.title,
+      user_name: post.user.user_name,
+      reported_by: user.user_name,
+    })
+    toast.success('Reported Succesfully')
+  }
+  const handleComment = (post) => {
+    Axios.post("http://localhost:3002/Users/makeacomment", {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      title: post.title,
+      postby_user_name: post.user.user_name,
+      comment: comment,
+      comment_by: user.user_name
+    })
+    .then(response => {
+      console.log(response.data);
+      toast.success('Commented Succesfully')
+      comment = ''
+    })
+    .catch(error => {
+      console.error(error); 
+      // toast.error('Failed to comment')
+    });
+    setShow(false)
+  }
+
+  const handleLikes = (post) => {
+    console.log(post._id); // log post id to console
+    console.log(user._id)
+    Axios.post("http://localhost:3002/Users/${post._id}/likes", {
+      postId: post._id,
+      post_by_id: post.user._id,
+      liked_by_id: user._id,
+      // liked_by_name: user.user_name    
+    })
+    .then(response => {
+      console.log(response)
+      toast.success('Liked Succesfully')
+    }).catch(error => {
+      console.error(error)
+      toast.error('Failed to Like')
+    })
+  }
+  
+ 
 
   return (
     <>
@@ -84,11 +148,11 @@ const AllUserPostFeedforUser = () => {
 
 
       {filteredResults.map((val, key) =>
-        val.user.AccountStatus == true ? (
+      val.FeedStatus == true ? (
           <div key={key} className="Feedpage">
             <h1 style={{display:"flex", justifyContent:"space-between"}}>
               {val.title}
-              <button className="btn btn-warning" >Report <FaExclamationTriangle/></button>
+              {val.user.user_name !== user.user_name && (<button className="btn btn-warning" onClick={() => handleReport(val)}>Report <FaExclamationTriangle /></button>)}            
             </h1>
 
             <h5 style={{ fontStyle: "italic", fontWeight: "bold" }}>
@@ -110,11 +174,23 @@ const AllUserPostFeedforUser = () => {
               />
               
             )}<br/><br/>
-                  <input type='text' placeholder='Add a Comment Here' className="form-control form-control lg"/>
+            <div style={{display:"flex"}}>
+              {val.likes}
+            <button className="btn btn-block btn-primary" onClick={() => handleLikes(val)}><FaThumbsUp /> Like</button>&nbsp;
+            <button className="btn btn-block btn-secondary" onClick={handleClick}><FaComment /> Comment</button>
+            </div><br />
+            {show && (
+            <div style={{display:"flex"}}>
+              <Comments postId={val.title} />
+              <input type="text" placeholder="Write your comment here..." className="form-control form-control-lg" onChange={(e) =>setComment(e.target.value)}/>
+              <button onClick={() => handleComment(val)} className="btn btn-secondary"><FaTelegram /></button>
+            </div>
+            )}
           </div>
         ) : null
       )}
       <ToastContainer />
+      
     </>
   );
 };

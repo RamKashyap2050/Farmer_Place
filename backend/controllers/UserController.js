@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
 const Feedback = require('../models/FeedbackModal')
+const Report = require('../models/ReportModel')
+const Comment = require('../models/commentModel')
 
 //Function that enables us to Signup
 const registerUser = asyncHandler(async(req, res) => {
@@ -150,11 +152,18 @@ const deleteUser = asyncHandler(async (req, res) => {
 
   });
 
-// const getAllusers = asyncHandler(async(req,res) => {
-// const getAllusers = await Users.find();
+const getAllusers = asyncHandler(async(req,res) => {
+const getAllusers = await Users.find();
 
-// })
-
+})
+//Reported Posts from User
+const ReportedPost = asyncHandler(async(req,res) => {
+  const {title, user_name, reported_by} = req.body
+  console.log(title,user_name,reported_by) 
+  await Report.create({
+    title, user_name, reported_by
+  }) 
+})
 
 //FeedbackForm from Users
 const StoreFeedback = asyncHandler(async(req,res) => {
@@ -169,6 +178,36 @@ const StoreFeedback = asyncHandler(async(req,res) => {
   })
 })
 
+//Add Comments to a post 
+const StoreComment = asyncHandler(async(req,res) => {
+  const {title, postby_user_name, comment, comment_by} = req.body
+  await Comment.create({
+    title,
+    postby_user_name,
+    comment,
+    comment_by
+  })
+  res.status(201).json({
+    message:"Succesfully Stored Comment"
+  })
+})
+
+//Fetch the comments from DB
+const getComments = asyncHandler(async(req,res) => {
+  const getComments = await Comment.find()
+  res.status(200).json(getComments);
+})
+const makeLikes  = asyncHandler(async(req, res) => {
+  const {postId} = req.params;
+  const {liked_by_id,post_by_id} = req.body;
+  console.log(postId,liked_by_id)
+  const updateLikes = await Feed.updateOne(
+    { _id: postId },
+    { $push: { liked_by: liked_by_id } }
+ )  
+  res.status(200).json(updateLikes)
+});
+
 //To Generate Tokens
 const generateToken = async(id) => {
     return await jwt.sign({id}, process.env.JWT_SECRET, {
@@ -176,4 +215,14 @@ const generateToken = async(id) => {
     })
 }
 
-module.exports = {registerUser, loginUser, deleteUser, StoreFeedback}
+module.exports = 
+{registerUser, 
+  loginUser, 
+  deleteUser,
+  getAllusers, 
+  StoreFeedback,
+  ReportedPost,
+  StoreComment,
+  getComments,
+  makeLikes
+}

@@ -7,7 +7,7 @@ const feedSchema = mongoose.Schema({
           type: mongoose.Schema.Types.ObjectId,
           required: true,
           ref: 'Users',
-        },
+    },
     title: {
         type: String,
         required: [true, 'Please enter a Title']
@@ -20,6 +20,15 @@ const feedSchema = mongoose.Schema({
         data:Buffer,
         ContentType: String
     },
+    
+    FeedStatus: {
+        type: Boolean,
+        default: true
+    },
+    liked_by: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Users'
+    }]
 },
 {   collection: 'Feed',
     timestamp: true

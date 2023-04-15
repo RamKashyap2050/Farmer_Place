@@ -10,7 +10,9 @@ const {loginAdmin,
     getallProducts, 
     getallPosts,
     deleteListings,
-    deleteFeed} = require('../controllers/AdminController')
+    deleteFeed,
+    blockpostbyadmin,
+    unblockpostbyadmin} = require('../controllers/AdminController')
 
 
 
@@ -25,6 +27,7 @@ router.route('/getallUsers').get(getallUsers)
 router.route('/sendpasswordlinkforAdmin/').post(sendpasswordlinkforAdmin)
 router.route('/forgotpasswordAdmin/:id/:token').get(forgotpasswordAdmin)
 router.route('/:id/:token').post(changepasswordAdmin)
-
+router.route('/blockpost/:id').put(blockpostbyadmin)
+router.route('/unblockpost/:id').put(unblockpostbyadmin)
 
 module.exports = router

@@ -12,6 +12,7 @@ const GridFsStorage = require('multer-gridfs-storage')
 const Grid = require('gridfs-stream')
 const methodOverride = require('method-override')
 const fileupload = require('express-fileupload')
+const bodyParser = require('body-parser')
 PORT = process.env.PORT || 5001
 connectDB()
 
@@ -25,6 +26,8 @@ app.use(methodOverride('_method'))
 
 
 app.use(express.urlencoded({extended : true}))
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 app.use('/Users', require('./routes/userRoutes'))
 app.use('/Admin', require('./routes/AdminRoutes'))

@@ -6,7 +6,7 @@ import '../styles/AllpostforAdmin.css'
 import HeaderforAdmin from '../components/HeaderforAdmin';
 import Footer from '../components/Footer';
 import { ToastContainer, toast } from 'react-toastify';
-import { FaRegTimesCircle, FaTrashAlt } from 'react-icons/fa';
+import { FaRegTimesCircle, FaTrashAlt,FaCheck } from 'react-icons/fa';
 
 const AllPostsforAdmin = () => {
   const [results, setResults] = useState([]);
@@ -56,6 +56,37 @@ const AllPostsforAdmin = () => {
         toast.error('Couldnt delete the post')
       console.log(error);
     });
+    
+}
+
+const handleBlock = (id) =>{
+  Axios.put(`http://localhost:3002/Admin/blockpost/${id}`)
+  .then(response => {
+    
+      toast.success('Blocked Succesfully')
+
+      console.log(response.data);
+  })
+  .catch(error => {
+      toast.error('Couldnt block the post')
+    console.log(error);
+  });
+  
+}
+
+const handleUnblock = (id) =>{
+  Axios.put(`http://localhost:3002/Admin/unblockpost/${id}`)
+  .then(response => {
+    
+      toast.success('Unblocked Succesfully')
+      console.log(response.data);
+
+  })
+  .catch(error => {
+      toast.error('Couldnt unblock the post')
+    console.log(error);
+  });
+  
 }
   return (
     <>
@@ -67,7 +98,8 @@ const AllPostsforAdmin = () => {
             <h1 style={{display:"flex", justifyContent:"space-between"}}>
                 <span>{val.title}</span>
                 <div style={{display:"flex", justifyContent:"space-evenly"}}>
-                <button className='btn btn-primary' onClick={() => handleDelete(val._id)}>Block <FaRegTimesCircle/></button>&nbsp;
+                <button className='btn btn-secondary' onClick={() => handleUnblock(val._id)}>Unblock <FaCheck/></button>&nbsp;
+                <button className='btn btn-primary' onClick={() => handleBlock(val._id)}>Block <FaRegTimesCircle/></button>&nbsp;
                 <button className='btn btn-danger' onClick={() => handleDelete(val._id)}>Delete <FaTrashAlt/></button>
                 </div>
             </h1> 

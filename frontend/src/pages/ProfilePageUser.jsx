@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout, reset } from '../features/auth/authSlice'
 import { useNavigate } from 'react-router-dom'
@@ -43,7 +43,6 @@ function ProfilePageUser() {
     }
   }
   const onDelete = () => {
-    
     Axios.delete(`http://localhost:3002/Users/delete/${user?._id}`)
     navigate('/signupuser')
     dispatch(logout())
@@ -77,6 +76,9 @@ function ProfilePageUser() {
       </div>
       </div>
     </div>
+
+
+     
 
     <Footer />
  </>

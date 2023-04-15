@@ -88,7 +88,7 @@ const MarketPlace = () => {
   <div class="products-container">
   {/* <SearchBar /> */}
     <AllMarketPlaceProductsforUser />
-  </div>
+  </div><br /><br />
 
   <div class="form-container">
 

@@ -4,7 +4,7 @@ const User = require('../models/userModel')
 const getallposts = asyncHandler(async (req, res) => {
   const getallposts = await Feed.find()
     .populate("user", "user_name image AccountStatus")
-    .select("title content user post_image");
+    .select("title content user post_image FeedStatus");
 
   res.status(200).json(getallposts);
 });

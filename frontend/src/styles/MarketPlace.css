@@ -34,3 +34,25 @@
 .marketplaceform{
     padding-left: 20px;
 }
+@media screen and (max-width: 600px) {
+  .container {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+  
+  .form-container {
+    width: 80%;
+  }
+  
+  .products-container {
+    width: 80%;
+  }
+
+  .marketplaceform {
+    padding-left: 0;
+  }
+
+  .form-control-lg {
+    font-size: 14px;
+  }
+}

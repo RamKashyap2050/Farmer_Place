@@ -73,6 +73,26 @@ const blockbyadmin =  asyncHandler(async(req,res) => {
       }
 
 })
+//Function that gives rights for Admin to Block a Post
+const blockpostbyadmin = asyncHandler(async(req,res) => {
+    const feed = await Feed.findByIdAndUpdate(
+        req.params.id,
+        {FeedStatus: false},
+        {new: true}
+    )
+})
+
+//Function that gives rights for Admin to Unblock a Post
+const unblockpostbyadmin = asyncHandler(async(req,res) => {
+    const feed = await Feed.findByIdAndUpdate(
+        req.params.id,
+        {FeedStatus: true},
+        {new: true}
+    )
+})
+
+
+
 
 //Function that enables Account status of User
 const unblockbyadmin =  asyncHandler(async(req,res) => {
@@ -144,7 +164,7 @@ const deleteListings = asyncHandler(async(req,res) => {
 const getallPosts = asyncHandler(async (req, res) => {
     const getallposts = await Feed.find()
       .populate("user", "user_name image")
-      .select("title content user post_image");
+      .select("title content user post_image FeedStatus");
   
     res.status(200).json(getallposts);
   });
@@ -270,6 +290,8 @@ module.exports = {loginAdmin,
     changepasswordAdmin, 
     forgotpasswordAdmin,
     deleteListings,
-    deleteFeed
+    deleteFeed,
+    blockpostbyadmin,
+    unblockpostbyadmin
 
 }

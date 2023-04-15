@@ -39,3 +39,10 @@
     display: inline-block;
     /* text-align: right; */
   }
+
+  @media screen and (max-width:600px){
+    .FewMarketPlaceInventory{
+      margin: auto;
+    }
+    
+  }

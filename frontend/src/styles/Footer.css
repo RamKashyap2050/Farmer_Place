@@ -45,20 +45,42 @@
   
   
 @media (max-width: 768px) {
+  .footer{
+    display: list-item;
+  }
+
     .footer-left {
-      width: 50%;
-      margin-bottom: 0;
+      width: 100%;
       padding-right: 20px;
+      margin: auto;
+      text-align: center;
+
     }
-  
+    .footer-p{
+      max-width: 80%;
+      font-weight: 400;
+      text-align: center;
+      margin: auto;
+    }
     .footer-right {
-      width: 50%;
-      margin-bottom: 0;
+      width: 100%;
+      margin: auto;
+      text-align: center;
     }
   
     .footer-column {
       width: 100%;
-      margin-right: 20px;
-      margin-bottom: 0;
+      margin: auto;
+      text-align: center;
     }
+    .social-icons {
+      display: flex;
+    }
+    
+    .social-icons > * {
+margin: auto;
+      width: 25px;
+      height: 25px;
+  
+  }
   }
