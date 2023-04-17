@@ -4,7 +4,9 @@ const User = require('../models/userModel')
 const getallposts = asyncHandler(async (req, res) => {
   const getallposts = await Feed.find()
     .populate("user", "user_name image AccountStatus")
-    .select("title content user post_image FeedStatus");
+    .populate("liked_by", "user_name image") 
+    .populate("disliked_by", "user_name image") 
+    .select("title content user post_image FeedStatus liked_by disliked_by");
 
   res.status(200).json(getallposts);
 });
@@ -56,9 +58,75 @@ const deleteFeed = asyncHandler(async (req, res) => {
   res.status(200).json({ id: req.params.id })
 })
 
+
+const makeLikes = asyncHandler(async(req, res) => {
+  const {postId} = req.params;
+  const {liked_by_id} = req.body;
+
+  const post = await Feed.findById(postId);
+
+  if (post.liked_by.includes(liked_by_id)) {
+    return res.status(400).json({ message: 'You have already liked this post' });
+  }
+
+  if (post.disliked_by.includes(liked_by_id)) {
+    await Feed.updateOne(
+      { _id: postId },
+      { $pull: { disliked_by: liked_by_id } }
+    );
+  }
+
+  const updateLikes = await Feed.updateOne(
+    { _id: postId },
+    { $push: { liked_by: liked_by_id } }
+  );
+  
+  res.status(200).json(updateLikes);
+});
+
+const makedisLikes = asyncHandler(async(req, res) => {
+  const {postId} = req.params;
+  const {liked_by_id} = req.body;
+
+  const post = await Feed.findById(postId);
+
+  if (post.disliked_by.includes(liked_by_id)) {
+    return res.status(400).json({ message: 'You have already disliked this post' });
+  }
+
+  if (post.liked_by.includes(liked_by_id)) {
+    await Feed.updateOne(
+      { _id: postId },
+      { $pull: { liked_by: liked_by_id } }
+    );
+  }
+
+  const updateLikes = await Feed.updateOne(
+    { _id: postId },
+    { $push: { disliked_by: liked_by_id } }
+  );
+  
+  res.status(200).json(updateLikes);
+});
+
+
+const getUserNames = asyncHandler(async (req, res) => {
+  const { userIds } = req.body;
+  const users = await User.find({ _id: { $in: userIds } }).select('user_name');
+
+  const userNames = users.map(user => user.user_name);
+
+  res.json(userNames);
+});
+
+
+
 module.exports = {
   getFeed,
   setFeedPost,
   deleteFeed,
-  getallposts
+  getallposts,
+  makeLikes,
+  makedisLikes,
+  getUserNames
 }

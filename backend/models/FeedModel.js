@@ -28,6 +28,10 @@ const feedSchema = mongoose.Schema({
     liked_by: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users'
+    }],
+    disliked_by: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Users'
     }]
 },
 {   collection: 'Feed',

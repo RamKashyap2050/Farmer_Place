@@ -114,6 +114,39 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
 });
+const updateUserProfile = asyncHandler(async(req, res) => {
+  const user = await Users.find(req.user._id)
+
+  if(user) {
+    user.user_name = req.body.user_name 
+    user.phone = req.body.phone
+    user.email = req.body.email 
+    const password = req.body.password
+    if(password){
+        const salt = await bcrypt.genSalt(10)
+        user.password = await bcrypt.hash(password, salt)
+    }
+    const image = req.files?.image
+    if(image){
+        user.image = image
+    }
+
+    const updatedUser = await user.save()
+
+    res.json({
+      _id: updatedUser._id,
+      user_name: updatedUser.user_name,
+      email: updatedUser.email,
+      phone: updatedUser.phone,
+      image: updatedUser.image,
+      token: generateToken(updatedUser._id),
+    })
+  } else {
+    res.status(404)
+    throw new Error('User not found')
+  }
+})
+
 
 
 //Function that enables us to Delete our account 
@@ -197,16 +230,7 @@ const getComments = asyncHandler(async(req,res) => {
   const getComments = await Comment.find()
   res.status(200).json(getComments);
 })
-const makeLikes  = asyncHandler(async(req, res) => {
-  const {postId} = req.params;
-  const {liked_by_id,post_by_id} = req.body;
-  console.log(postId,liked_by_id)
-  const updateLikes = await Feed.updateOne(
-    { _id: postId },
-    { $push: { liked_by: liked_by_id } }
- )  
-  res.status(200).json(updateLikes)
-});
+
 
 //To Generate Tokens
 const generateToken = async(id) => {
@@ -219,10 +243,10 @@ module.exports =
 {registerUser, 
   loginUser, 
   deleteUser,
+  updateUserProfile,
   getAllusers, 
   StoreFeedback,
   ReportedPost,
   StoreComment,
-  getComments,
-  makeLikes
+  getComments
 }

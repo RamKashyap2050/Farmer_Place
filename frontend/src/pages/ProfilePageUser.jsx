@@ -43,10 +43,21 @@ function ProfilePageUser() {
     }
   }
   const onDelete = () => {
-    Axios.delete(`http://localhost:3002/Users/delete/${user?._id}`)
-    navigate('/signupuser')
-    dispatch(logout())
+    if (window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+      Axios.delete(`http://localhost:3002/Users/delete/${user?._id}`)
+      navigate('/signupuser')
+      dispatch(logout())
+    }
   }
+  const onEdityourprofile = () => {
+    if(!user){
+      navigate('/loginuser')
+    }
+    else{
+      navigate('/edityourprofile')
+    }
+  }
+  
   console.log('user: ', user)
   const imageBuffer = user?.image?.data;
   if(!imageBuffer){
@@ -68,7 +79,7 @@ function ProfilePageUser() {
       <h5>Email: {user?.email}</h5>
       <h5>Phone: {user?.phone}</h5><br /><br /><br />
       <div className="buttongrid">
-      <button onClick={onLogout} className='btn1 btn-secondary btn-block mb-2'>Edit your Profile&nbsp;&nbsp;<FaUserEdit /></button>
+      <button onClick={onEdityourprofile} className='btn1 btn-secondary btn-block mb-2'>Edit your Profile&nbsp;&nbsp;<FaUserEdit /></button>
       <button onClick={onManageContent} className='btn1 btn-secondary btn-block mb-2'>Manage your Content&nbsp;&nbsp;<FaList /></button>
       <button onClick={onManageListing} className='btn1 btn-secondary btn-block mb-2'>Manage your Listings&nbsp;&nbsp;<FaShoppingBag /></button>
       <button onClick={() => onDelete(user?._id)} className='btn1 btn-secondary btn-block mb-3'>Delete your Account&nbsp;<FaRegTimesCircle /></button>

@@ -17,7 +17,7 @@ const feedbackSchema = mongoose.Schema({
         required: [true, 'Please enter Content']
     },
 },
-{   collection: 'Feed',
+{   collection: 'Feedback',
     timestamp: true
 }) 
 

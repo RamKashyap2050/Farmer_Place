@@ -40,8 +40,8 @@ const AllMarketPlaceProductsforUser = () => {
 
   return (
     <>
-    <h1 style={{textAlign:"center", margin:"auto"}}>Farmer Market Place</h1>
-    <span class="line"></span><br /><br />
+    {/* <h1 style={{textAlign:"center", margin:"auto"}}>Farmer Market Place</h1> */}
+    {/* <span class="line"></span><br /><br /> */}
     <div className='MarketPlaceInventory'>
    {results.map((val,key) => (
     val.user.AccountStatus == true ? (   

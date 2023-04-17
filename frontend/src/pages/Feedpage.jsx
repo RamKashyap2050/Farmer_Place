@@ -7,6 +7,7 @@ import '../styles/Feedpage.css'
 import { ToastContainer, toast } from 'react-toastify';
 import AllUserPostFeedforUser from '../components/AllUserPostFeedforUser';
 import FewMarketPlaceProducts from '../components/FewMarketPlaceProducts';
+import { FaImage } from 'react-icons/fa';
 
 const Feedpage = () => {
   const navigate = useNavigate()
@@ -85,22 +86,25 @@ const Feedpage = () => {
           <div className='Feedpagecontainer'>
           <div className='Feedpage'>
             
-        <h1 style={{textAlign:"center"}}>Enter Something to post!!</h1>
-        <span class="line"></span><br /><br />
+        {/* <h3 style={{textAlign:"center", fontWeight:700}}>Share what's on your mind ?</h3>
+        <span class="line"></span><br /><br /> */}
 
         <form onSubmit={onSubmit} encType="multipart/form-data" className='form'>
         <div class="form-group">
           <label for="title" class="text-white">Title:</label>
-          <input type="text" id="title" name="title" class="form-control form-control-lg" required  value={title} onChange={onChange}/>
+          <input type="text" id="title" name="title" class="form-control form-control-lg" required  value={title} onChange={onChange} placeholder='Share what is on your mind'/>
         </div>
         <div class="form-group">
           <label for="content" class="text-white">Content:</label>
-          <textarea id="content" name="content" class="form-control form-control-lg" rows="6" required value={content} onChange={onChange}></textarea>
+          <textarea id="content" name="content" class="form-control form-control-lg" rows="6" required value={content} onChange={onChange} placeholder='Write your content here'></textarea>
         </div>
-        <div class="form-group">
-          <label for="image" class="text-white" >Image:</label>
-          <input type="file" id="post_image" name="post_image" class="form-control-file" onChange={onChange}/>
-        </div>
+        <div className="form-group">
+  <label htmlFor="post_image" className="text-white">Choose an Image to Uplaod <FaImage /></label>
+  <div className="custom-file">
+    <input type="file" className="custom-file-input" id="post_image" name="post_image" onChange={onChange} />
+    <label className="custom-file-label" htmlFor="post_image"></label>
+  </div>
+</div>
         <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
         </form><br /><br />
         <AllUserPostFeedforUser />

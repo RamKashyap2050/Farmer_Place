@@ -19,6 +19,7 @@ import AllPostsforAdmin from './pages/AllPostsforAdmin';
 import Feedback from './pages/Feedback';
 import ManagePostsforUser from './pages/ManagePostsforUser';
 import ManageMarketPlace from './pages/ManageMarketPlace';
+import EditYourProfile from './pages/Edityourprofile';
 function App() {
   return (
     <>
@@ -35,6 +36,7 @@ function App() {
           <Route path='/loginuser' element={<LoginforUser />}/>
           <Route path='/signupuser' element={<SignupforUser />}/>
           <Route path='/loginadmin' element={<LoginforAdmin />} />
+          <Route path='/edityourprofile' element={<EditYourProfile />}/>
           <Route path='/getallUserforAdmin' element={<AllUsersAdmin />} />
           <Route path='/dashboard' element={<ProfilePageUser />}/>
           <Route path='/dashboardAdmin' element={<DashboardForAdmin />}/>

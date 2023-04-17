@@ -1,39 +1,21 @@
 import { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { register, reset } from '../features/auth/authSlice'
 import ContactUs from '../components/ContactUs'
-function SignupforUser() {
-  //Add formData using 
+import { useSelector } from 'react-redux'
+function EditYourProfile() {
+    const {user} = useSelector((state) => state.auth) 
+    const {token} = useSelector((state) => state.auth.user) 
+    //Add formData using State
   const [formData, setFormData] = useState({
     user_name: '',
     email: '',
     password: '',
-    password2: '',
     phone:'',
     image:''
   })
 
-  const { user_name, email, password, password2, phone, image } = formData
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const { user_name, email, password, phone, image } = formData
 
-  const { user, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  )
-
-  useEffect(() => {
-    if (isError) {
-      toast.error(message)
-    }
-
-    if (isSuccess || user) {
-      navigate('/dashboard')
-    }
-
-    dispatch(reset())
-  }, [user, isError, isSuccess, message, navigate, dispatch])
 
   const onChange = (e) => {
     if (e.target.type === 'file') {
@@ -50,29 +32,40 @@ function SignupforUser() {
     }
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault()
-
-    if (password !== password2) {
-      toast.error('Passwords do not match')
-    } else {
-      const userData = new FormData();
-      userData.append('user_name', user_name);
-      userData.append('email', email);
-      userData.append('password', password);
-      userData.append('phone', phone);
-      userData.append('image', image);
-
-      dispatch(register(userData))
+  
+    const userData = new FormData()
+    userData.append('user_name', user_name)
+    userData.append('email', email)
+    userData.append('password', password)
+    userData.append('phone', phone)
+    userData.append('image', image)
+    userData.append('_id', JSON.stringify(user._id))
+  
+    try {
+      const response = await fetch('http://localhost:3002/Users/updateuser', {
+        method: 'PUT',
+        body: userData,
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+  
+      const data = await response.json()
+  
+    } catch (error) {
+      console.error(error)
     }
   }
+  
 
 
   return (<>
     <div className='register'>
       <section className='heading'>
         <h1>
-         Signup
+         Edit {user?.user_name} profile
         </h1>
       </section><br /><br />
       <span class="line"></span><br /><br />
@@ -86,7 +79,8 @@ function SignupforUser() {
               id='name'
               name='user_name'
               value={user_name}
-              placeholder='Enter your name'
+              
+              placeholder={`${user?.user_name}`}
               onChange={onChange}
             />
           </div>
@@ -97,7 +91,7 @@ function SignupforUser() {
               id='email'
               name='email'
               value={email}
-              placeholder='Enter your email'
+              placeholder={`${user?.email}`}
               onChange={onChange}
             />
           </div>
@@ -108,18 +102,7 @@ function SignupforUser() {
               id='password'
               name='password'
               value={password}
-              placeholder='Enter password'
-              onChange={onChange}
-            />
-          </div>
-          <div className='form-group'>
-            <input
-              type='password'
-              className='form-control'
-              id='password2'
-              name='password2'
-              value={password2}
-              placeholder='Confirm password'
+              placeholder='************'
               onChange={onChange}
             />
           </div>
@@ -130,7 +113,7 @@ function SignupforUser() {
               id='phone'
               name='phone'
               value={phone}
-              placeholder='Phone Number'
+              placeholder={`${user?.phone}`}
               onChange={onChange}
             />
           </div>
@@ -148,14 +131,13 @@ function SignupforUser() {
             <button type='submit' className='btn btn-block'>
               Submit
             </button><br />
-            <a href="/loginuser">Do you already have an Account</a>
+            <a href="/dashboard">Already Upto Date?</a>
           </div>
         </form>
       </section>
     </div>
-    <ContactUs />
     </>
   )
 }
 
-export default SignupforUser
+export default EditYourProfile

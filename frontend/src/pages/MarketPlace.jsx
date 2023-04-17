@@ -92,12 +92,12 @@ const MarketPlace = () => {
 
   <div class="form-container">
 
-  <h3 style={{textAlign:"center", fontWeight:"bold"}}>Wanna Sell Something!!</h3>
+  <h3 style={{textAlign:"center", fontWeight:"bold"}}></h3>
 
     <form onSubmit={onSubmit} encType="multipart/form-data" className='marketplaceform'>
       <div class="form-group">
         <label for="title" class="text-white">Product Name</label>
-        <input type="text" id="product_name" name="product_name" class="form-control form-control-lg" required  value={product_name} onChange={onChange}/>
+        <input type="text" id="product_name" name="product_name" class="form-control form-control-lg" required  value={product_name} onChange={onChange} placeholder='Wanna Sell Something!!'/>
       </div>
       <div class="form-group">
         <label for="content" class="text-white">Product Description</label>

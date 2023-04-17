@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const {registerUser, loginUser, deleteUser, StoreFeedback, ReportedPost, StoreComment, getComments, makeLikes} = require("../controllers/UserController")
+const {registerUser, loginUser, deleteUser, StoreFeedback, ReportedPost, StoreComment, getComments, makeLikes, updateUserProfile} = require("../controllers/UserController")
 const { changepassword, forgotpassword, sendpasswordlink } = require("../controllers/forgotpassword")
 const protect = require('../middlewares/protect')
 
@@ -14,5 +14,5 @@ router.route('/dodo').post(protect,StoreFeedback)
 router.route('/report').post(ReportedPost)
 router.route('/makeacomment').post(StoreComment)
 router.route('/fetchcomment').get(getComments)
-router.route('/:postId/likes').get(makeLikes)
+router.route('/updateuser').put(updateUserProfile)
 module.exports = router
