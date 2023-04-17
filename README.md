@@ -17,6 +17,8 @@ Contributors
 ------------
 
 -   Ram Kashyap (Creator)
+-   Praneel Reddy (Contributor)
+-   Sai Deepak (Contributor)
 
 Installation
 ------------
