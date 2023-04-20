@@ -1,4 +1,3 @@
-
 const asyncHandler = require('express-async-handler')
 const Admin = require('../models/adminModal') 
 const Users = require('../models/userModel')
@@ -75,20 +74,107 @@ const blockbyadmin =  asyncHandler(async(req,res) => {
 })
 //Function that gives rights for Admin to Block a Post
 const blockpostbyadmin = asyncHandler(async(req,res) => {
+try{
     const feed = await Feed.findByIdAndUpdate(
         req.params.id,
         {FeedStatus: false},
         {new: true}
-    )
+    ).populate('user')
+
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.NODE_MAILER_USER,
+        pass: process.env.NODE_MAILER_PASS,
+      },
+    });
+   const mailOptions = {
+      from:process.env.NODE_MAILER_USER,
+      to: feed.user.email,
+      subject:"Blocked Post",
+      html:`<html>
+      <head></head>
+      <body style="background-color: #f2f2f2; text-align: center; padding: 0 20px;">
+        <div style="text-align: left;">
+          <br>
+          <p>
+            We are sorry to inform you that your post featuring <h3>${feed.title}</h3> has been taken down by FarmerPlace as it crosses our community guidelines
+            <br><br>
+            For reference refer to <a href='www.google.com'>FarmerPlace</a>
+            <br><br>
+            Contact Admin for more details
+          </p>
+          <br><br>
+        </div>
+      </body>
+    </html>`}
+    
+   transporter.sendMail(mailOptions,(error,info)=>{
+   if(error){
+      console.log("error",error);
+      res.status(401).json({status:401,message:"email not send"})
+   }else{
+      console.log("Email sent",info.response);
+      res.status(201).json({status:201,message:"Email sent Succsfully"})
+   }
+  })
+}
+catch(error){
+    console.log("Error Blocking Post:", error);
+    res.status(500).json({ status: 500, message: "Internal server error" });
+}
 })
 
 //Function that gives rights for Admin to Unblock a Post
 const unblockpostbyadmin = asyncHandler(async(req,res) => {
+try{
     const feed = await Feed.findByIdAndUpdate(
         req.params.id,
         {FeedStatus: true},
         {new: true}
-    )
+    ).populate('user')
+    var transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.NODE_MAILER_USER,
+          pass: process.env.NODE_MAILER_PASS,
+        },
+      });
+     const mailOptions = {
+        from:process.env.NODE_MAILER_USER,
+        to: feed.user.email,
+        subject:"Unblocked Post",
+        html:`<html>
+        <head></head>
+        <body style="background-color: #f2f2f2; text-align: center; padding: 0 20px;">
+          <div style="text-align: left;">
+            <br>
+            <p>
+              We are Happy to inform you that your post featuring <h3>${feed.title}</h3> has been brought back by FarmerPlace as it passes the gudielines test
+              <br><br>
+              For reference refer to <a href='www.google.com'>FarmerPlace</a>
+              <br><br>
+              Contact Admin for more details
+            </p>
+            <br><br>
+          </div>
+        </body>
+      </html>`}
+      
+     transporter.sendMail(mailOptions,(error,info)=>{
+     if(error){
+        console.log("error",error);
+        res.status(401).json({status:401,message:"email not send"})
+     }else{
+        console.log("Email sent",info.response);
+        res.status(201).json({status:201,message:"Email sent Succsfully"})
+     }
+    })
+}
+catch(error){
+    console.log("Error Unblocking Post:", error);
+    res.status(500).json({ status: 500, message: "Internal server error" });
+}
 })
 
 
@@ -163,7 +249,7 @@ const deleteListings = asyncHandler(async(req,res) => {
 //Function to get all the Posts
 const getallPosts = asyncHandler(async (req, res) => {
     const getallposts = await Feed.find()
-      .populate("user", "user_name image")
+      .populate("user", "user_name image email")
       .select("title content user post_image FeedStatus");
   
     res.status(200).json(getallposts);

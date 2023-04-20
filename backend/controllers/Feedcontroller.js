@@ -6,7 +6,14 @@ const getallposts = asyncHandler(async (req, res) => {
     .populate("user", "user_name image AccountStatus")
     .populate("liked_by", "user_name image") 
     .populate("disliked_by", "user_name image") 
-    .select("title content user post_image FeedStatus liked_by disliked_by");
+    .populate({
+      path: "comments",
+      select: "comment user_id",
+      populate: {
+        path: "user_id",
+        select: "user_name image AccountStatus",
+      },
+    })    .select("title content user post_image FeedStatus liked_by disliked_by comments");
 
   res.status(200).json(getallposts);
 });
@@ -23,6 +30,10 @@ const setFeedPost = asyncHandler(async (req, res) => {
   const { title, content } = req.body;
   const post_image = req.files.post_image;
 
+  if(!title || !content || !post_image){
+    res.status(403).send({message:'Please enter all fields'})
+  }
+
   const feed = await Feed.create({
     title,
     content,
@@ -34,7 +45,7 @@ const setFeedPost = asyncHandler(async (req, res) => {
 });
 
 
-
+//Function that user to delete his posts
 const deleteFeed = asyncHandler(async (req, res) => {
   const feed = await Feed.findById(req.params.id)
 
@@ -58,7 +69,7 @@ const deleteFeed = asyncHandler(async (req, res) => {
   res.status(200).json({ id: req.params.id })
 })
 
-
+//Function that makes user ability to like the post
 const makeLikes = asyncHandler(async(req, res) => {
   const {postId} = req.params;
   const {liked_by_id} = req.body;
@@ -66,7 +77,11 @@ const makeLikes = asyncHandler(async(req, res) => {
   const post = await Feed.findById(postId);
 
   if (post.liked_by.includes(liked_by_id)) {
-    return res.status(400).json({ message: 'You have already liked this post' });
+    await Feed.updateOne(
+      { _id: postId },
+      { $pull: { liked_by: liked_by_id } }
+    );
+    return res.status(400).json({ message: 'Liked Removed' });
   }
 
   if (post.disliked_by.includes(liked_by_id)) {
@@ -84,6 +99,8 @@ const makeLikes = asyncHandler(async(req, res) => {
   res.status(200).json(updateLikes);
 });
 
+
+//Function for Dislikes
 const makedisLikes = asyncHandler(async(req, res) => {
   const {postId} = req.params;
   const {liked_by_id} = req.body;
@@ -91,7 +108,11 @@ const makedisLikes = asyncHandler(async(req, res) => {
   const post = await Feed.findById(postId);
 
   if (post.disliked_by.includes(liked_by_id)) {
-    return res.status(400).json({ message: 'You have already disliked this post' });
+    await Feed.updateOne(
+      { _id: postId },
+      { $pull: { disliked_by: liked_by_id } }
+    );
+    return res.status(400).json({ message: 'Dislike Removed' });
   }
 
   if (post.liked_by.includes(liked_by_id)) {
@@ -107,6 +128,21 @@ const makedisLikes = asyncHandler(async(req, res) => {
   );
   
   res.status(200).json(updateLikes);
+});
+
+
+//Function for making comment
+const makeComment = asyncHandler(async(req, res) => {
+  const {postId} = req.params;
+  const {user_id, comment} = req.body;
+  const newComment = { user_id, comment };
+
+  const updateComments = await Feed.updateOne(
+    { _id: postId },
+    { $push: { comments: newComment } }
+  );
+  
+  res.status(200).json(newComment);
 });
 
 
@@ -128,5 +164,6 @@ module.exports = {
   getallposts,
   makeLikes,
   makedisLikes,
-  getUserNames
+  getUserNames,
+  makeComment
 }

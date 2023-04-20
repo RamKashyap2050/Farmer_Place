@@ -32,7 +32,14 @@ const feedSchema = mongoose.Schema({
     disliked_by: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users'
-    }]
+    }],
+    comments: [{
+        user_id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Users'
+        },
+        comment: String
+      }]
 },
 {   collection: 'Feed',
     timestamp: true

@@ -211,25 +211,7 @@ const StoreFeedback = asyncHandler(async(req,res) => {
   })
 })
 
-//Add Comments to a post 
-const StoreComment = asyncHandler(async(req,res) => {
-  const {title, postby_user_name, comment, comment_by} = req.body
-  await Comment.create({
-    title,
-    postby_user_name,
-    comment,
-    comment_by
-  })
-  res.status(201).json({
-    message:"Succesfully Stored Comment"
-  })
-})
 
-//Fetch the comments from DB
-const getComments = asyncHandler(async(req,res) => {
-  const getComments = await Comment.find()
-  res.status(200).json(getComments);
-})
 
 
 //To Generate Tokens
@@ -247,6 +229,5 @@ module.exports =
   getAllusers, 
   StoreFeedback,
   ReportedPost,
-  StoreComment,
-  getComments
+
 }

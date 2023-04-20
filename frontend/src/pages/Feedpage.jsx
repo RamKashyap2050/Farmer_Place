@@ -89,24 +89,25 @@ const Feedpage = () => {
         {/* <h3 style={{textAlign:"center", fontWeight:700}}>Share what's on your mind ?</h3>
         <span class="line"></span><br /><br /> */}
 
-        <form onSubmit={onSubmit} encType="multipart/form-data" className='form'>
-        <div class="form-group">
-          <label for="title" class="text-white">Title:</label>
-          <input type="text" id="title" name="title" class="form-control form-control-lg" required  value={title} onChange={onChange} placeholder='Share what is on your mind'/>
-        </div>
-        <div class="form-group">
-          <label for="content" class="text-white">Content:</label>
-          <textarea id="content" name="content" class="form-control form-control-lg" rows="6" required value={content} onChange={onChange} placeholder='Write your content here'></textarea>
-        </div>
-        <div className="form-group">
-  <label htmlFor="post_image" className="text-white">Choose an Image to Uplaod <FaImage /></label>
-  <div className="custom-file">
-    <input type="file" className="custom-file-input" id="post_image" name="post_image" onChange={onChange} />
-    <label className="custom-file-label" htmlFor="post_image"></label>
+<form onSubmit={onSubmit} encType="multipart/form-data" className='form'>
+  <div class="form-group">
+    <label for="title" class="text-white">Title:</label>
+    <input type="text" id="title" name="title" class="form-control form-control-lg bg-dark text-white" required  value={title} onChange={onChange} placeholder='Share what is on your mind'/>
   </div>
-</div>
-        <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
-        </form><br /><br />
+  <div class="form-group">
+    <label for="content" class="text-white">Content:</label>
+    <textarea id="content" name="content" class="form-control form-control-lg bg-dark text-white" rows="6" required value={content} onChange={onChange} placeholder='Write your content here'></textarea>
+  </div>
+  <div className="form-group">
+    <label htmlFor="post_image" className="text-white">Choose an Image to Upload <FaImage /></label>
+    <div className="custom-file">
+      <input type="file" className="custom-file-input" id="post_image" name="post_image" onChange={onChange} />
+      <label className="custom-file-label" htmlFor="post_image"></label>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+</form>
+<br /><br />
         <AllUserPostFeedforUser />
       </div>
       <div className='feedpagemarket'>

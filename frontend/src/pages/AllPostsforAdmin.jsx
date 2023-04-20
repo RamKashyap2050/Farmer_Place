@@ -17,6 +17,7 @@ const AllPostsforAdmin = () => {
         const populatedData = response.data.map((post) => ({
           ...post,
           user_name: post.user.user_name,
+          email:post.user.email
         }));
         setResults(populatedData);
         console.log(populatedData);
@@ -92,7 +93,7 @@ const handleUnblock = (id) =>{
     <>
     <HeaderforAdmin />
     <h1 style={{textAlign:"center"}}>Manage User Content</h1>
-      {results.map((val,key) => (
+      {results.slice().reverse().map((val,key) => (
        <>
         <div key={key} className='Feedpage'>
             <h1 style={{display:"flex", justifyContent:"space-between"}}>
@@ -103,9 +104,9 @@ const handleUnblock = (id) =>{
                 <button className='btn btn-danger' onClick={() => handleDelete(val._id)}>Delete <FaTrashAlt/></button>
                 </div>
             </h1> 
-            <h5 style={{fontStyle:"italic", fontWeight:"bold"}}>{profileimageUrls[key] && <img src={profileimageUrls[key]} alt='Post Image' className='Dashboardprofilephoto'/>}  &nbsp;&nbsp;{val.user_name}</h5>
+            <h5 style={{fontStyle:"italic", fontWeight:"bold"}}>{profileimageUrls.slice().reverse()[key] && <img src={profileimageUrls.slice().reverse()[key]} alt='Post Image' className='Dashboardprofilephoto'/>}  &nbsp;&nbsp;{val.user_name}</h5>
             <p>{val.content}</p>
-            {imageUrls[key] && <img src={imageUrls[key]} alt='Post Image' className='feedimage'/>} 
+            {imageUrls.slice().reverse()[key] && <img src={imageUrls.slice().reverse()[key]} alt='Post Image' className='feedimage'/>} 
            
         </div><br/><br/>
        </>

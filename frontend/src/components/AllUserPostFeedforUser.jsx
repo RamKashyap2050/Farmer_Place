@@ -3,9 +3,8 @@ import Axios from "axios";
 import { useSelector } from "react-redux";
 import "../styles/Alluserposts.css";
 import { Buffer } from "buffer";
-import { FaSearch, FaExclamationTriangle, FaComment, FaTelegram, FaThumbsUp, FaThumbsDown } from "react-icons/fa";
+import { FaSearch, FaExclamationTriangle, FaComment, FaTelegram, FaThumbsUp, FaThumbsDown, FaTrash } from "react-icons/fa";
 import { ToastContainer, toast} from "react-toastify";
-import Comments from "./comments";
 
 const AllUserPostFeedforUser = () => {
   const [results, setResults] = useState([]);
@@ -13,13 +12,24 @@ const AllUserPostFeedforUser = () => {
   const [filteredResults, setFilteredResults] = useState([]);
   const [filteredImageUrls, setFilteredImageUrls] = useState([]);
   const [filteredProfileImageUrls, setFilteredProfileImageUrls] = useState([]);
-  const [show, setShow] = useState(false);
+  const [filteredCommentProfileImageUrls, setFilteredCommentProfileImageUrls] = useState([]);
+  const [show, setShow] = useState({});
   const [comment,setComment] = useState("")
-
-  const handleClick = () => {
-    setShow(true);
+  
+  const handleClick = (postId) => {
+    setShow((prevState) => ({
+      ...prevState,
+      [postId]: true,
+    }));
   };
-
+  
+  const handleDoubleClick = (postId) => {
+    setShow((prevState) => ({
+      ...prevState,
+      [postId]: false,
+    }));
+  };
+  
 
   const {user} = useSelector((state) => state.auth) 
   const {token} = useSelector((state) => state.auth.user) 
@@ -58,6 +68,7 @@ const AllUserPostFeedforUser = () => {
 
     const filteredProfileImageUrls = filtered.map((post) => {
       const imageBuffer = post.user.image?.data;
+      console.log(imageBuffer)
       if (!imageBuffer) {
         return null;
       }
@@ -66,6 +77,27 @@ const AllUserPostFeedforUser = () => {
       return imageUrl;
     });
     setFilteredProfileImageUrls(filteredProfileImageUrls);
+
+    const filteredCommentProfileImageUrls = {};
+    filtered.forEach(post => {
+      post.comments.forEach(comment => {
+        const imageBuffer = comment.user_id.image?.data;
+        if (!imageBuffer) {
+          return;
+        }
+        const base64String = Buffer.from(imageBuffer).toString("base64");
+        const imageUrl = `data:${comment.user_id.image.ContentType};base64,${base64String}`;
+        const username = comment.user_id.user_name;
+        filteredCommentProfileImageUrls[username] = imageUrl;
+      });
+    });
+    
+  
+  setFilteredCommentProfileImageUrls(filteredCommentProfileImageUrls);
+  
+
+  
+  
   }, [searchTerm, results]);
 
 
@@ -130,6 +162,20 @@ const AllUserPostFeedforUser = () => {
   };
 
  
+  const handleComments = (post) => {
+    Axios.post(`http://localhost:3002/Feed/${post._id}/comment`, {
+      user_id: user._id,
+      comment: comment,
+    })
+      .then((response) => {
+        console.log(response);
+        toast.success('Comment posted successfully');
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error(error.response.data.message || 'Failed to post comment');
+      });
+  };
 
   return (
     <>
@@ -184,49 +230,81 @@ const AllUserPostFeedforUser = () => {
             )}<br/><br/>
             <p>{val.content}</p>
              <div className="likesdisplay " style={{display:"flex", justifyContent:'flex-start'}}>
-             {val.liked_by.length > 0 && (
-  <span className="text-secondary">
-    <FaThumbsUp />
-    {val.liked_by.slice(0, 1).map((likedByUser, index) => (
-      <span key={index}>
-        {' '}
-        <span style={{fontWeight:"bolder"}}>{likedByUser.user_name}</span>
-      </span>
-    ))}
-    {val.liked_by.length > 1 && (
-      <span> and {val.liked_by.length - 1} more...</span>
-    )}
-  </span>
-)} &nbsp;&nbsp;&nbsp;
-{val.disliked_by.length > 0 && (
-  <span className="text-secondary">
-<FaThumbsDown />
-    {val.disliked_by.slice(0, 1).map((dislikedByUser, index) => (
-      <span key={index}>
-        {' '}
-        <span style={{fontWeight:"bolder"}}>{dislikedByUser.user_name}</span>
-      </span>
-    ))}
-    {val.disliked_by.length > 1 && (
-      <span> and {val.disliked_by.length - 1} more...</span>
-    )}
-  </span>
-)}
+                {val.liked_by.length > 0 && (
+                <span className="text-secondary">
+                  <FaThumbsUp />
+                  {val.liked_by.slice(0, 1).map((likedByUser, index) => (
+                    <span key={index}>
+                      {' '}
+                      <span style={{fontWeight:"bolder"}}>{likedByUser.user_name}</span>
+                    </span>
+                  ))}
+                  {val.liked_by.length > 1 && (
+                    <span> and {val.liked_by.length - 1} more...</span>
+                  )}
+                </span>
+              )} &nbsp;&nbsp;&nbsp;
+              {val.disliked_by.length > 0 && (
+                <span className="text-secondary">
+              <FaThumbsDown />
+                  {val.disliked_by.slice(0, 1).map((dislikedByUser, index) => (
+                    <span key={index}>
+                      {' '}
+                      <span style={{fontWeight:"bolder"}}>{dislikedByUser.user_name}</span>
+                    </span>
+                  ))}
+                  {val.disliked_by.length > 1 && (
+                    <span> and {val.disliked_by.length - 1} more...</span>
+                  )}
+                </span>
+              )}
 
 
             </div>   
- <br /><br />            
+            <br /><br />            
             <div style={{display:"flex"}}>
             <button className="btn btn-block btn-primary" style={{margin:"5px 0px 0px"}}onClick={() => handleLikes(val)}><FaThumbsUp /></button>&nbsp;
             <button className="btn btn-block" style={{backgroundColor:" #CD5C5C", color:"white"}}onClick={() => handledisLikes(val)}><FaThumbsDown/></button>&nbsp;
-            <button className="btn btn-block btn-secondary" onClick={handleClick}><FaComment /></button>
+            <button className="btn btn-block btn-secondary" onClick={() => handleClick(val._id)} onDoubleClick={() => handleDoubleClick(val._id)}><FaComment /></button>
             </div><br />
-            {show && (
-            <div style={{display:"flex"}}>
-              <Comments postId={val.title} />
-              <input type="text" placeholder="Write your comment here..." className="form-control form-control-lg" onChange={(e) =>setComment(e.target.value)}/>
-              <button onClick={() => handleComment(val)} className="btn btn-secondary"><FaTelegram /></button>
+            {show[val._id] && (
+              <>
+                   <div style={{display:"flex"}}>
+              <input type="text" placeholder="Write your comment here..." className="form-control form-control-lg" onChange={(e) =>setComment(e.target.value)} required/>
+              <button onClick={() => handleComments(val)} className="btn btn-secondary"><FaTelegram /></button>
             </div>
+            <div><br />
+            {val.comments && val.comments.map((comment, key) => (
+  <div key={comment._id} style={{ justifyContent: "space-between" }} className="commentsection">
+    {comment.user_id && (
+      <>
+        <div style={{ display: "inline-flex" }}>
+          {filteredCommentProfileImageUrls[comment.user_id.user_name] && (
+            <img
+              src={filteredCommentProfileImageUrls[comment.user_id.user_name]}
+              alt="Comment Profile"
+              className="Dashboardprofilephoto"
+            />
+          )}
+          &nbsp;&nbsp;
+          <div>
+            <p style={{ fontStyle: "italic", fontWeight: "bolder" }}>{comment.user_id.user_name}</p>
+            <p style={{ fontWeight: 500 }}>{comment.comment}</p>
+          </div>
+        </div>
+      </>
+    )}
+  </div>
+))}
+
+
+
+
+
+
+
+            </div>
+              </>
             )}
           </div>
         ) : null

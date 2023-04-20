@@ -80,7 +80,7 @@ const ManagePostsforUser = () => {
           <HeaderforUser />
     <h1 style={{textAlign:"center"}}>{user?.user_name} Content</h1>
       {results.map((val,key) => (
-       <>
+       <>     
         <div key={key} className='Feedpage'>
             <h1 style={{display:"flex", justifyContent:"space-between"}}>
                 <span>{val.title}</span>
