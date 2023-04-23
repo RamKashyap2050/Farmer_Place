@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path')
 // console.log(express)
 const connectDB = require('./config/db')
 const dotenv = require('dotenv').config()
@@ -34,12 +35,12 @@ app.use('/Admin', require('./routes/AdminRoutes'))
 app.use('/Feed', require('./routes/FeedRoutes'))
 app.use('/MarketPlace', require('./routes/MarketPlaceRoutes'))
 
-if(process.env.NODE_ENV === 'production') {
+// if(process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../frontend/build')))
     app.get('*', (req,res) => res.sendFile(path.resolve(__dirname, '../', 'frontend', 'build', 'index.html')))
-} else {
-    app.get('/', (req, res) => res.send('Please Activate Production'))
-}
+// } else {
+    // app.get('/', (req, res) => res.send('Please Activate Production'))
+// }
 
 app.use(errorHandler)
 app.listen(PORT, () => console.log(`Server is running at ${PORT}`))
