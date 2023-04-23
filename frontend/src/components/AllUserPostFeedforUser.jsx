@@ -170,6 +170,7 @@ const AllUserPostFeedforUser = () => {
       .then((response) => {
         console.log(response);
         toast.success('Comment posted successfully');
+        setShow(false)
       })
       .catch((error) => {
         console.error(error);
