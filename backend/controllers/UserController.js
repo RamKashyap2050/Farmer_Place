@@ -116,7 +116,7 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 const updateUserProfile = asyncHandler(async(req, res) => {
   const user = await Users.find(req.user._id)
-
+  res.setHeader('Access-Control-Allow-Origin', 'http://farmerplace.vercel.app');
   if(user) {
     user.user_name = req.body.user_name 
     user.phone = req.body.phone
