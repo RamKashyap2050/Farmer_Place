@@ -14,7 +14,9 @@ const AllUserPostFeedforUser = () => {
   const [filteredProfileImageUrls, setFilteredProfileImageUrls] = useState([]);
   const [filteredCommentProfileImageUrls, setFilteredCommentProfileImageUrls] = useState([]);
   const [show, setShow] = useState({});
-  const [comment,setComment] = useState("")
+  const [comment,setComment] = useState("");
+  const [likes, setLikes] = useState({});
+
   
   const handleClick = (postId) => {
     setShow((prevState) => ({
@@ -138,6 +140,14 @@ const AllUserPostFeedforUser = () => {
     })
       .then((response) => {
         console.log(response);
+        const updatedLikes = {
+          ...likes,
+          [post._id]: {
+            likes: response.data.likes,
+            dislikes: response.data.dislikes,
+          },
+        };
+        setLikes(updatedLikes);
         toast.success('Liked successfully');
       })
       .catch((error) => {
@@ -264,35 +274,43 @@ const AllUserPostFeedforUser = () => {
             </div>   
             <br /><br />            
             <div style={{display:"flex"}}>
-            <button className="btn btn-block btn-primary" style={{margin:"5px 0px 0px"}}onClick={() => handleLikes(val)}><FaThumbsUp /></button>&nbsp;
-            <button className="btn btn-block" style={{backgroundColor:" #CD5C5C", color:"white"}}onClick={() => handledisLikes(val)}><FaThumbsDown/></button>&nbsp;
+            <button className="btn btn-block btn-primary" style={{ margin: '5px 0px 0px' }} onClick={() => handleLikes(val)}>
+  <FaThumbsUp /> {likes[val._id]?.likes || val.liked_by.length}
+</button>            <button className="btn btn-block" style={{backgroundColor:" #CD5C5C", color:"white"}}onClick={() => handledisLikes(val)}><FaThumbsDown/></button>&nbsp;
             <button className="btn btn-block btn-secondary" onClick={() => handleClick(val._id)} onDoubleClick={() => handleDoubleClick(val._id)}><FaComment /></button>
             </div><br />
             {show[val._id] && (
               <>
-                   <div style={{display:"flex"}}>
+              <div style={{display:"flex"}}>
+                {filteredProfileImageUrls.slice().reverse()[key] && (
+                <img
+                  src={filteredProfileImageUrls.slice().reverse()[key]}
+                  alt="Post Image"
+                  className="Dashboardprofilephoto"
+                />
+              )}
               <input type="text" placeholder="Write your comment here..." className="form-control form-control-lg" onChange={(e) =>setComment(e.target.value)} required/>
               <button onClick={() => handleComments(val)} className="btn btn-secondary"><FaTelegram /></button>
-            </div>
+              </div>
             <div><br />
             {val.comments && val.comments.map((comment, key) => (
-  <div key={comment._id} style={{ justifyContent: "space-between" }} className="commentsection">
-    {comment.user_id && (
-      <>
-        <div style={{ display: "inline-flex" }}>
-          {filteredCommentProfileImageUrls[comment.user_id.user_name] && (
-            <img
-              src={filteredCommentProfileImageUrls[comment.user_id.user_name]}
-              alt="Comment Profile"
-              className="Dashboardprofilephoto"
-            />
-          )}
-          &nbsp;&nbsp;
-          <div>
-            <p style={{ fontStyle: "italic", fontWeight: "bolder" }}>{comment.user_id.user_name}</p>
-            <p style={{ fontWeight: 500 }}>{comment.comment}</p>
-          </div>
-        </div>
+              <div key={comment._id} style={{ justifyContent: "space-between" }} className="commentsection">
+                  {comment.user_id && (
+                    <>
+                    <div style={{ display: "inline-flex" }}>
+                      {filteredCommentProfileImageUrls[comment.user_id.user_name] && (
+                      <img
+                      src={filteredCommentProfileImageUrls[comment.user_id.user_name]}
+                      alt="Comment Profile"
+                      className="Dashboardprofilephoto"
+                      />
+                      )}
+                    &nbsp;&nbsp;
+                    <div>
+                      <p style={{ fontStyle: "italic", fontWeight: "bolder" }}>{comment.user_id.user_name}</p>
+                      <p style={{ fontWeight: 500 }}>{comment.comment}</p>
+                    </div>
+                    </div>
       </>
     )}
   </div>
