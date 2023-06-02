@@ -10,11 +10,41 @@
     height: 50%;
 }
 .Commentprofilephoto{
-    width: 30px;
-    height: 30px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;  
 }
 
 .commentsection{
     padding: 1.25rem;
 }
+.input-container {
+    width: 100%;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .input-container input {
+    padding-right: 40px; /* Adjust the value to provide enough space for the button */
+  }
+  
+  .input-container button {
+    position: absolute;
+    top: 50%;
+    right: 10px; /* Adjust the value to position the button as desired */
+    transform: translateY(-50%);
+  }
+  .custom-button {
+    /* Resetting default styles */
+    border: none;
+    background-color: transparent;
+    color: inherit;
+    font: inherit;
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+  
+    /* Additional custom styles */
+    /* Add your custom styles here */
+  }
+  

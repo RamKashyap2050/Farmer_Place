@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler')
 const Feed = require('../models/FeedModel')
 const User = require('../models/userModel')
+
 const getallposts = asyncHandler(async (req, res) => {
   const getallposts = await Feed.find()
     .populate("user", "user_name image AccountStatus")

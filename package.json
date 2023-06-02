@@ -1,6 +1,9 @@
 {
   "name": "FarmerPlace",
   "version": "1.0.0",
+  "engines": {
+    "node":"16.16.0"
+  },
   "description": "Social Media app",
   "main": "server.js",
   "scripts": {

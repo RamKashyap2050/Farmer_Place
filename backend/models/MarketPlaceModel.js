@@ -12,6 +12,10 @@ const marketplaceSchema = mongoose.Schema({
         type: String,
         required: [true, 'Please enter a Title']
     },
+    product_price: {
+        type: String,
+        required: [true, 'Please enter Price']
+    },
     product_description: {
         type: String,
         required: [true, 'Please enter Content']

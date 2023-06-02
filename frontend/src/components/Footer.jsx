@@ -1,20 +1,28 @@
-import React from 'react';
-import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
-import "../styles/Footer.css"
-import { Link } from 'react-router-dom';
+import React from "react";
+import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+import "../styles/Footer.css";
+import { Link } from "react-router-dom";
 function Footer() {
   return (
     <footer className="footer">
       <div className="footer-left">
         <h3>Farmer Place</h3>
-        <p className='footer-p'>Farmer Place is a right place for any farmer who is intrested in posting something regarding Farming or someone who is able to provide solutions to everyday farming issues</p>
+        <p className="footer-p">
+          Farmer Place is a right place for any farmer who is intrested in
+          posting something regarding Farming or someone who is able to provide
+          solutions to everyday farming issues
+        </p>
       </div>
       <div className="footer-right">
         <div className="footer-column">
           <ul>
-            <li>About Us</li><br />
-            <li>Careers</li><br />
-            <Link to='/feedback'><li>Feedback</li></Link>
+            <li>About Us</li>
+            <br />
+            <li>Careers</li>
+            <br />
+            <Link to="/feedback">
+              <li>Feedback</li>
+            </Link>
           </ul>
         </div>
         <div className="footer-column">
@@ -30,4 +38,4 @@ function Footer() {
   );
 }
 
-export default Footer
+export default Footer;

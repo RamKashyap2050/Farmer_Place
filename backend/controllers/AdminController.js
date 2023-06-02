@@ -231,7 +231,7 @@ const getallUsers = asyncHandler(async (req,res) => {
 const getallProducts = asyncHandler(async (req, res) => {
     const getallproducts = await MarketPlace.find()
       .populate("user", "user_name image email")
-      .select("product_name product_description user product_image");
+      .select("product_name product_price product_description user product_image");
   
     res.status(200).json(getallproducts);
   });

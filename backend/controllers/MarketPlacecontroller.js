@@ -6,7 +6,7 @@ const User = require('../models/userModel')
 const getallproducts = asyncHandler(async (req, res) => {
   const getallproducts = await MarketPlace.find()
     .populate("user", "user_name image email AccountStatus")
-    .select("product_name product_description user product_image");
+    .select("product_name product_price product_description user product_image");
 
   res.status(200).json(getallproducts);
 });
@@ -14,17 +14,18 @@ const getallproducts = asyncHandler(async (req, res) => {
 const getproducts = asyncHandler(async (req, res) => {
   const marketplace = await MarketPlace.find({ user: req.user.id })
   .populate("user", "user_name email image AccountStatus")
-  .select("product_name product_description user product_image")
+  .select("product_name product_price product_description user product_image")
 
   res.status(200).json(marketplace)
 })
 
 const setMarketPlaceProduct = asyncHandler(async (req, res) => {
-  const { product_name, product_description } = req.body;
+  const { product_name, product_description, product_price } = req.body;
   const product_image = req.files.product_image;
 
   const marketplace = await MarketPlace.create({
     product_name,
+    product_price,
     product_description,
     product_image,
     user: req.user.id, 
