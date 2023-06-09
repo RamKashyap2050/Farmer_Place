@@ -12,7 +12,8 @@ const {loginAdmin,
     deleteListings,
     deleteFeed,
     blockpostbyadmin,
-    unblockpostbyadmin} = require('../controllers/AdminController')
+    unblockpostbyadmin,
+getfeedbacks} = require('../controllers/AdminController')
 
 
 
@@ -29,5 +30,6 @@ router.route('/forgotpasswordAdmin/:id/:token').get(forgotpasswordAdmin)
 router.route('/:id/:token').post(changepasswordAdmin)
 router.route('/blockpost/:id').put(blockpostbyadmin)
 router.route('/unblockpost/:id').put(unblockpostbyadmin)
+router.route('/getfeedbacks').get(getfeedbacks)
 
 module.exports = router

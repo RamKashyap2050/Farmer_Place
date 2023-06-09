@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken')
 const Feed = require('../models/FeedModel')
 const MarketPlace = require('../models/MarketPlaceModel')
 const nodemailer = require('nodemailer')
-
+const Feedback = require("../models/FeedbackModal")
 //Function which enables User to Login
 const loginAdmin = asyncHandler(async(req, res) => {
     const {email, password} = req.body
@@ -359,7 +359,13 @@ const changepasswordAdmin = asyncHandler(async(req,res)=>{
 })
 
 
+const getfeedbacks = asyncHandler((async(req,res) => {
+  const getfeedbacks = await Feedback.find({})
+  .populate("user", "user_name image email")
+  .select("user subject message")
 
+  res.status(200).json(getfeedbacks)
+}))
 //Function to generate tokens
 const generateToken = async(id) => {
     return await jwt.sign({id}, process.env.JWT_SECRET, {
@@ -378,6 +384,6 @@ module.exports = {loginAdmin,
     deleteListings,
     deleteFeed,
     blockpostbyadmin,
-    unblockpostbyadmin
-
+    unblockpostbyadmin,
+    getfeedbacks
 }
