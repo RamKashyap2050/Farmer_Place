@@ -67,7 +67,7 @@ const Feedback = () => {
       <br />
       <br />
       <div className="feedback-form-container">
-        <h2>Feedback Form</h2>
+        <h2>Contact us Form</h2>
         <br />
         <span className="line"></span>
         <br />

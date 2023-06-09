@@ -58,6 +58,7 @@ const AllUserPostFeedforUser = () => {
       })
       .catch((error) => console.log(error));
   }, []);
+  
 
   useEffect(() => {
     const filtered = results.filter(
@@ -108,6 +109,13 @@ const AllUserPostFeedforUser = () => {
 
     setFilteredCommentProfileImageUrls(filteredCommentProfileImageUrls);
   }, [searchTerm, results]);
+
+  const imageBuffer = user?.image?.data;
+  if(!imageBuffer){
+    return null;
+  }
+  const base64String = Buffer.from(imageBuffer).toString('base64');
+  const imageUrl = `data:image/jpeg;base64,${base64String}`;
 
   const handleReport = (post) => {
     Axios.post("http://localhost:3002/Users/report", {
@@ -306,9 +314,9 @@ const AllUserPostFeedforUser = () => {
                 {show[val._id] && (
                   <>
                     <div style={{ display: "flex" }}>
-                      {filteredProfileImageUrls.slice().reverse()[key] && (
+                      {imageUrl && (
                         <img
-                          src={filteredProfileImageUrls.slice().reverse()[key]}
+                          src={imageUrl}
                           alt="Post Image"
                           className="Commentprofilephoto"
                         />

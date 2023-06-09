@@ -57,6 +57,8 @@ const DashboardForAdmin = () => {
   const onFeedback = () => {
     if (!Admin) {
       navigate("/loginadmin");
+    } else {
+      navigate("/cehckoutfeedbacks");
     }
   };
   return (
@@ -91,7 +93,7 @@ const DashboardForAdmin = () => {
           onClick={onFeedback}
           className="btn1 btn-secondary btn-block mb-3"
         >
-          Checkout Feedbacks&nbsp;
+          Checkout Contactus&nbsp;
           <FaCheck />
         </button>
         <button onClick={onBlock} className="btn1 btn-secondary btn-block mb-3">

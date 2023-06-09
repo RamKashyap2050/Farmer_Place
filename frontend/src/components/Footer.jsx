@@ -21,7 +21,7 @@ function Footer() {
             <li>Careers</li>
             <br />
             <Link to="/feedback">
-              <li>Feedback</li>
+              <li>Contact Us</li>
             </Link>
           </ul>
         </div>

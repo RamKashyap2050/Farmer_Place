@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "proxy": "https://farmerplace.herokuapp.com/",
+  "proxy": "http://localhost:3002/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.0",
@@ -23,7 +23,7 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.0.0",
     "react-scripts": "5.0.1",
-    "react-toastify": "^9.1.1",
+    "react-toastify": "^9.1.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
