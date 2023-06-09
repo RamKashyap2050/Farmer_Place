@@ -12,7 +12,7 @@ const AllPostsforAdmin = () => {
   const [results, setResults] = useState([]);
 
   useEffect(() => {
-    Axios.get("http://localhost:3002/Admin/getallPosts")
+    Axios.get("/Admin/getallPosts")
       .then((response) => {
         const populatedData = response.data.map((post) => ({
           ...post,
@@ -45,7 +45,7 @@ const AllPostsforAdmin = () => {
   });
 
   const handleDelete = (id) =>{
-    Axios.delete(`http://localhost:3002/Admin/deletefeed/${id}`)
+    Axios.delete(`/Admin/deletefeed/${id}`)
     .then(response => {
       
         toast.success('Deleted Succesfully')
@@ -61,7 +61,7 @@ const AllPostsforAdmin = () => {
 }
 
 const handleBlock = (id) =>{
-  Axios.put(`http://localhost:3002/Admin/blockpost/${id}`)
+  Axios.put(`/Admin/blockpost/${id}`)
   .then(response => {
     
       toast.success('Blocked Succesfully')
@@ -76,7 +76,7 @@ const handleBlock = (id) =>{
 }
 
 const handleUnblock = (id) =>{
-  Axios.put(`http://localhost:3002/Admin/unblockpost/${id}`)
+  Axios.put(`/Admin/unblockpost/${id}`)
   .then(response => {
     
       toast.success('Unblocked Succesfully')

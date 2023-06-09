@@ -47,7 +47,7 @@ const AllUserPostFeedforUser = () => {
   const { token } = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    Axios.get("http://localhost:3002/Feed/getallposts")
+    Axios.get("/Feed/getallposts")
       .then((response) => {
         const populatedData = response.data.map((post) => ({
           ...post,
@@ -118,7 +118,7 @@ const AllUserPostFeedforUser = () => {
   const imageUrl = `data:image/jpeg;base64,${base64String}`;
 
   const handleReport = (post) => {
-    Axios.post("http://localhost:3002/Users/report", {
+    Axios.post("/Users/report", {
       title: post.title,
       user_name: post.user.user_name,
       reported_by: user.user_name,
@@ -127,7 +127,7 @@ const AllUserPostFeedforUser = () => {
   };
 
   const handleLikes = (post) => {
-    Axios.post(`http://localhost:3002/Feed/${post._id}/likes`, {
+    Axios.post(`/Feed/${post._id}/likes`, {
       postId: post._id,
       liked_by_id: user._id,
     })
@@ -150,7 +150,7 @@ const AllUserPostFeedforUser = () => {
   };
 
   const handledisLikes = (post) => {
-    Axios.post(`http://localhost:3002/Feed/${post._id}/dislikes`, {
+    Axios.post(`/Feed/${post._id}/dislikes`, {
       postId: post._id,
       liked_by_id: user._id,
     })
@@ -165,7 +165,7 @@ const AllUserPostFeedforUser = () => {
   };
 
   const handleComments = (post) => {
-    Axios.post(`http://localhost:3002/Feed/${post._id}/comment`, {
+    Axios.post(`/Feed/${post._id}/comment`, {
       user_id: user._id,
       comment: comment,
     })

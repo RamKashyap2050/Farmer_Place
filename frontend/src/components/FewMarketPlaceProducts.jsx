@@ -7,7 +7,7 @@ const FewMarketPlaceProducts = () => {
   const [results, setResults] = useState([]);
 
   useEffect(() => {
-    Axios.get("http://localhost:3002/MarketPlace/getallproducts")
+    Axios.get("/MarketPlace/getallproducts")
       .then((response) => {
         const populatedData = response.data.map((post) => ({
           ...post,
