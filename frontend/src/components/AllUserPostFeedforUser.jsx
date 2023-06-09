@@ -47,7 +47,7 @@ const AllUserPostFeedforUser = () => {
   const { token } = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    Axios.get("/Feed/getallposts")
+    Axios.get('/Feed/getallposts/')
       .then((response) => {
         const populatedData = response.data.map((post) => ({
           ...post,
@@ -118,7 +118,7 @@ const AllUserPostFeedforUser = () => {
   const imageUrl = `data:image/jpeg;base64,${base64String}`;
 
   const handleReport = (post) => {
-    Axios.post("/Users/report", {
+    Axios.post('/Users/report', {
       title: post.title,
       user_name: post.user.user_name,
       reported_by: user.user_name,
