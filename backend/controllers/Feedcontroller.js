@@ -17,6 +17,7 @@ const getallposts = asyncHandler(async (req, res) => {
     })    .select("title content user post_image FeedStatus liked_by disliked_by comments");
 
   res.status(200).json(getallposts);
+
 });
 //To get posts of one user
 const getFeed = asyncHandler(async (req, res) => {
