@@ -58,10 +58,9 @@ const AllUserPostFeedforUser = () => {
       })
       .catch((error) => {
         console.log(error);
-        // Handle the error, e.g., display an error message to the user
       });
   }, []);
-
+  console.log("Total Feed", results)
   useEffect(() => {
     const filtered = results.filter(
       (post) =>
@@ -71,6 +70,7 @@ const AllUserPostFeedforUser = () => {
           post.content.toLowerCase().includes(searchTerm.toLowerCase()))
     );
     setFilteredResults(filtered);
+    console.log("Filtered Results", filtered)
 
     const filteredImageUrls = filtered.map((post) => {
       const imageBuffer = post.post_image?.data;
