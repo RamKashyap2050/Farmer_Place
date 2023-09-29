@@ -22,7 +22,7 @@ const ManagePostsforUser = () => {
   }, [user, navigate]);
 
   useEffect(() => {
-    Axios.get("http://localhost:3002/Feed", {
+    Axios.get("/Feed", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -58,7 +58,7 @@ const ManagePostsforUser = () => {
   });
 
   const handleDelete = (id) => {
-    Axios.delete(`http://localhost:3002/Feed/${id}`, {
+    Axios.delete(`/Feed/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

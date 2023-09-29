@@ -22,7 +22,7 @@ const ManageMarketPlace = () => {
       
     useEffect(() => {
 
-        Axios.get("http://localhost:3002/MarketPlace/", {
+        Axios.get("/MarketPlace/", {
             headers: {
                 Authorization: `Bearer ${token}`
               }
@@ -59,7 +59,7 @@ const ManageMarketPlace = () => {
       });
 
       const handleDelete = (id) =>{
-        Axios.delete(`http://localhost:3002/Admin/deletelisting/${id}`)
+        Axios.delete(`/Admin/deletelisting/${id}`)
         .then(response => {
           
             toast.success('Deleted Succesfully')

@@ -28,7 +28,7 @@ const login = async (userData) => {
     return response.data
   }
 
-const Admin_URI_Login = 'http://localhost:3002/Admin/login/'
+const Admin_URI_Login = '/Admin/login/'
 
 const LoginAdmin = async(Admin) => {
   const response = await axios.post(Admin_URI_Login, Admin)

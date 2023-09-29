@@ -53,7 +53,7 @@ const Feedpage = () => {
     userData.append("post_image", post_image);
 
     try {
-      const response = await fetch("http://localhost:3002/Feed", {
+      const response = await fetch("/Feed", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

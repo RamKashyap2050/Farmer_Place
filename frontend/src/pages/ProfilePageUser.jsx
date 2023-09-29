@@ -44,7 +44,7 @@ function ProfilePageUser() {
   }
   const onDelete = () => {
     if (window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
-      Axios.delete(`http://localhost:3002/Users/delete/${user?._id}`)
+      Axios.delete(`/Users/delete/${user?._id}`)
       navigate('/signupuser')
       dispatch(logout())
     }

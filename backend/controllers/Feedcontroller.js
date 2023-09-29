@@ -14,11 +14,16 @@ const getallposts = asyncHandler(async (req, res) => {
         path: "user_id",
         select: "user_name image AccountStatus",
       },
-    })    .select("title content user post_image FeedStatus liked_by disliked_by comments");
+    })
+    .select("title content user post_image FeedStatus liked_by disliked_by comments");
+
+  const responseSize = JSON.stringify(getallposts).length;
+
+  console.log(`Data size of the response: ${responseSize} bytes`);
 
   res.status(200).json(getallposts);
-
 });
+
 //To get posts of one user
 const getFeed = asyncHandler(async (req, res) => {
   const feed = await Feed.find({ user: req.user.id })

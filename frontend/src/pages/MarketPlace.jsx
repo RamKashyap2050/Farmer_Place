@@ -55,7 +55,7 @@ const MarketPlace = () => {
     console.log(userData);
 
     try {
-      const response = await fetch("http://localhost:3002/MarketPlace", {
+      const response = await fetch("/MarketPlace", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
