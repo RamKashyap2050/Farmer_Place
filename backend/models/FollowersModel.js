@@ -3,12 +3,12 @@ const mongoose = require('mongoose')
 
 const followerSchema = mongoose.Schema({
     
-    followerID:{
+    followed_by_ID:{
           type: mongoose.Schema.Types.ObjectId,
           required: true,
           ref: 'Users',
     },
-    followingID:{
+    following_to_ID:{
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Users',
