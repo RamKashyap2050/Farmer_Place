@@ -21,6 +21,7 @@ import ManagePostsforUser from "./pages/ManagePostsforUser";
 import ManageMarketPlace from "./pages/ManageMarketPlace";
 import EditYourProfile from "./pages/Edityourprofile";
 import CheckoutFeedbacks from "./pages/CheckoutFeedbacks";
+import Peopleyouwanttoknow from "./components/Peopleyouwanttoknow";
 function App() {
   return (
     <>
@@ -61,6 +62,7 @@ function App() {
             <Route path="/manageuserpost" element={<ManagePostsforUser />} />
             <Route path="/manageuserproduct" element={<ManageMarketPlace />} />
             <Route path="/cehckoutfeedbacks" element={<CheckoutFeedbacks />} />
+            <Route path="/followers" element={<Peopleyouwanttoknow />} />
           </Routes>
         </div>
       </Router>

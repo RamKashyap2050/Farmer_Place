@@ -1,7 +1,12 @@
-import React from 'react';
-import '../styles/Header.css';
-import { Link } from 'react-router-dom';
-import { FaFacebookMessenger, FaNewspaper, FaShoppingBag, FaUser } from 'react-icons/fa';
+import React from "react";
+import "../styles/Header.css";
+import { Link } from "react-router-dom";
+import {
+  FaUserFriends,
+  FaNewspaper,
+  FaShoppingBag,
+  FaUser,
+} from "react-icons/fa";
 const HeaderforUser = () => {
   return (
     <header>
@@ -10,10 +15,38 @@ const HeaderforUser = () => {
       </div>
       <nav>
         <ul>
-          <Link to='/Feedpage'><li><a href="#"><FaNewspaper/></a></li></Link>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <Link to='/marketplace'><li><a href="#"><FaShoppingBag/></a></li></Link>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <Link to='/dashboard'><li className="account"><a href="#"><FaUser /></a></li></Link>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          {/* <Link to='/marketplace'><li><a href="#"><FaFacebookMessenger /></a></li></Link>&nbsp;&nbsp;&nbsp;&nbsp; */}
+          <Link to="/Feedpage">
+            <li>
+              <a href="#" className="brand-icons">
+                <FaNewspaper />
+              </a>
+            </li>
+          </Link>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <Link to="/marketplace">
+            <li>
+              <a href="#" className="brand-icons">
+                <FaShoppingBag />
+              </a>
+            </li>
+          </Link>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <Link to="/dashboard">
+            <li>
+              <a href="#" className="brand-icons">
+                <FaUser />
+              </a>
+            </li>
+          </Link>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <Link to="/followers">
+            <li>
+              <a href="#" className="brand-icons">
+                <FaUserFriends />
+              </a>
+            </li>
+          </Link>
+          &nbsp;&nbsp;&nbsp;&nbsp;
         </ul>
       </nav>
     </header>

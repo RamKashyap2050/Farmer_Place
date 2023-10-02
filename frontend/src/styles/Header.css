@@ -45,6 +45,8 @@ header {
   }
   nav ul li a{
     font-size: 2rem;
+    width: 25px;
+    height: 25px;
   }
   nav ul li a:hover{
     transition: 0.5s;
@@ -85,3 +87,7 @@ header {
 
   
   
+.brand-icons{
+  width: 5px;
+  height: 5px;
+}
