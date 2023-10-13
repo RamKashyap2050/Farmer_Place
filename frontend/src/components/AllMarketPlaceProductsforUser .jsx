@@ -78,21 +78,19 @@ const AllMarketPlaceProductsforUser = () => {
                 <h4 style={{ fontWeight: "bolder", fontStyle: "italic" }}>
                   {val.product_price}$
                 </h4>
-                {filteredImageUrls[key] && (
+                
                   <img
-                    src={filteredImageUrls[key]}
+                    src={val.product_image}
                     alt="Post Image"
                     className="marketplaceimg"
                   />
-                )}
                 <h5>
-                  {filteredProfileImageUrls[key] && (
                     <img
-                      src={filteredProfileImageUrls[key]}
+                      src={val.user.image}
                       alt="Post Image"
                       className="Dashboardprofilephoto"
                     />
-                  )}{" "}
+                 {" "}
                   &nbsp;&nbsp;{val.user_name} <br />
                   <br /> &nbsp;&nbsp;{val.email}
                 </h5>

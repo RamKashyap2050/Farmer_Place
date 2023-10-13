@@ -93,23 +93,21 @@ const ManagePostsforUser = () => {
               </button>
             </h1>
             <h5 style={{ fontStyle: "italic", fontWeight: "bold" }}>
-              {profileimageUrls[key] && (
                 <img
-                  src={profileimageUrls[key]}
+                  src={val.user.image}
                   alt="Post Image"
                   className="Dashboardprofilephoto"
                 />
-              )}{" "}
+          {" "}
               &nbsp;&nbsp;{val.user_name}
             </h5>
             <p>{val.content}</p>
-            {imageUrls[key] && (
+            
               <img
-                src={imageUrls[key]}
+                src={val.post_image}
                 alt="Post Image"
                 className="feedimage"
               />
-            )}
           </div>
           <br />
           <br />

@@ -3,6 +3,6 @@ const { addfollowers, getUserFollowersUsingUserID } = require("../controllers/Fo
 const router = express.Router()
 
 router.route('/addfollowers').post(addfollowers)
-router.route('/getfollowersforuser').get(getUserFollowersUsingUserID)
+router.route('/getfollowersforuser/:userid').get(getUserFollowersUsingUserID)
 
 module.exports = router

@@ -17,8 +17,7 @@ const feedSchema = mongoose.Schema({
         required: [true, 'Please enter Content']
     },
     post_image: {
-        data:Buffer,
-        ContentType: String
+       type:String
     },
     
     FeedStatus: {

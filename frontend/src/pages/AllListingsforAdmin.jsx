@@ -33,24 +33,7 @@ const AllListingsforAdmin = () => {
       .catch((error) => console.log(error));
   }, []);
 
-  const imageUrls = results.map((user) => {
-    const imageBuffer = user?.product_image?.data;
-    if (!imageBuffer) {
-      return null;
-    }
-    const base64String = Buffer.from(imageBuffer).toString("base64");
-    const imageUrl = `data:image/jpeg;base64,${base64String}`;
-    return imageUrl;
-  });
-  const profileimageUrls = results.map((user) => {
-    const imageBuffer = user?.user?.image?.data;
-    if (!imageBuffer) {
-      return null;
-    }
-    const base64String = Buffer.from(imageBuffer).toString("base64");
-    const imageUrl = `data:${user.user.image.ContentType};base64,${base64String}`;
-    return imageUrl;
-  });
+ 
 
   const handleDelete = (id) => {
     Axios.delete(`/Admin/deletelisting/${id}`)
@@ -78,21 +61,18 @@ const AllListingsforAdmin = () => {
             <div key={key} className="AdminMarketcard">
               <h1>{val.product_name}</h1>
               <p>{val.product_description}</p>
-              {imageUrls[key] && (
                 <img
-                  src={imageUrls[key]}
+                  src={val.product_image}
                   alt="Post Image"
                   className="marketplaceimg"
                 />
-              )}
               <h5>
-                {profileimageUrls[key] && (
                   <img
-                    src={profileimageUrls[key]}
+                    src={val.user.image}
                     alt="Post Image"
                     className="Dashboardprofilephoto"
                   />
-                )}{" "}
+                {" "}
                 &nbsp;&nbsp;{val.user_name} <br /> &nbsp;&nbsp;{val.email}
               </h5>
               <button

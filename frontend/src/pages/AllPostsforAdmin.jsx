@@ -25,24 +25,6 @@ const AllPostsforAdmin = () => {
       .catch((error) => console.log(error));
   }, []);
 
-  const imageUrls = results.map(user => {
-    const imageBuffer = user?.post_image?.data;
-    if (!imageBuffer) {
-      return null;
-    }
-    const base64String = Buffer.from(imageBuffer).toString('base64');
-    const imageUrl = `data:image/jpeg;base64,${base64String}`;
-    return imageUrl;
-  });
-  const profileimageUrls = results.map((user) => {
-    const imageBuffer = user?.user?.image?.data;
-    if (!imageBuffer) {
-      return null;
-    }
-    const base64String = Buffer.from(imageBuffer).toString("base64");
-    const imageUrl = `data:${user.user.image.ContentType};base64,${base64String}`;
-    return imageUrl;
-  });
 
   const handleDelete = (id) =>{
     Axios.delete(`/Admin/deletefeed/${id}`)
@@ -104,9 +86,9 @@ const handleUnblock = (id) =>{
                 <button className='btn btn-danger' onClick={() => handleDelete(val._id)}>Delete <FaTrashAlt/></button>
                 </div>
             </h1> 
-            <h5 style={{fontStyle:"italic", fontWeight:"bold"}}>{profileimageUrls.slice().reverse()[key] && <img src={profileimageUrls.slice().reverse()[key]} alt='Post Image' className='Dashboardprofilephoto'/>}  &nbsp;&nbsp;{val.user_name}</h5>
+            <h5 style={{fontStyle:"italic", fontWeight:"bold"}}><img src={val.user.image} alt='Post Image' className='Dashboardprofilephoto'/>  &nbsp;&nbsp;{val.user_name}</h5>
             <p>{val.content}</p>
-            {imageUrls.slice().reverse()[key] && <img src={imageUrls.slice().reverse()[key]} alt='Post Image' className='feedimage'/>} 
+            <img src={val.post_image} alt='Post Image' className='feedimage'/>
            
         </div><br/><br/>
        </>

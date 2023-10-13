@@ -60,7 +60,7 @@ const AllUserPostFeedforUser = () => {
         console.log(error);
       });
   }, []);
-  console.log("Total Feed", results)
+  console.log("Total Feed", results);
   useEffect(() => {
     const filtered = results.filter(
       (post) =>
@@ -70,54 +70,8 @@ const AllUserPostFeedforUser = () => {
           post.content.toLowerCase().includes(searchTerm.toLowerCase()))
     );
     setFilteredResults(filtered);
-    console.log("Filtered Results", filtered)
-
-    const filteredImageUrls = filtered.map((post) => {
-      const imageBuffer = post.post_image?.data;
-      if (!imageBuffer) {
-        return null;
-      }
-      const base64String = Buffer.from(imageBuffer).toString("base64");
-      const imageUrl = `data:image/jpeg;base64,${base64String}`;
-      return imageUrl;
-    });
-    setFilteredImageUrls(filteredImageUrls);
-
-    const filteredProfileImageUrls = filtered.map((post) => {
-      const imageBuffer = post.user.image?.data;
-      console.log(imageBuffer);
-      if (!imageBuffer) {
-        return null;
-      }
-      const base64String = Buffer.from(imageBuffer).toString("base64");
-      const imageUrl = `data:${post.user.image.ContentType};base64,${base64String}`;
-      return imageUrl;
-    });
-    setFilteredProfileImageUrls(filteredProfileImageUrls);
-
-    const filteredCommentProfileImageUrls = {};
-    filtered.forEach((post) => {
-      post.comments.forEach((comment) => {
-        const imageBuffer = comment.user_id.image?.data;
-        if (!imageBuffer) {
-          return;
-        }
-        const base64String = Buffer.from(imageBuffer).toString("base64");
-        const imageUrl = `data:${comment.user_id.image.ContentType};base64,${base64String}`;
-        const username = comment.user_id.user_name;
-        filteredCommentProfileImageUrls[username] = imageUrl;
-      });
-    });
-
-    setFilteredCommentProfileImageUrls(filteredCommentProfileImageUrls);
+    console.log("Filtered Results", filtered);
   }, [searchTerm, results]);
-
-  const imageBuffer = user?.image?.data;
-  if (!imageBuffer) {
-    return null;
-  }
-  const base64String = Buffer.from(imageBuffer).toString("base64");
-  const imageUrl = `data:image/jpeg;base64,${base64String}`;
 
   const handleReport = (post) => {
     Axios.post("/Users/report", {
@@ -227,22 +181,18 @@ const AllUserPostFeedforUser = () => {
                 </h1>
 
                 <h5 style={{ fontStyle: "italic", fontWeight: "bold" }}>
-                  {filteredProfileImageUrls.slice().reverse()[key] && (
-                    <img
-                      src={filteredProfileImageUrls.slice().reverse()[key]}
-                      alt="Post Image"
-                      className="Dashboardprofilephoto"
-                    />
-                  )}
+                  <img
+                    src={val.user.image}
+                    alt="Post Image"
+                    className="Dashboardprofilephoto"
+                  />
                   &nbsp;&nbsp;{val.user_name}
                 </h5>
-                {filteredImageUrls.slice().reverse()[key] && (
-                  <img
-                    src={filteredImageUrls.slice().reverse()[key]}
-                    alt="Post Image"
-                    className="feedimage"
-                  />
-                )}
+                <img
+                  src={val.post_image}
+                  alt="Post Image"
+                  className="feedimage"
+                />
                 <br />
                 <br />
                 <p>{val.content}</p>
@@ -316,13 +266,11 @@ const AllUserPostFeedforUser = () => {
                 {show[val._id] && (
                   <>
                     <div style={{ display: "flex" }}>
-                      {imageUrl && (
-                        <img
-                          src={imageUrl}
-                          alt="Post Image"
-                          className="Commentprofilephoto"
-                        />
-                      )}{" "}
+                      <img
+                        src={user.image}
+                        alt="Post Image"
+                        className="Commentprofilephoto"
+                      />
                       &nbsp;
                       <div className="input-container">
                         <input
@@ -353,19 +301,11 @@ const AllUserPostFeedforUser = () => {
                             {comment.user_id && (
                               <>
                                 <div style={{ display: "inline-flex" }}>
-                                  {filteredCommentProfileImageUrls[
-                                    comment.user_id.user_name
-                                  ] && (
-                                    <img
-                                      src={
-                                        filteredCommentProfileImageUrls[
-                                          comment.user_id.user_name
-                                        ]
-                                      }
-                                      alt="Comment Profile"
-                                      className="Dashboardprofilephoto"
-                                    />
-                                  )}
+                                  <img
+                                    src={comment.user_id.image}
+                                    alt="Comment Profile"
+                                    className="Dashboardprofilephoto"
+                                  />
                                   &nbsp;&nbsp;
                                   <div>
                                     <p

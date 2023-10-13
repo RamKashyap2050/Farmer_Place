@@ -12,12 +12,12 @@ const multer = require("multer");
 const GridFsStorage = require("multer-gridfs-storage");
 const Grid = require("gridfs-stream");
 const methodOverride = require("method-override");
+
 const fileupload = require("express-fileupload");
 const bodyParser = require("body-parser");
 const expressAsyncHandler = require("express-async-handler");
 PORT = process.env.PORT || 5001;
 connectDB();
-
 const app = express();
 app.use(fileupload());
 app.use(cors());
@@ -46,9 +46,6 @@ if (process.env.NODE_ENV === "production") {
 } else {
   app.get("/", (req, res) => res.send("Please Activate Production"));
 }
-
-
-
 
 // app.use(errorHandler);
 app.listen(PORT, () => console.log(`Server is running at ${PORT}`));

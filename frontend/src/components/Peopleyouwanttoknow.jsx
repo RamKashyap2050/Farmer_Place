@@ -24,19 +24,13 @@ const Peopleyouwanttoknow = () => {
         // Filter out the current user from the list
         const filteredData = response.data.filter((person) => person._id !== user._id);
         setPeopleData(filteredData);
+        console.log(peopleData)
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
   }, []);
 
-  const convertImageBufferToBase64 = (imageBuffer) => {
-    if (!imageBuffer) {
-      return null;
-    }
-    const base64String = Buffer.from(imageBuffer).toString("base64");
-    return `data:image/jpeg;base64,${base64String}`;
-  };
 
   const handleFollow = (userId) => {
     const loggedInUserId = user._id;
@@ -77,7 +71,7 @@ const Peopleyouwanttoknow = () => {
             >
               <div style={{ display: "flex", justifyContent: "space-evenly" }}>
                 <img
-                  src={convertImageBufferToBase64(person.image.data)}
+                  src={person.image}
                   alt="User Profile"
                   className="Dashboardprofilephoto"
                 />

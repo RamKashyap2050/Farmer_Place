@@ -6,6 +6,7 @@ const nodemailer = require("nodemailer");
 const Feedback = require("../models/FeedbackModal");
 const Report = require("../models/ReportModel");
 const Comment = require("../models/commentModel");
+const { uploadImageToS3 } = require("../AWS_S3/s3");
 
 //Function that enables us to Signup
 const registerUser = asyncHandler(async (req, res) => {
@@ -24,13 +25,14 @@ const registerUser = asyncHandler(async (req, res) => {
 
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
+  const imageUrl = await uploadImageToS3(image);
 
   const user = await Users.create({
     user_name,
     phone,
     email,
     password: hashedPassword,
-    image: image,
+    image: imageUrl,
   });
 
   if (!user) {

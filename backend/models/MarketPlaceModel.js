@@ -1,32 +1,30 @@
-const { Int32 } = require('bson')
-const mongoose = require('mongoose')
+const { Int32 } = require("bson");
+const mongoose = require("mongoose");
 
-const marketplaceSchema = mongoose.Schema({
-    
-    user:{
-          type: mongoose.Schema.Types.ObjectId,
-          required: true,
-          ref: 'Users',
-        },
+const marketplaceSchema = mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Users",
+    },
     product_name: {
-        type: String,
-        required: [true, 'Please enter a Title']
+      type: String,
+      required: [true, "Please enter a Title"],
     },
     product_price: {
-        type: String,
-        required: [true, 'Please enter Price']
+      type: String,
+      required: [true, "Please enter Price"],
     },
     product_description: {
-        type: String,
-        required: [true, 'Please enter Content']
+      type: String,
+      required: [true, "Please enter Content"],
     },
     product_image: {
-        data:Buffer,
-        ContentType: String
+      type: String,
     },
-},
-{   collection: 'MarketPlace',
-    timestamp: true
-}) 
+  },
+  { collection: "MarketPlace", timestamp: true }
+);
 
-module.exports = mongoose.model('MarketPlace', marketplaceSchema)
+module.exports = mongoose.model("MarketPlace", marketplaceSchema);

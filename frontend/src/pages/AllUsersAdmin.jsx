@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import "../styles/AllUsersAdmin.css";
 import HeaderforAdmin from "../components/HeaderforAdmin";
 import Footer from "../components/Footer";
-import { Buffer } from "buffer";
 import { toast } from "react-toastify";
 
 const AllUsersAdmin = () => {
@@ -37,16 +35,6 @@ const AllUsersAdmin = () => {
     toast.success("Unblocked succesfully");
   };
 
-  const imageUrls = results.map((user) => {
-    const imageBuffer = user?.image?.data;
-    if (!imageBuffer) {
-      return null;
-    }
-    const base64String = Buffer.from(imageBuffer).toString("base64");
-    const imageUrl = `data:image/jpeg;base64,${base64String}`;
-    return imageUrl;
-  });
-
   return (
     <>
       <HeaderforAdmin />
@@ -68,19 +56,13 @@ const AllUsersAdmin = () => {
             <tbody>
               {results.map((val, key) => (
                 <tr key={key}>
-                  {imageUrls.map((imageUrl, index) =>
-                    index === key ? (
-                      <td key={index}>
-                        {imageUrl && (
-                          <img
-                            className="Dashboardprofilephoto"
-                            src={imageUrl}
-                            alt="User profile"
-                          />
-                        )}
-                      </td>
-                    ) : null
-                  )}
+                  <td>
+                    <img
+                      className="Dashboardprofilephoto"
+                      src={val.image}
+                      alt="User profile"
+                    />
+                  </td>
                   <td>{val.user_name}</td>
                   <td>{val.email}</td>
                   <td>{val.phone}</td>

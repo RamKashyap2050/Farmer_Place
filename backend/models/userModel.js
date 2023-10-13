@@ -1,34 +1,33 @@
-const { Int32 } = require('bson')
-const mongoose = require('mongoose')
+const { Int32 } = require("bson");
+const mongoose = require("mongoose");
 
-const userSchema = mongoose.Schema({
+const userSchema = mongoose.Schema(
+  {
     user_name: {
-        type: String,
-        required: [true, 'Please enter your first name']
+      type: String,
+      required: [true, "Please enter your first name"],
     },
     phone: {
-        type: String,
-        required: [true, 'Please enter your phone']
+      type: String,
+      required: [true, "Please enter your phone"],
     },
     email: {
-        type: String,
-        required: [true, 'Please enter your email']
+      type: String,
+      required: [true, "Please enter your email"],
     },
     password: {
-        type: String,
-        required: [true, 'Please enter your password']
+      type: String,
+      required: [true, "Please enter your password"],
     },
     image: {
-        data:Buffer,
-        ContentType: String
+      type: String,
     },
     AccountStatus: {
-        type: Boolean,
-        default: true
-    }
-},
-{   collection: 'Users',
-    timestamp: true
-}) 
+      type: Boolean,
+      default: true,
+    },
+  },
+  { collection: "Users", timestamp: true }
+);
 
-module.exports = mongoose.model('Users', userSchema)
+module.exports = mongoose.model("Users", userSchema);
