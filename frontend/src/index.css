@@ -146,3 +146,11 @@ td{
     margin-bottom: 1rem; /* Add spacing between cards on mobile */
   }
 }
+
+.fewpeopleprofilephoto{
+  width: 100px;
+  height: 100px;
+  margin: auto;
+  text-align: center;
+  border-radius: 50%;
+  }

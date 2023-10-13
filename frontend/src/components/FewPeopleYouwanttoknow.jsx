@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux"; // Assuming you are using Redux for state management
 import { useNavigate } from "react-router-dom"; // Assuming you are using React Router
 import Axios from "axios";
-import HeaderforUser from "./HeaderforUser";
-import Footer from "./Footer";
-
-const Peopleyouwanttoknow = () => {
+import { FaArrowRight } from "react-icons/fa";
+const FewPeopleYouwanttoknow = () => {
   const [peopleData, setPeopleData] = useState([]);
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
@@ -46,27 +44,32 @@ const Peopleyouwanttoknow = () => {
       });
   };
 
+  const onpeoplewantoknow = () => {
+    if (!user) {
+      navigate("/loginuser");
+    } else {
+      navigate("/followers");
+    }
+  };
   return (
     <div>
-      <HeaderforUser />
       <div className="ml-4 p-4" style={{ marginLeft: "2rem", padding: "3rem" }}>
         <h4
           style={{
-            marginBottom: "4rem",
             fontStyle: "italic",
             fontFamily: "cursive",
           }}
         >
           People You may want to know
         </h4>
-        <div className="row">
+        <div className="row d-flex" style={{justifyContent:"space-around"}}>
           {peopleData.map((person) => (
             <div className="col-md-4" key={person.id}>
               <div className="card">
                 <img
                   src={person.image}
                   alt="User Profile"
-                  className="card-img-top profilephoto"
+                  className="card-img-top fewpeopleprofilephoto"
                 />
                 <div className="card-body">
                   <h5
@@ -74,8 +77,8 @@ const Peopleyouwanttoknow = () => {
                     style={{
                       margin: "0 auto",
                       padding: "10px",
-                      justifyContent:"center",
-                      alignItems:"center"
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
                   >
                     {person.user_name}
@@ -91,11 +94,19 @@ const Peopleyouwanttoknow = () => {
               </div>
             </div>
           ))}
+       <div className="col-md-4">
+       <button
+              className="btn btn-link" // Use btn-link class to remove default button styles
+              onClick={onpeoplewantoknow}
+            >
+              <FaArrowRight />
+            </button>
+       </div>
+            
         </div>
       </div>
-      <Footer />
     </div>
   );
 };
 
-export default Peopleyouwanttoknow;
+export default FewPeopleYouwanttoknow;

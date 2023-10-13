@@ -16,8 +16,7 @@ import {
 import Skeleton from "@mui/material/Skeleton";
 import { ToastContainer, toast } from "react-toastify";
 import NoResultsFound from "./NoResultsFound";
-import Peopleyouwanttoknow from "./Peopleyouwanttoknow";
-
+import FewPeopleYouwanttoknow from "./FewPeopleYouwanttoknow";
 
 const AllUserPostFeedforUser = () => {
   const [results, setResults] = useState([]);
@@ -165,8 +164,12 @@ const AllUserPostFeedforUser = () => {
         filteredResults
           .slice()
           .reverse()
-          .map((val, key) =>
-            val.FeedStatus == true ? (
+          .map((val, key) => (
+            <>
+             {key !== 0 && key % 2 === 0 && (
+                <FewPeopleYouwanttoknow />
+              )}
+              {/* val.FeedStatus == true ? ( */}
               <div key={key} className="Feedpage">
                 <h1
                   style={{ display: "flex", justifyContent: "space-between" }}
@@ -331,8 +334,9 @@ const AllUserPostFeedforUser = () => {
                   </>
                 )}
               </div>
-            ) : null
-          )
+              {/* ) : null */}
+            </>
+          ))
       ) : (
         <Box sx={{ pt: 0.5 }}>
           <div
