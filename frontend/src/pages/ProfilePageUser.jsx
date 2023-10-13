@@ -70,6 +70,13 @@ function ProfilePageUser() {
       navigate("/checkuserfollowers");
     }
   };
+  const onManageFollowing = () => {
+    if (!user) {
+      navigate("/loginuser");
+    } else {
+      navigate("/checkuserfollowing");
+    }
+  };
 
   console.log("user: ", user);
 
@@ -105,6 +112,13 @@ function ProfilePageUser() {
               className="btn1 btn-secondary btn-block mb-2"
             >
               View your Followers&nbsp;&nbsp;
+              <FaUserFriends />
+            </button>
+            <button
+              onClick={onManageFollowing}
+              className="btn1 btn-secondary btn-block mb-2"
+            >
+              View your Following&nbsp;&nbsp;
               <FaUserFriends />
             </button>
             <button

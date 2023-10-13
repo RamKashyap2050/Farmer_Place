@@ -8,7 +8,6 @@ import { ToastContainer, toast } from "react-toastify";
 import AllUserPostFeedforUser from "../components/AllUserPostFeedforUser";
 import FewMarketPlaceProducts from "../components/FewMarketPlaceProducts";
 import { FaImage } from "react-icons/fa";
-
 const Feedpage = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);

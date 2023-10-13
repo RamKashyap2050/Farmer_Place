@@ -5,7 +5,7 @@ import axios from "axios";
 import HeaderforUser from "../components/HeaderforUser";
 import Footer from "../components/Footer";
 
-const ManageFollowers = () => {
+const ManageFollowing = () => {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const [followers, setFollowers] = useState([]);
@@ -15,17 +15,17 @@ const ManageFollowers = () => {
     if (!user) {
       navigate("/loginuser");
     } else {
-      // Make Axios GET requests to fetch both followers and following data
+ 
       axios
-        .get(`/Follow/getfollowersforuser/${user._id}`)
+        .get(`/Follow/getfollowingforuser/${user._id}`)
         .then((response) => {
-          // Assuming the response is an array of followers
-          const fetchedFollowers = response.data.followers;
-          setFollowers(fetchedFollowers);
+          // Assuming the response is an array of following users
+          const fetchedFollowing = response.data.followers;
+          setFollowing(fetchedFollowing);
         })
         .catch((error) => {
           // Handle errors here
-          console.error("Error fetching followers:", error);
+          console.error("Error fetching following:", error);
         });
     }
   }, [user, navigate]);
@@ -34,27 +34,22 @@ const ManageFollowers = () => {
     <>
       <HeaderforUser />
       <div>
-        {/* Display the Followers */}
+        {/* Display the Following */}
         <div>
-          <h2>Followers</h2>
-          {followers.map((follower) => (
+          <h2>Following</h2>
+          {following.map((follower) => (
             <div
               key={follower._id}
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                padding: "1rem",
-              }}
+              style={{ display: "flex", justifyContent: "space-between", padding: "1rem" }}
             >
               <div style={{ display: "flex", alignItems: "center" }}>
                 <img
-                  src={follower.followed_by_ID.image}
+                  src={follower.following_to_ID.image}
                   className="Dashboardprofilephoto"
                 />
-                <p>{follower.followed_by_ID.user_name}</p>
+                <p>{follower.following_to_ID.user_name}</p>&nbsp;&nbsp;&nbsp;&nbsp;
               </div>
-
-              <button className="btn btn-danger btm-sm">Remove</button>
+              <button className="btn btn-primary btm-sm">Unfollow</button>
             </div>
           ))}
         </div>
@@ -64,4 +59,4 @@ const ManageFollowers = () => {
   );
 };
 
-export default ManageFollowers;
+export default ManageFollowing;

@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom"; // Assuming you are using React 
 import Axios from "axios";
 import HeaderforUser from "./HeaderforUser";
 import Footer from "./Footer";
-import { Buffer } from "buffer";
 
 const Peopleyouwanttoknow = () => {
   const [peopleData, setPeopleData] = useState([]);

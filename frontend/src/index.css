@@ -138,3 +138,11 @@ td{
   max-width: 400px;
   margin-right: auto;
 } */
+
+/* CSS */
+@media (max-width: 767px) {
+  .follower-card {
+    flex-direction: column; /* Stack cards on mobile screens */
+    margin-bottom: 1rem; /* Add spacing between cards on mobile */
+  }
+}

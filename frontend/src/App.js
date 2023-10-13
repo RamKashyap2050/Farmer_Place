@@ -23,6 +23,7 @@ import EditYourProfile from "./pages/Edityourprofile";
 import CheckoutFeedbacks from "./pages/CheckoutFeedbacks";
 import Peopleyouwanttoknow from "./components/Peopleyouwanttoknow";
 import ManageFollowers from "./pages/ManageFollowers";
+import ManageFollowing from "./pages/ManageFollowing";
 function App() {
   return (
     <>
@@ -65,6 +66,7 @@ function App() {
             <Route path="/cehckoutfeedbacks" element={<CheckoutFeedbacks />} />
             <Route path="/followers" element={<Peopleyouwanttoknow />} />
             <Route path='/checkuserfollowers' element={<ManageFollowers />} />
+            <Route path='/checkuserfollowing' element={<ManageFollowing />} />
           </Routes>
         </div>
       </Router>

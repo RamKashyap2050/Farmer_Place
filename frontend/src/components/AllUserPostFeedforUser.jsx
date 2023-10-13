@@ -16,6 +16,8 @@ import {
 import Skeleton from "@mui/material/Skeleton";
 import { ToastContainer, toast } from "react-toastify";
 import NoResultsFound from "./NoResultsFound";
+import Peopleyouwanttoknow from "./Peopleyouwanttoknow";
+
 
 const AllUserPostFeedforUser = () => {
   const [results, setResults] = useState([]);
