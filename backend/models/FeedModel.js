@@ -38,7 +38,11 @@ const feedSchema = mongoose.Schema({
           ref: 'Users'
         },
         comment: String
-      }]
+      }],
+      archieved: {
+        type: Boolean,
+        default: false
+    }
 },
 {   collection: 'Feed',
     timestamp: true

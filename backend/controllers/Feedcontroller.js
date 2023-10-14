@@ -16,9 +16,8 @@ const getallposts = asyncHandler(async (req, res) => {
       },
     })
     .select(
-      "title content user post_image FeedStatus liked_by disliked_by comments"
+      "title content user post_image FeedStatus liked_by disliked_by comments archieved"
     );
-
   const responseSize = JSON.stringify(getallposts).length;
 
   console.log(`Data size of the response: ${responseSize} bytes`);
@@ -155,6 +154,16 @@ const getUserNames = asyncHandler(async (req, res) => {
   res.json(userNames);
 });
 
+const archivepost = asyncHandler(async(req,res) => {
+  const post = req.params.post
+  console.log(post)
+  const feed = await Feed.findByIdAndUpdate(
+    post,
+    {archieved: true},
+    {new: true}
+  )
+})
+
 module.exports = {
   getFeed,
   setFeedPost,
@@ -164,4 +173,5 @@ module.exports = {
   makedisLikes,
   getUserNames,
   makeComment,
+  archivepost
 };

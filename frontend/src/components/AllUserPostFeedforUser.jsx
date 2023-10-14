@@ -12,6 +12,7 @@ import {
   FaThumbsUp,
   FaThumbsDown,
   FaTrash,
+  FaArchive,
 } from "react-icons/fa";
 import Skeleton from "@mui/material/Skeleton";
 import { ToastContainer, toast } from "react-toastify";
@@ -83,6 +84,19 @@ const AllUserPostFeedforUser = () => {
     toast.success("Thanks for letting us know");
   };
 
+  const handleArchive = (post) => {
+    console.log(post)
+    Axios.put(`/Feed/archive/${post}`)
+      .then(response => {
+        // Handle the response if needed
+        console.log('PUT request successful:', response.data);
+      })
+      .catch(error => {
+        // Handle any errors that occur during the request
+        console.error('Error sending PUT request:', error);
+      });
+  };
+  
   const handleLikes = (post) => {
     Axios.post(`/Feed/${post._id}/likes`, {
       postId: post._id,
@@ -164,23 +178,27 @@ const AllUserPostFeedforUser = () => {
         filteredResults
           .slice()
           .reverse()
-          .map((val, key) => (
-            <>
-             {key !== 0 && key % 2 === 0 && (
-                <FewPeopleYouwanttoknow />
-              )}
-              {/* val.FeedStatus == true ? ( */}
+          .map((val, key) =>
+            val.FeedStatus == true && val.archieved == false ? (
               <div key={key} className="Feedpage">
+                {key !== 0 && key % 3 === 0 && <FewPeopleYouwanttoknow />}
                 <h1
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
                   {val.title}
-                  {val.user.user_name !== user.user_name && (
+                  {val.user.user_name !== user.user_name ? (
                     <button
                       className="btn btn-warning"
                       onClick={() => handleReport(val)}
                     >
                       Report <FaExclamationTriangle />
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => handleArchive(val._id)}
+                    >
+                      Archive <FaArchive />
                     </button>
                   )}
                 </h1>
@@ -334,9 +352,8 @@ const AllUserPostFeedforUser = () => {
                   </>
                 )}
               </div>
-              {/* ) : null */}
-            </>
-          ))
+            ) : null
+          )
       ) : (
         <Box sx={{ pt: 0.5 }}>
           <div

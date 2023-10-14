@@ -1,6 +1,6 @@
 const express = require('express');
 const protect = require('../middlewares/protect')
-const { getFeed,setFeedPost, deleteFeed, getallposts,makeLikes, getUserNames,makedisLikes, makeComment } = require('../controllers/Feedcontroller');
+const { getFeed,setFeedPost, deleteFeed, getallposts,makeLikes, getUserNames,makedisLikes, makeComment, archivepost } = require('../controllers/Feedcontroller');
 const router = express.Router()
 
 
@@ -13,4 +13,5 @@ router.route('/:postId/likes').post(makeLikes)
 router.route('/:postId/dislikes').post(makedisLikes)
 router.route('/userNames').get(getUserNames)
 router.route('/:postId/comment').post(makeComment)
+router.route('/archive/:post').put(archivepost)
 module.exports = router

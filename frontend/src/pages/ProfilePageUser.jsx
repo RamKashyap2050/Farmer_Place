@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, reset } from "../features/auth/authSlice";
+import { FaCamera } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import {
@@ -84,8 +85,13 @@ function ProfilePageUser() {
     <>
       <HeaderforUser />
       <div className="page">
-        <img className="profilephoto" src={user?.image} alt="User profile" />
-
+      <div className="profilephoto-container">
+          <img className="profilephoto" src={user?.image} alt="User profile" />
+          <div className="gray-overlay">
+            <div className="overlay-text">Change your profile picture</div>
+            <FaCamera className="camera-icon" />
+          </div>
+        </div>
         <div className="card">
           <h1 className="mb-4 p-3">Profile</h1>
           <br />

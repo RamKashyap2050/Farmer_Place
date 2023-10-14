@@ -51,21 +51,32 @@ const FewPeopleYouwanttoknow = () => {
       navigate("/followers");
     }
   };
+
+  const limitedPeopleData = peopleData.slice(0, 3);
+
   return (
     <div>
       <div className="ml-4 p-4" style={{ marginLeft: "2rem", padding: "3rem" }}>
+        <div className="d-flex" style={{ display:"flex", justifyContent:"space-between"}}>
         <h4
           style={{
             fontStyle: "italic",
             fontFamily: "cursive",
           }}
         >
-          People You may want to know
+          Suggested for you
         </h4>
+        <button
+              className="btn btn-link" // Use btn-link class to remove default button styles
+              onClick={onpeoplewantoknow}
+            >
+              <FaArrowRight />
+            </button>
+        </div>
         <div className="row d-flex" style={{justifyContent:"space-around"}}>
-          {peopleData.map((person) => (
+          {limitedPeopleData.map((person) => (
             <div className="col-md-4" key={person.id}>
-              <div className="card">
+              <div className="card cardinpeople">
                 <img
                   src={person.image}
                   alt="User Profile"
@@ -94,14 +105,7 @@ const FewPeopleYouwanttoknow = () => {
               </div>
             </div>
           ))}
-       <div className="col-md-4">
-       <button
-              className="btn btn-link" // Use btn-link class to remove default button styles
-              onClick={onpeoplewantoknow}
-            >
-              <FaArrowRight />
-            </button>
-       </div>
+     
             
         </div>
       </div>
