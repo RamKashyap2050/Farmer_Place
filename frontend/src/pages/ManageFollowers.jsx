@@ -9,7 +9,6 @@ const ManageFollowers = () => {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const [followers, setFollowers] = useState([]);
-  const [following, setFollowing] = useState([]);
 
   useEffect(() => {
     if (!user) {

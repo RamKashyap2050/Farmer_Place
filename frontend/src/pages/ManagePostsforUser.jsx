@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 import { Buffer } from "buffer";
-import { FaTrashAlt } from "react-icons/fa";
+import { FaArchive, FaTrashAlt, FaUndo } from "react-icons/fa";
 
 const ManagePostsforUser = () => {
   const navigate = useNavigate();
@@ -85,29 +85,43 @@ const ManagePostsforUser = () => {
           <div key={key} className="Feedpage">
             <h1 style={{ display: "flex", justifyContent: "space-between" }}>
               <span>{val.title}</span>
-              <button
-                className="btn btn-danger"
-                onClick={() => handleDelete(val._id)}
-              >
-                Delete <FaTrashAlt />
-              </button>
+              <div style={{ display: "flex" }}>
+                {val.archieved ? (
+                  <button
+                    className="btn btn-primary"
+                    style={{ margin: "2px" }}
+                    onClick={() => handleDelete(val._id)}
+                  >
+                    Archive <FaArchive />
+                  </button>
+                ) : (
+                  <button
+                    className="btn btn-secondary"
+                    style={{ margin: "2px" }}
+                    onClick={() => handleDelete(val._id)}
+                  >
+                    Unarchive <FaUndo />
+                  </button>
+                )}
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleDelete(val._id)}
+                >
+                  Delete <FaTrashAlt />
+                </button>
+              </div>
             </h1>
             <h5 style={{ fontStyle: "italic", fontWeight: "bold" }}>
-                <img
-                  src={val.user.image}
-                  alt="Post Image"
-                  className="Dashboardprofilephoto"
-                />
-          {" "}
+              <img
+                src={val.user.image}
+                alt="Post Image"
+                className="Dashboardprofilephoto"
+              />{" "}
               &nbsp;&nbsp;{val.user_name}
             </h5>
             <p>{val.content}</p>
-            
-              <img
-                src={val.post_image}
-                alt="Post Image"
-                className="feedimage"
-              />
+
+            <img src={val.post_image} alt="Post Image" className="feedimage" />
           </div>
           <br />
           <br />

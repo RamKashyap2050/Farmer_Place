@@ -7,6 +7,8 @@ const Feedback = require("../models/FeedbackModal");
 const Report = require("../models/ReportModel");
 const Comment = require("../models/commentModel");
 const { uploadImageToS3 } = require("../AWS_S3/s3");
+const Feed = require("../models/FeedModel")
+
 
 //Function that enables us to Signup
 const registerUser = asyncHandler(async (req, res) => {
@@ -185,6 +187,28 @@ const StoreFeedback = asyncHandler(async (req, res) => {
   });
 });
 
+const showresultsforoneuser = asyncHandler(async(req,res) => {
+  const id = req.params.id
+  console.log(id)
+  const showresultsforoneuser = await Feed.find({user:id})
+  .populate("user", "user_name image AccountStatus archieved")
+  .select("title content user post_image");
+  res.status(200).json(showresultsforoneuser);
+})
+
+const getuserinsearch = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+  console.log(id)
+  
+  const getuserinsearch = await Users.findOne({ _id: id });
+  console.log(getuserinsearch)
+  if (!getuserinsearch) {
+    res.status(404).json({ message: 'User not found' });
+  } else {
+    res.status(200).json(getuserinsearch);
+  }
+});
+
 //To Generate Tokens
 const generateToken = async (id) => {
   return await jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -200,4 +224,6 @@ module.exports = {
   getAllusers,
   StoreFeedback,
   ReportedPost,
+  showresultsforoneuser,
+  getuserinsearch
 };

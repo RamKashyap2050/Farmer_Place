@@ -1,16 +1,31 @@
-const express = require("express")
-const router = express.Router()
-const {registerUser, loginUser, deleteUser, StoreFeedback, ReportedPost, updateUserProfile} = require("../controllers/UserController")
-const { changepassword, forgotpassword, sendpasswordlink } = require("../controllers/forgotpassword")
-const protect = require('../middlewares/protect')
+const express = require("express");
+const router = express.Router();
+const {
+  registerUser,
+  loginUser,
+  deleteUser,
+  StoreFeedback,
+  ReportedPost,
+  updateUserProfile,
+  showresultsforoneuser,
+  getuserinsearch
+} = require("../controllers/UserController");
+const {
+  changepassword,
+  forgotpassword,
+  sendpasswordlink,
+} = require("../controllers/forgotpassword");
+const protect = require("../middlewares/protect");
 
-router.route('/register/').post(registerUser)
-router.route('/login/').post(loginUser)
-router.route('/sendpasswordlink/').post(sendpasswordlink)
-router.route('/forgotpassword/:id/:token').get(forgotpassword)
-router.route('/:id/:token').post(changepassword)
-router.route('/delete/:id').delete(protect,deleteUser)
-router.route('/feedback').post(protect,StoreFeedback)
-router.route('/report').post(ReportedPost)
-router.route('/updateuser/:userID').put(updateUserProfile)
-module.exports = router
+router.route("/register/").post(registerUser);
+router.route("/login/").post(loginUser);
+router.route("/sendpasswordlink/").post(sendpasswordlink);
+router.route("/forgotpassword/:id/:token").get(forgotpassword);
+router.route("/:id/:token").post(changepassword);
+router.route("/delete/:id").delete(protect, deleteUser);
+router.route("/feedback").post(protect, StoreFeedback);
+router.route("/report").post(ReportedPost);
+router.route("/updateuser/:userID").put(updateUserProfile);
+router.route("/getOneUserforSearch/:id").get(showresultsforoneuser)
+router.route("/getuser/:id").get(getuserinsearch)
+module.exports = router;

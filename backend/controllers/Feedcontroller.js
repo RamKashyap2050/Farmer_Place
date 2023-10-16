@@ -28,7 +28,7 @@ const getallposts = asyncHandler(async (req, res) => {
 //To get posts of one user
 const getFeed = asyncHandler(async (req, res) => {
   const feed = await Feed.find({ user: req.user.id })
-    .populate("user", "user_name image AccountStatus")
+    .populate("user", "user_name image AccountStatus archieved")
     .select("title content user post_image");
 
   res.status(200).json(feed);

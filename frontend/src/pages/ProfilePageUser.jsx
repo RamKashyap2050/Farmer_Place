@@ -85,11 +85,13 @@ function ProfilePageUser() {
     <>
       <HeaderforUser />
       <div className="page">
-      <div className="profilephoto-container">
+        <div className="profilephoto-container">
           <img className="profilephoto" src={user?.image} alt="User profile" />
           <div className="gray-overlay">
-            <div className="overlay-text">Change your profile picture</div>
-            <FaCamera className="camera-icon" />
+            <div className="overlay-text">
+              {" "}
+              <FaCamera /> <br/>Change your profile picture
+            </div>
           </div>
         </div>
         <div className="card">

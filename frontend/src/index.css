@@ -159,4 +159,7 @@ td{
     width: 200px;
     border: 2px solid #dee2e6; /* Border style, you can change the color and size */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-  }
+  }.feedimage{
+    width: 100%;
+    height: 50%;
+}

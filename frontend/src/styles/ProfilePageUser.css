@@ -54,11 +54,11 @@
   }
   
   /* Style for the camera icon (hidden by default) */
-  .camera-icon {
+  /* .camera-icon {
     opacity: 0;
     transition: opacity 0.2s ease-in-out;
     
-  }
+  } */
 
   
   .profilephoto-container:hover .gray-overlay {

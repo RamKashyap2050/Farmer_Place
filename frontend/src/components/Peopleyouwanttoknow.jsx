@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"; // Assuming you are using React 
 import Axios from "axios";
 import HeaderforUser from "./HeaderforUser";
 import Footer from "./Footer";
+import { Link } from "react-router-dom";
 
 const Peopleyouwanttoknow = () => {
   const [peopleData, setPeopleData] = useState([]);
@@ -63,12 +64,15 @@ const Peopleyouwanttoknow = () => {
           {peopleData.map((person) => (
             <div className="col-md-4" key={person.id}>
               <div className="card">
+                <Link to={`/profile/${person._id}`}>
                 <img
                   src={person.image}
                   alt="User Profile"
                   className="card-img-top profilephoto"
                 />
+                </Link>
                 <div className="card-body">
+                  <Link to={`/profile/${person._id}`}>
                   <h5
                     className="card-title"
                     style={{
@@ -80,6 +84,7 @@ const Peopleyouwanttoknow = () => {
                   >
                     {person.user_name}
                   </h5>
+                  </Link>
                   <button
                     className="btn btn-primary btn-md"
                     style={{ width: "100%" }}
