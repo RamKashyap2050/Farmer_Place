@@ -8,11 +8,15 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+import { width } from "@mui/system";
 
 const IndividualProfilePageUser = () => {
   const { id } = useParams();
   const [postData, setPostData] = useState([]);
   const [userData, setUserData] = useState(null); // Initialize as null
+  const [following, setFollowing] = useState([]);
+  const [followers, setFollowers] = useState([]);
 
   useEffect(() => {
     const backendURL = `/Users/getOneUserforSearch/${id}`;
@@ -40,26 +44,66 @@ const IndividualProfilePageUser = () => {
       });
   }, [id]);
 
-  
+  useEffect(() => {
+    axios
+      .get(`/Follow/getfollowersforuser/${id}`)
+      .then((response) => {
+        const fetchedFollowers = response.data.followers;
+        setFollowers(fetchedFollowers);
+      })
+      .catch((error) => {
+        console.error("Error fetching followers:", error);
+      });
+  }, [id]);
+
+  useEffect(() => {
+    axios
+      .get(`/Follow/getfollowingforuser/${id}`)
+      .then((response) => {
+        const fetchedFollowing = response.data.followers;
+        setFollowing(fetchedFollowing);
+      })
+      .catch((error) => {
+        console.error("Error fetching following:", error);
+      });
+  }, [id]);
 
   return (
     <div>
       <HeaderforUser />
       {userData && (
-        <Card className="card">
-          <CardMedia
-            alt={userData.user_name}
-            image={userData.image}
-            className="profilephoto"
-          />
-          <CardContent>
-            <Typography variant="h5" component="div">
-              {userData.user_name}
-            </Typography>
-            <Button variant="contained" color="primary">
-              Follow
-            </Button>
-          </CardContent>
+        <Card className="cardinindividual">
+          <div style={{ display: "flex", justifyContent: "space-around" }}>
+            <div>
+              <CardMedia
+                alt={userData.user_name}
+                image={userData.image}
+                className="profilephoto"
+              />
+              <CardContent>
+                <Typography variant="h5" component="div">
+                  {userData.user_name} 
+                </Typography>
+              </CardContent>
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <div style={{ marginRight: "16px" }}>
+                <h2>{postData.length}</h2>
+                <h6>Posts</h6>
+              </div>
+              <div style={{ marginRight: "16px" }}>
+                <h2>{followers.length}</h2>
+                <h6>Followers</h6>
+              </div>
+              <div style={{ marginRight: "16px" }}>
+                <h2>{following.length}</h2>
+                <h6>Following</h6>
+              </div>
+            </div>
+          </div>
+          <button className="btn btn-primary btn-block" style={{ maxWidth: "100%" }}>
+            Follow
+          </button>
         </Card>
       )}
 

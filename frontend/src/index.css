@@ -163,3 +163,12 @@ td{
     width: 100%;
     height: 50%;
 }
+.cardinindividual{
+    max-width: 500px;
+    margin: 5rem auto;
+    text-align: center;
+    border: none !important;
+    padding: 20px;
+    border-radius: 3%;
+    
+}

@@ -3,6 +3,8 @@ import { useSelector } from "react-redux"; // Assuming you are using Redux for s
 import { useNavigate } from "react-router-dom"; // Assuming you are using React Router
 import Axios from "axios";
 import { FaArrowRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
+
 const FewPeopleYouwanttoknow = () => {
   const [peopleData, setPeopleData] = useState([]);
   const { user } = useSelector((state) => state.auth);
@@ -57,31 +59,36 @@ const FewPeopleYouwanttoknow = () => {
   return (
     <div>
       <div className="ml-4 p-4" style={{ marginLeft: "2rem", padding: "3rem" }}>
-        <div className="d-flex" style={{ display:"flex", justifyContent:"space-between"}}>
-        <h4
-          style={{
-            fontStyle: "italic",
-            fontFamily: "cursive",
-          }}
+        <div
+          className="d-flex"
+          style={{ display: "flex", justifyContent: "space-between" }}
         >
-          Suggested for you
-        </h4>
-        <button
-              className="btn btn-link" // Use btn-link class to remove default button styles
-              onClick={onpeoplewantoknow}
-            >
-              <FaArrowRight />
-            </button>
+          <h4
+            style={{
+              fontStyle: "italic",
+              fontFamily: "cursive",
+            }}
+          >
+            Suggested for you
+          </h4>
+          <button
+            className="btn btn-link" // Use btn-link class to remove default button styles
+            onClick={onpeoplewantoknow}
+          >
+            <FaArrowRight />
+          </button>
         </div>
-        <div className="row d-flex" style={{justifyContent:"space-around"}}>
+        <div className="row d-flex" style={{ justifyContent: "space-around" }}>
           {limitedPeopleData.map((person) => (
             <div className="col-md-4" key={person.id}>
               <div className="card cardinpeople">
-                <img
-                  src={person.image}
-                  alt="User Profile"
-                  className="card-img-top fewpeopleprofilephoto"
-                />
+                <Link to={`/profile/${person._id}`}>
+                  <img
+                    src={person.image}
+                    alt="User Profile"
+                    className="card-img-top fewpeopleprofilephoto"
+                  />
+                </Link>
                 <div className="card-body">
                   <h5
                     className="card-title"
@@ -105,8 +112,6 @@ const FewPeopleYouwanttoknow = () => {
               </div>
             </div>
           ))}
-     
-            
         </div>
       </div>
     </div>
