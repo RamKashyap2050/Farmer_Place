@@ -7,9 +7,8 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import Avatar from "@mui/material/Avatar";
-import { width } from "@mui/system";
+import { MdVerified } from "react-icons/md";
+import PrivateAccount from "../components/PrivateAccount";
 
 const IndividualProfilePageUser = () => {
   const { id } = useParams();
@@ -17,7 +16,7 @@ const IndividualProfilePageUser = () => {
   const [userData, setUserData] = useState(null); // Initialize as null
   const [following, setFollowing] = useState([]);
   const [followers, setFollowers] = useState([]);
-
+  const [showContent, setShowContent] = useState(false);
   useEffect(() => {
     const backendURL = `/Users/getOneUserforSearch/${id}`;
 
@@ -68,6 +67,14 @@ const IndividualProfilePageUser = () => {
       });
   }, [id]);
 
+  const OnFollow = () => {
+   if(showContent == true ){
+    setShowContent(false)
+   }
+   else{
+    setShowContent(true)
+   }
+  };
   return (
     <div>
       <HeaderforUser />
@@ -82,7 +89,7 @@ const IndividualProfilePageUser = () => {
               />
               <CardContent>
                 <Typography variant="h5" component="div">
-                  {userData.user_name} 
+                  {userData.user_name} <MdVerified />
                 </Typography>
               </CardContent>
             </div>
@@ -101,21 +108,36 @@ const IndividualProfilePageUser = () => {
               </div>
             </div>
           </div>
-          <button className="btn btn-primary btn-block" style={{ maxWidth: "100%" }}>
+         {showContent ? ( <button
+            className="btn btn-secondary btn-block"
+            style={{ maxWidth: "100%" }}
+            onClick={OnFollow}
+          >
+            Following
+          </button>):( <button
+            className="btn btn-primary btn-block"
+            style={{ maxWidth: "100%" }}
+            onClick={OnFollow}
+          >
             Follow
-          </button>
+          </button>)}
         </Card>
       )}
 
-      <div>
-        {postData.map((item) => (
-          <div key={item._id} className="Feedpage">
-            <h3>{item.title}</h3>
-            <p>{item.content}</p>
-            <img src={item.post_image} className="feedimage" alt="Post Image" />
+     {
+        showContent? (
+            <div>
+            {postData.map((item) => (
+              <div key={item._id} className="Feedpage">
+                <h3>{item.title}</h3>
+                <p>{item.content}</p>
+                <img src={item.post_image} className="feedimage" alt="Post Image" />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        ):
+        (<PrivateAccount />)
+     }
 
       <Footer />
     </div>
