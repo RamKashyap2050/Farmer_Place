@@ -25,6 +25,7 @@ import Peopleyouwanttoknow from "./components/Peopleyouwanttoknow";
 import ManageFollowers from "./pages/ManageFollowers";
 import ManageFollowing from "./pages/ManageFollowing";
 import IndividualProfilePageUser from "./pages/IndividualProfilePageUser";
+import ViewIndividualUserFollowersandFollowing from "./pages/ViewIndividualUserFollowersandFollowing";
 function App() {
   return (
     <>
@@ -69,6 +70,7 @@ function App() {
             <Route path='/checkuserfollowers' element={<ManageFollowers />} />
             <Route path='/checkuserfollowing' element={<ManageFollowing />} />
             <Route path="/profile/:id" element={<IndividualProfilePageUser />} />
+            <Route path='/profile/:id/viewfollowers' element={<ViewIndividualUserFollowersandFollowing />} />
           </Routes>
         </div>
       </Router>

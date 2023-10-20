@@ -172,3 +172,17 @@ td{
     border-radius: 3%;
     
 }
+#custom-link{
+  text-decoration: none;
+}
+#custom-link:hover{
+  color: black;
+
+}
+#custom-link2{
+  text-decoration: none;
+}
+#custom-link2:hover{
+  color: black;
+
+}

@@ -9,6 +9,8 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { MdVerified } from "react-icons/md";
 import PrivateAccount from "../components/PrivateAccount";
+import NoPosts from "../components/NoPosts";
+import { Link } from "react-router-dom";
 
 const IndividualProfilePageUser = () => {
   const { id } = useParams();
@@ -17,6 +19,8 @@ const IndividualProfilePageUser = () => {
   const [following, setFollowing] = useState([]);
   const [followers, setFollowers] = useState([]);
   const [showContent, setShowContent] = useState(false);
+  console.log(postData);
+
   useEffect(() => {
     const backendURL = `/Users/getOneUserforSearch/${id}`;
 
@@ -68,12 +72,11 @@ const IndividualProfilePageUser = () => {
   }, [id]);
 
   const OnFollow = () => {
-   if(showContent == true ){
-    setShowContent(false)
-   }
-   else{
-    setShowContent(true)
-   }
+    if (showContent == true) {
+      setShowContent(false);
+    } else {
+      setShowContent(true);
+    }
   };
   return (
     <div>
@@ -98,46 +101,69 @@ const IndividualProfilePageUser = () => {
                 <h2>{postData.length}</h2>
                 <h6>Posts</h6>
               </div>
-              <div style={{ marginRight: "16px" }}>
-                <h2>{followers.length}</h2>
-                <h6>Followers</h6>
-              </div>
-              <div style={{ marginRight: "16px" }}>
-                <h2>{following.length}</h2>
-                <h6>Following</h6>
-              </div>
+              <Link
+                to={`/profile/${userData._id}/viewfollowers`}
+                className="custom-link"
+                id="custom-link2"
+              >
+                <div style={{ marginRight: "16px" }}>
+                  <h2>{followers.length}</h2>
+                  <h6>Followers</h6>
+                </div>
+              </Link>
+              <Link
+                to={`/profile/${userData._id}/viewfollowers`}
+                className="custom-link"
+                id="custom-link"
+              >
+                <div style={{ marginRight: "16px" }}>
+                  <h2>{following.length}</h2>
+                  <h6>Following</h6>
+                </div>
+              </Link>
             </div>
           </div>
-         {showContent ? ( <button
-            className="btn btn-secondary btn-block"
-            style={{ maxWidth: "100%" }}
-            onClick={OnFollow}
-          >
-            Following
-          </button>):( <button
-            className="btn btn-primary btn-block"
-            style={{ maxWidth: "100%" }}
-            onClick={OnFollow}
-          >
-            Follow
-          </button>)}
+          {showContent ? (
+            <button
+              className="btn btn-secondary btn-block"
+              style={{ maxWidth: "100%" }}
+              onClick={OnFollow}
+            >
+              Following
+            </button>
+          ) : (
+            <button
+              className="btn btn-primary btn-block"
+              style={{ maxWidth: "100%" }}
+              onClick={OnFollow}
+            >
+              Follow
+            </button>
+          )}
         </Card>
       )}
 
-     {
-        showContent? (
-            <div>
-            {postData.map((item) => (
+      {showContent ? (
+        <div style={{ marginBottom: "6rem" }}>
+          {postData.length > 0 ? (
+            postData.map((item) => (
               <div key={item._id} className="Feedpage">
                 <h3>{item.title}</h3>
                 <p>{item.content}</p>
-                <img src={item.post_image} className="feedimage" alt="Post Image" />
+                <img
+                  src={item.post_image}
+                  className="feedimage"
+                  alt="Post Image"
+                />
               </div>
-            ))}
-          </div>
-        ):
-        (<PrivateAccount />)
-     }
+            ))
+          ) : (
+            <NoPosts />
+          )}
+        </div>
+      ) : (
+        <PrivateAccount />
+      )}
 
       <Footer />
     </div>
