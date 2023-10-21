@@ -26,6 +26,10 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    PrivateAccount: {
+        type: Boolean,
+        default: false,
+    }
   },
   { collection: "Users", timestamp: true }
 );

@@ -186,3 +186,12 @@ td{
   color: black;
 
 }
+
+#homepageredirect{
+  text-decoration: none;
+
+}
+#homepageredirect:hover{
+  color: black;
+
+}

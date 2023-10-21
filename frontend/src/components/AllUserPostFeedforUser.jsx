@@ -18,6 +18,7 @@ import Skeleton from "@mui/material/Skeleton";
 import { ToastContainer, toast } from "react-toastify";
 import NoResultsFound from "./NoResultsFound";
 import FewPeopleYouwanttoknow from "./FewPeopleYouwanttoknow";
+import { Link } from "react-router-dom";
 
 const AllUserPostFeedforUser = () => {
   const [results, setResults] = useState([]);
@@ -85,18 +86,18 @@ const AllUserPostFeedforUser = () => {
   };
 
   const handleArchive = (post) => {
-    console.log(post)
+    console.log(post);
     Axios.put(`/Feed/archive/${post}`)
-      .then(response => {
+      .then((response) => {
         // Handle the response if needed
-        console.log('PUT request successful:', response.data);
+        console.log("PUT request successful:", response.data);
       })
-      .catch(error => {
+      .catch((error) => {
         // Handle any errors that occur during the request
-        console.error('Error sending PUT request:', error);
+        console.error("Error sending PUT request:", error);
       });
   };
-  
+
   const handleLikes = (post) => {
     Axios.post(`/Feed/${post._id}/likes`, {
       postId: post._id,
@@ -203,14 +204,16 @@ const AllUserPostFeedforUser = () => {
                   )}
                 </h1>
 
-                <h5 style={{ fontStyle: "italic", fontWeight: "bold" }}>
-                  <img
-                    src={val.user.image}
-                    alt="Post Image"
-                    className="Dashboardprofilephoto"
-                  />
-                  &nbsp;&nbsp;{val.user_name}
-                </h5>
+                <Link to={`../profile/${val.user._id}`}  id="homepageredirect">
+                  <h5 style={{ fontStyle: "italic", fontWeight: "bold" }}>
+                    <img
+                      src={val.user.image}
+                      alt="Post Image"
+                      className="Dashboardprofilephoto"
+                    />
+                    &nbsp;&nbsp;{val.user_name}
+                  </h5>
+                </Link>
                 <img
                   src={val.post_image}
                   alt="Post Image"

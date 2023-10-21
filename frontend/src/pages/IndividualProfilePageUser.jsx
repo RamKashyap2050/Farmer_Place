@@ -105,6 +105,11 @@ const IndividualProfilePageUser = () => {
                 to={`/profile/${userData._id}/viewfollowers`}
                 className="custom-link"
                 id="custom-link2"
+                onClick={(e) => {
+                  if (!showContent) {
+                    e.preventDefault(); // Prevent the default navigation behavior
+                  }
+                }}
               >
                 <div style={{ marginRight: "16px" }}>
                   <h2>{followers.length}</h2>
@@ -115,6 +120,11 @@ const IndividualProfilePageUser = () => {
                 to={`/profile/${userData._id}/viewfollowers`}
                 className="custom-link"
                 id="custom-link"
+                onClick={(e) => {
+                  if (!showContent) {
+                    e.preventDefault(); // Prevent the default navigation behavior
+                  }
+                }}
               >
                 <div style={{ marginRight: "16px" }}>
                   <h2>{following.length}</h2>
