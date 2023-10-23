@@ -6,6 +6,7 @@ import {
   FaNewspaper,
   FaShoppingBag,
   FaUser,
+  FaFacebookMessenger 
 } from "react-icons/fa";
 const HeaderforUser = () => {
   return (
@@ -39,10 +40,10 @@ const HeaderforUser = () => {
             </li>
           </Link>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <Link to="/followers">
+          <Link to="/workinprogress">
             <li>
               <a href="#" className="brand-icons">
-                <FaUserFriends />
+                <FaFacebookMessenger />
               </a>
             </li>
           </Link>

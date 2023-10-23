@@ -26,6 +26,8 @@ import ManageFollowers from "./pages/ManageFollowers";
 import ManageFollowing from "./pages/ManageFollowing";
 import IndividualProfilePageUser from "./pages/IndividualProfilePageUser";
 import ViewIndividualUserFollowersandFollowing from "./pages/ViewIndividualUserFollowersandFollowing";
+import ContentRestriction from "./components/ContentRestriction";
+import WorkInProgress from "./pages/WorkInProgress";
 function App() {
   return (
     <>
@@ -67,10 +69,21 @@ function App() {
             <Route path="/manageuserproduct" element={<ManageMarketPlace />} />
             <Route path="/cehckoutfeedbacks" element={<CheckoutFeedbacks />} />
             <Route path="/followers" element={<Peopleyouwanttoknow />} />
-            <Route path='/checkuserfollowers' element={<ManageFollowers />} />
-            <Route path='/checkuserfollowing' element={<ManageFollowing />} />
-            <Route path="/profile/:id" element={<IndividualProfilePageUser />} />
-            <Route path='/profile/:id/viewfollowers' element={<ViewIndividualUserFollowersandFollowing />} />
+            <Route path="/checkuserfollowers" element={<ManageFollowers />} />
+            <Route path="/checkuserfollowing" element={<ManageFollowing />} />
+            <Route
+              path="/profile/:id"
+              element={<IndividualProfilePageUser />}
+            />
+            <Route
+              path="/profile/:id/viewfollowers"
+              element={<ViewIndividualUserFollowersandFollowing />}
+            />
+            <Route
+              path="/contentrestriction"
+              element={<ContentRestriction />}
+            />
+            <Route path="/workinprogress" element={<WorkInProgress />} />
           </Routes>
         </div>
       </Router>

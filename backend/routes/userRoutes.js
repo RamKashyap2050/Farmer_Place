@@ -8,7 +8,8 @@ const {
   ReportedPost,
   updateUserProfile,
   showresultsforoneuser,
-  getuserinsearch
+  getuserinsearch,
+  contentrestriction
 } = require("../controllers/UserController");
 const {
   changepassword,
@@ -28,4 +29,5 @@ router.route("/report").post(ReportedPost);
 router.route("/updateuser/:userID").put(updateUserProfile);
 router.route("/getOneUserforSearch/:id").get(showresultsforoneuser)
 router.route("/getuser/:id").get(getuserinsearch)
+router.route("/contentrestriction/:id").put(contentrestriction)
 module.exports = router;

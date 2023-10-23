@@ -1,17 +1,27 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Card, Button, Overlay, Popover } from "react-bootstrap";
 import { logout, reset } from "../features/auth/authSlice";
-import { FaCamera } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import Axios from "axios";
 import {
-  FaPowerOff,
+  FaCamera,
   FaUserEdit,
-  FaRegTimesCircle,
+  FaUserFriends,
   FaList,
   FaShoppingBag,
-  FaUserFriends,
+  FaRegTimesCircle,
+  FaPowerOff,
+  FaArrowRight,
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import Axios from "axios";
+// import {
+//   FaPowerOff,
+//   FaUserEdit,
+//   FaRegTimesCircle,
+//   FaList,
+//   FaShoppingBag,
+//   FaUserFriends,
+// } from "react-icons/fa";
 import Footer from "../components/Footer";
 import HeaderforUser from "../components/HeaderforUser";
 import "../styles/ProfilePageUser.css";
@@ -78,87 +88,100 @@ function ProfilePageUser() {
       navigate("/checkuserfollowing");
     }
   };
-
+  const onContentRestriction = () => {
+    if (!user) {
+      navigate("/loginuser");
+    } else {
+      navigate("/contentrestriction");
+    }
+  };
   console.log("user: ", user);
 
   return (
     <>
       <HeaderforUser />
       <div className="page">
-        <div className="profilephoto-container">
-          <img className="profilephoto" src={user?.image} alt="User profile" />
-          <div className="gray-overlay">
-            <div className="overlay-text">
-              {" "}
-              <FaCamera /> <br/>Change your profile picture
+        <Card className="profile-card">
+          <Card.Body>
+            <div className="profilephoto-container">
+              <img
+                className="profilephoto"
+                src={user?.image}
+                alt="User profile"
+              />
+              <div className="gray-overlay">
+                <div className="overlay-text">
+                  <FaCamera />
+                  <br />
+                  Change your profile picture
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div className="card">
-          <h1 className="mb-4 p-3">Profile</h1>
-          <br />
-          <br />
-          <span className="line"></span>
-          <br />
-          <br />
-          <h2>Welcome {user?.user_name}</h2>
-          <h5>Email: {user?.email}</h5>
-          <h5>Phone: {user?.phone}</h5>
-          <br />
-          <br />
-          <br />
-          <div className="buttongrid">
-            <button
-              onClick={onEdityourprofile}
-              className="btn1 btn-secondary btn-block mb-2"
-            >
-              Edit your Profile&nbsp;&nbsp;
-              <FaUserEdit />
-            </button>
-            <button
-              onClick={onManageFollowers}
-              className="btn1 btn-secondary btn-block mb-2"
-            >
-              View your Followers&nbsp;&nbsp;
-              <FaUserFriends />
-            </button>
-            <button
-              onClick={onManageFollowing}
-              className="btn1 btn-secondary btn-block mb-2"
-            >
-              View your Following&nbsp;&nbsp;
-              <FaUserFriends />
-            </button>
-            <button
-              onClick={onManageContent}
-              className="btn1 btn-secondary btn-block mb-2"
-            >
-              Manage your Content&nbsp;&nbsp;
-              <FaList />
-            </button>
-            <button
-              onClick={onManageListing}
-              className="btn1 btn-secondary btn-block mb-2"
-            >
-              Manage your Listings&nbsp;&nbsp;
-              <FaShoppingBag />
-            </button>
-            <button
-              onClick={() => onDelete(user?._id)}
-              className="btn1 btn-secondary btn-block mb-3"
-            >
-              Delete your Account&nbsp;
-              <FaRegTimesCircle />
-            </button>
-            <button
-              onClick={onLogout}
-              className="btn1 btn-danger btn-block mb-2"
-            >
-              Logout&nbsp;&nbsp;
-              <FaPowerOff />
-            </button>
-          </div>
-        </div>
+
+            <h2>{user?.user_name}</h2>
+            <h5>{user?.email}</h5>
+            <h5>{user?.phone}</h5>
+
+            <div className="buttongrid">
+              <Button
+                onClick={onEdityourprofile}
+                className="btn1 btn-secondary btn-block mb-2"
+              >
+                Edit your Profile&nbsp;&nbsp;
+                <FaUserEdit />
+              </Button>
+              <Button
+                onClick={onManageFollowers}
+                className="btn1 btn-secondary btn-block mb-2"
+              >
+                View your Followers&nbsp;&nbsp;
+                <FaUserFriends />
+              </Button>
+              <Button
+                onClick={onManageFollowing}
+                className="btn1 btn-secondary btn-block mb-2"
+              >
+                View your Following&nbsp;&nbsp;
+                <FaUserFriends />
+              </Button>
+              <Button
+                onClick={onManageContent}
+                className="btn1 btn-secondary btn-block mb-2"
+              >
+                Manage your Content&nbsp;&nbsp;
+                <FaList />
+              </Button>
+              <Button
+                onClick={onManageListing}
+                className="btn1 btn-secondary btn-block mb-2"
+              >
+                Manage your Listings&nbsp;&nbsp;
+                <FaShoppingBag />
+              </Button>
+              <Button
+                onClick={() => onDelete(user?._id)}
+                className="btn1 btn-secondary btn-block mb-2"
+              >
+                Delete your Account&nbsp;&nbsp;
+                <FaRegTimesCircle />
+              </Button>
+              <Button
+                onClick={onContentRestriction}
+                className="btn1 btn-primary btn-block mb-2"
+              >
+                Content Restriction &nbsp;&nbsp;
+                <FaArrowRight />
+              </Button>
+              <Button
+                onClick={onLogout}
+                className="btn1 btn-danger btn-block mb-2"
+              >
+                Logout&nbsp;&nbsp;
+                <FaPowerOff />
+              </Button>
+            </div>
+          </Card.Body>
+        </Card>
       </div>
 
       <Footer />

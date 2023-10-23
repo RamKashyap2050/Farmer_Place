@@ -208,6 +208,24 @@ const getuserinsearch = asyncHandler(async (req, res) => {
     res.status(200).json(getuserinsearch);
   }
 });
+const contentrestriction = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const  data  = req.body.contentRestriction; // Assuming you send the selected option as contentRestriction in the request body
+  console.log(id,data)
+  if (data === "only-me") {
+    await Users.findByIdAndUpdate(id, { PrivateAccount: true });
+
+    return res.status(200).json({ message: "Content restriction updated to 'Only Me'" });
+  }
+  else if (data === "public") {
+    await Users.findByIdAndUpdate(id, { PrivateAccount: false });
+
+    return res.status(200).json({ message: "Content restriction updated to 'Public'" });
+  }
+
+  return res.status(200).json({ message: "Content restriction updated to something else" });
+});
+
 
 //To Generate Tokens
 const generateToken = async (id) => {
@@ -225,5 +243,6 @@ module.exports = {
   StoreFeedback,
   ReportedPost,
   showresultsforoneuser,
-  getuserinsearch
+  getuserinsearch,
+  contentrestriction
 };

@@ -70,14 +70,18 @@ const IndividualProfilePageUser = () => {
         console.error("Error fetching following:", error);
       });
   }, [id]);
-
-  const OnFollow = () => {
-    if (showContent == true) {
+  useEffect(() => {
+    if (userData && userData.PrivateAccount === true) {
       setShowContent(false);
     } else {
       setShowContent(true);
     }
+  }, [userData]);
+
+  const OnFollow = () => {
+    setShowContent((prevShowContent) => !prevShowContent);
   };
+
   return (
     <div>
       <HeaderforUser />

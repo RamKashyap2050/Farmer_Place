@@ -195,3 +195,14 @@ td{
   color: black;
 
 }
+
+.radio{
+  border: 1px solid black;
+  padding: 10px;
+
+}
+
+.disabled {
+  opacity: 0.6; /* Reduce opacity to make it look disabled */
+  pointer-events: none; /* Disable interactions with the content */
+}
