@@ -9,6 +9,7 @@ const FewPeopleYouwanttoknow = () => {
   const [peopleData, setPeopleData] = useState([]);
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  const [following, setFollowing] = useState([]);
 
   useEffect(() => {
     console.log("useEffect triggered with user:", user);
@@ -31,6 +32,19 @@ const FewPeopleYouwanttoknow = () => {
         console.error("Error fetching data:", error);
       });
   }, []);
+  useEffect(() => {
+    Axios.get(`/Follow/getfollowingforuser/${user._id}`)
+      .then((response) => {
+        const fetchedFollowing = response.data.followers.map(
+          (follower) => follower.following_to_ID
+        );
+        setFollowing(fetchedFollowing);
+        console.log("Following for fewpeople", following);
+      })
+      .catch((error) => {
+        console.error("Error fetching following:", error);
+      });
+  }, [user._id]);
 
   const handleFollow = (userId) => {
     const loggedInUserId = user._id;
@@ -80,7 +94,7 @@ const FewPeopleYouwanttoknow = () => {
         </div>
         <div className="row d-flex" style={{ justifyContent: "space-around" }}>
           {limitedPeopleData.map((person) => (
-            <div className="col-md-4" key={person.id}>
+            <div className="col-md-4" key={person._id}>
               <div className="card cardinpeople">
                 <Link to={`/profile/${person._id}`}>
                   <img
@@ -101,13 +115,24 @@ const FewPeopleYouwanttoknow = () => {
                   >
                     {person.user_name}
                   </h5>
-                  <button
-                    className="btn btn-primary btn-md"
-                    style={{ width: "100%" }}
-                    onClick={() => handleFollow(person._id)}
-                  >
-                    Follow
-                  </button>
+                  {following.some(
+                    (followingToID) => followingToID._id === person._id
+                  ) ? (
+                    <button
+                      className="btn btn-secondary btn-md"
+                      style={{ width: "100%" }}
+                    >
+                      Following
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-primary btn-md"
+                      style={{ width: "100%" }}
+                      onClick={() => handleFollow(person._id)}
+                    >
+                      Follow
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

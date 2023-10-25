@@ -42,7 +42,7 @@ const ContentRestriction = () => {
     <div>
       <HeaderforUser />
       <div style={{ maxWidth: "75%", margin: "0 auto" }}>
-        <h1 className="text-center">Content Restriction</h1>
+        <h1 className="text-center">Privacy</h1>
         <FormGroup>
           <label>Select an option:</label>
           <div className="radio">

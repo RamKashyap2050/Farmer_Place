@@ -4,7 +4,7 @@ const User = require("../models/userModel");
 const { uploadImageToS3 } = require("../AWS_S3/s3");
 const getallposts = asyncHandler(async (req, res) => {
   const getallposts = await Feed.find()
-    .populate("user", "user_name image AccountStatus")
+    .populate("user", "user_name image AccountStatus PrivateAccount")
     .populate("liked_by", "user_name image")
     .populate("disliked_by", "user_name image")
     .populate({

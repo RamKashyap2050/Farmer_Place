@@ -180,7 +180,9 @@ const AllUserPostFeedforUser = () => {
           .slice()
           .reverse()
           .map((val, key) =>
-            val.FeedStatus == true && val.archieved == false ? (
+            val.FeedStatus == true &&
+            val.archieved == false &&
+            val.user.PrivateAccount == false ? (
               <div key={key} className="Feedpage">
                 {key !== 0 && key % 3 === 0 && <FewPeopleYouwanttoknow />}
                 <h1
@@ -204,7 +206,7 @@ const AllUserPostFeedforUser = () => {
                   )}
                 </h1>
 
-                <Link to={`../profile/${val.user._id}`}  id="homepageredirect">
+                <Link to={`../profile/${val.user._id}`} id="homepageredirect">
                   <h5 style={{ fontStyle: "italic", fontWeight: "bold" }}>
                     <img
                       src={val.user.image}

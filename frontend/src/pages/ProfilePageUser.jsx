@@ -11,6 +11,7 @@ import {
   FaRegTimesCircle,
   FaPowerOff,
   FaArrowRight,
+  FaLock,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
@@ -169,8 +170,8 @@ function ProfilePageUser() {
                 onClick={onContentRestriction}
                 className="btn1 btn-primary btn-block mb-2"
               >
-                Content Restriction &nbsp;&nbsp;
-                <FaArrowRight />
+                Privacy &nbsp;&nbsp;
+                <FaLock />
               </Button>
               <Button
                 onClick={onLogout}
