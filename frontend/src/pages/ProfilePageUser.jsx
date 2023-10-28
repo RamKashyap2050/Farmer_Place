@@ -96,6 +96,14 @@ function ProfilePageUser() {
       navigate("/contentrestriction");
     }
   };
+  const onSavedPosts = () => {
+    if(!user){
+      navigate("/loginuser")
+    }
+    else{
+      navigate("/savedposts")
+    }
+  }
   console.log("user: ", user);
 
   return (
@@ -172,6 +180,13 @@ function ProfilePageUser() {
               >
                 Privacy &nbsp;&nbsp;
                 <FaLock />
+              </Button>
+              <Button
+                onClick={onSavedPosts}
+                className="btn1 btn-primary btn-block mb-2"
+              >
+                View Saved Posts &nbsp;&nbsp;
+                <FaList />
               </Button>
               <Button
                 onClick={onLogout}
