@@ -106,6 +106,10 @@ const IndividualProfilePageUser = () => {
       });
   };
 
+  const onEditProfile = () => {
+    console.log("I am clicked")
+    navigate("/edityourprofile")
+  }
   return (
     <div>
       <HeaderforUser />
@@ -166,6 +170,7 @@ const IndividualProfilePageUser = () => {
               <button
                 className="btn btn-secondary"
                 style={{ width: "100%", marginRight: "1rem" }}
+                onClick={onEditProfile}
               >
                 Edit Profile
               </button>

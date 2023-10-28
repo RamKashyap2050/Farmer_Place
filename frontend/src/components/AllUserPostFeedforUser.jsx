@@ -13,6 +13,7 @@ import {
   FaThumbsDown,
   FaTrash,
   FaArchive,
+  FaSave,
 } from "react-icons/fa";
 import Skeleton from "@mui/material/Skeleton";
 import { ToastContainer, toast } from "react-toastify";
@@ -91,6 +92,20 @@ const AllUserPostFeedforUser = () => {
       .catch((error) => {
         // Handle any errors that occur during the request
         console.error("Error sending PUT request:", error);
+      });
+  };
+  const handleSave = (post) => {
+    const data = {
+      user_id: user._id,
+      post: post,
+    };
+
+    Axios.post(`/Feed/savepost`, data)
+      .then((response) => {
+        console.log("Post request successful:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error sending POST request:", error);
       });
   };
 
@@ -178,7 +193,7 @@ const AllUserPostFeedforUser = () => {
           .map((val, key) =>
             val.FeedStatus == true &&
             val.archieved == false &&
-            (val.user.PrivateAccount == false || val.user._id == user._id )&&
+            (val.user.PrivateAccount == false || val.user._id == user._id) &&
             (!val.user.OnlyFollowers ||
               val.User_Followers.includes(user._id) ||
               val.user._id == user._id) ? (
@@ -188,21 +203,41 @@ const AllUserPostFeedforUser = () => {
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
                   {val.title}
-                  {val.user.user_name !== user.user_name ? (
-                    <button
-                      className="btn btn-warning"
-                      onClick={() => handleReport(val)}
-                    >
-                      Report <FaExclamationTriangle />
-                    </button>
-                  ) : (
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => handleArchive(val._id)}
-                    >
-                      Archive <FaArchive />
-                    </button>
-                  )}
+                  <div>
+                    {val.user.user_name !== user.user_name ? (
+                      <>
+                        {" "}
+                        <button
+                          className="btn btn-warning"
+                          onClick={() => handleReport(val)}
+                        >
+                          Report <FaExclamationTriangle />
+                        </button>{" "}
+                        <button
+                          className="btn btn-secondary"
+                          onClick={() => handleSave(val._id)}
+                        >
+                          Save
+                          <FaSave />
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => handleArchive(val._id)}
+                        >
+                          Archive <FaArchive />
+                        </button>
+                        <button
+                          className="btn btn-secondary"
+                          onClick={() => handleSave(val._id)}
+                        >
+                          Save <FaSave />
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </h1>
 
                 <Link to={`../profile/${val.user._id}`} id="homepageredirect">
@@ -265,6 +300,8 @@ const AllUserPostFeedforUser = () => {
                 </div>
                 <br />
                 <br />
+
+                <div></div>
                 <div style={{ display: "flex" }}>
                   <button
                     className="btn btn-block btn-primary"

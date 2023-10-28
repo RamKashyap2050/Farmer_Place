@@ -1,11 +1,15 @@
 const asyncHandler = require("express-async-handler");
 const Feed = require("../models/FeedModel");
 const User = require("../models/userModel");
-const FollowersModel = require("../models/FollowersModel")
+const FollowersModel = require("../models/FollowersModel");
 const { uploadImageToS3 } = require("../AWS_S3/s3");
+const SaveModel = require("../models/SaveModel");
 const getallposts = asyncHandler(async (req, res) => {
   const posts = await Feed.find()
-    .populate("user", "user_name image AccountStatus PrivateAccount OnlyFollowers")
+    .populate(
+      "user",
+      "user_name image AccountStatus PrivateAccount OnlyFollowers"
+    )
     .populate("liked_by", "user_name image")
     .populate("disliked_by", "user_name image")
     .populate({
@@ -176,6 +180,42 @@ const getUserNames = asyncHandler(async (req, res) => {
   res.json(userNames);
 });
 
+const SavePost = asyncHandler(async (req, res) => {
+  const data = req.body;
+  console.log(data);
+
+  const SavePosts = await SaveModel.create({
+    saving_user_id: data.user_id,
+    post_id: data.post,
+  });
+  res.status(201).json(SavePosts)
+});
+
+const getSavedPosts = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const savedPosts = await SaveModel.find({ saving_user_id: id })
+      .populate({
+        path: "saving_user_id",
+        select: "user_name email image", // Select the fields you want from the User model
+      })
+      .populate({
+        path: "post_id",
+        populate: {
+          path: "user", // Populate the "user" field within the "post_id" object
+          select: "user_name email image", // Select the fields you want from the User model
+        },
+      });
+
+    res.status(200).json(savedPosts);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
+
 const archivepost = asyncHandler(async (req, res) => {
   const post = req.params.post;
   console.log(post);
@@ -196,4 +236,6 @@ module.exports = {
   getUserNames,
   makeComment,
   archivepost,
+  SavePost,
+  getSavedPosts
 };

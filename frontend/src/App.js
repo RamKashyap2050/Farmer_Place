@@ -28,6 +28,7 @@ import IndividualProfilePageUser from "./pages/IndividualProfilePageUser";
 import ViewIndividualUserFollowersandFollowing from "./pages/ViewIndividualUserFollowersandFollowing";
 import ContentRestriction from "./components/ContentRestriction";
 import WorkInProgress from "./pages/WorkInProgress";
+import SavedPostsforUser from "./pages/SavedPostsforUser";
 function App() {
   return (
     <>
@@ -84,6 +85,7 @@ function App() {
               element={<ContentRestriction />}
             />
             <Route path="/workinprogress" element={<WorkInProgress />} />
+            <Route path="/savedposts" element={<SavedPostsforUser />} />
           </Routes>
         </div>
       </Router>

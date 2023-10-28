@@ -28,7 +28,7 @@ const ContentRestriction = () => {
     };
 
     axios
-      .put(`http://localhost:3002/Users/contentrestriction/${user._id}`, data)
+      .put(`/Users/contentrestriction/${user._id}`, data)
       .then((response) => {
         console.log("Response from the backend:", response);
         navigate("/feedpage");
