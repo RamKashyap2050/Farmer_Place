@@ -79,7 +79,7 @@ const IndividualProfilePageUser = () => {
   }, [userData]);
 
   const OnFollow = () => {
-    setShowContent((prevShowContent) => !prevShowContent);
+    // setShowContent((prevShowContent) => !prevShowContent);
   };
 
   return (
@@ -138,13 +138,22 @@ const IndividualProfilePageUser = () => {
             </div>
           </div>
           {showContent ? (
-            <button
-              className="btn btn-secondary btn-block"
-              style={{ maxWidth: "100%" }}
-              onClick={OnFollow}
-            >
-              Following
-            </button>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <button
+                className="btn btn-secondary"
+                style={{ width: "100%", marginRight:"1rem" }}
+                onClick={OnFollow}
+              >
+                Following
+              </button>
+              <button
+                className="btn btn-primary"
+                onClick={OnFollow}
+                style={{ width: "100%" }}
+              >
+                Share Profile
+              </button>
+            </div>
           ) : (
             <button
               className="btn btn-primary btn-block"

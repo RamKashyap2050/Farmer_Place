@@ -64,14 +64,13 @@ const ContentRestriction = () => {
               </p>
             </label>
           </div>
-          <div className="radio disabled">
+          <div className="radio">
             <label>
               <input
                 type="radio"
                 value="followers"
                 checked={selectedOption === "followers"}
                 onChange={handleOptionChange}
-                disabled={true} // Set disabled to true to disable the radio button
               />
               <span className="icon-followers">
                 <FaUsers />

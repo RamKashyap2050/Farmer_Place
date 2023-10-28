@@ -27,9 +27,13 @@ const userSchema = mongoose.Schema(
       default: true,
     },
     PrivateAccount: {
-        type: Boolean,
-        default: false,
-    }
+      type: Boolean,
+      default: false,
+    },
+    OnlyFollowers: {
+      type: Boolean,
+      default: false,
+    },
   },
   { collection: "Users", timestamp: true }
 );

@@ -1,10 +1,11 @@
 const asyncHandler = require("express-async-handler");
 const Feed = require("../models/FeedModel");
 const User = require("../models/userModel");
+const FollowersModel = require("../models/FollowersModel")
 const { uploadImageToS3 } = require("../AWS_S3/s3");
 const getallposts = asyncHandler(async (req, res) => {
-  const getallposts = await Feed.find()
-    .populate("user", "user_name image AccountStatus PrivateAccount")
+  const posts = await Feed.find()
+    .populate("user", "user_name image AccountStatus PrivateAccount OnlyFollowers")
     .populate("liked_by", "user_name image")
     .populate("disliked_by", "user_name image")
     .populate({
@@ -18,11 +19,32 @@ const getallposts = asyncHandler(async (req, res) => {
     .select(
       "title content user post_image FeedStatus liked_by disliked_by comments archieved"
     );
-  const responseSize = JSON.stringify(getallposts).length;
+
+  // Define a function to get user followers
+  const getUserFollowers = async (userId) => {
+    const followers = await FollowersModel.find({
+      following_to_ID: userId,
+    }).select("followed_by_ID");
+
+    return followers.map((follower) => follower.followed_by_ID);
+  };
+
+  // Loop through posts and add User_Followers array
+  const postsWithFollowers = await Promise.all(
+    posts.map(async (post) => {
+      const followers = await getUserFollowers(post.user._id);
+      return {
+        ...post._doc,
+        User_Followers: followers,
+      };
+    })
+  );
+
+  const responseSize = JSON.stringify(postsWithFollowers).length;
 
   console.log(`Data size of the response: ${responseSize} bytes`);
 
-  res.status(200).json(getallposts);
+  res.status(200).json(postsWithFollowers);
 });
 
 //To get posts of one user
@@ -154,15 +176,15 @@ const getUserNames = asyncHandler(async (req, res) => {
   res.json(userNames);
 });
 
-const archivepost = asyncHandler(async(req,res) => {
-  const post = req.params.post
-  console.log(post)
+const archivepost = asyncHandler(async (req, res) => {
+  const post = req.params.post;
+  console.log(post);
   const feed = await Feed.findByIdAndUpdate(
     post,
-    {archieved: true},
-    {new: true}
-  )
-})
+    { archieved: true },
+    { new: true }
+  );
+});
 
 module.exports = {
   getFeed,
@@ -173,5 +195,5 @@ module.exports = {
   makedisLikes,
   getUserNames,
   makeComment,
-  archivepost
+  archivepost,
 };

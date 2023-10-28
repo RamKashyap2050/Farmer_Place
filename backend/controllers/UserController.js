@@ -7,8 +7,7 @@ const Feedback = require("../models/FeedbackModal");
 const Report = require("../models/ReportModel");
 const Comment = require("../models/commentModel");
 const { uploadImageToS3 } = require("../AWS_S3/s3");
-const Feed = require("../models/FeedModel")
-
+const Feed = require("../models/FeedModel");
 
 //Function that enables us to Signup
 const registerUser = asyncHandler(async (req, res) => {
@@ -116,7 +115,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   const { userID } = req.params;
   const updatedUser = await Users.findByIdAndUpdate(
     userID,
-    { ...req.body},
+    { ...req.body },
     {
       new: true,
     }
@@ -187,45 +186,57 @@ const StoreFeedback = asyncHandler(async (req, res) => {
   });
 });
 
-const showresultsforoneuser = asyncHandler(async(req,res) => {
-  const id = req.params.id
-  console.log(id)
-  const showresultsforoneuser = await Feed.find({user:id})
-  .populate("user", "user_name image AccountStatus archieved")
-  .select("title content user post_image");
+const showresultsforoneuser = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  const showresultsforoneuser = await Feed.find({ user: id })
+    .populate("user", "user_name image AccountStatus archieved")
+    .select("title content user post_image");
   res.status(200).json(showresultsforoneuser);
-})
+});
 
 const getuserinsearch = asyncHandler(async (req, res) => {
   const id = req.params.id;
-  console.log(id)
-  
+  console.log(id);
+
   const getuserinsearch = await Users.findOne({ _id: id });
-  console.log(getuserinsearch)
+  console.log(getuserinsearch);
   if (!getuserinsearch) {
-    res.status(404).json({ message: 'User not found' });
+    res.status(404).json({ message: "User not found" });
   } else {
     res.status(200).json(getuserinsearch);
   }
 });
 const contentrestriction = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const  data  = req.body.contentRestriction; // Assuming you send the selected option as contentRestriction in the request body
-  console.log(id,data)
+  const data = req.body.contentRestriction; // Assuming you send the selected option as contentRestriction in the request body
+  console.log(id, data);
   if (data === "only-me") {
     await Users.findByIdAndUpdate(id, { PrivateAccount: true });
 
-    return res.status(200).json({ message: "Content restriction updated to 'Only Me'" });
-  }
-  else if (data === "public") {
+    return res
+      .status(200)
+      .json({ message: "Content restriction updated to 'Only Me'" });
+  } else if (data === "public") {
     await Users.findByIdAndUpdate(id, { PrivateAccount: false });
 
-    return res.status(200).json({ message: "Content restriction updated to 'Public'" });
+    return res
+      .status(200)
+      .json({ message: "Content restriction updated to 'Public'" });
+
+      
+  } else if (data === "followers") {
+    await Users.findByIdAndUpdate(id, { OnlyFollowers: true });
+
+    return res
+      .status(200)
+      .json({ message: "Content restriction updated to 'Only Followers'" });
   }
 
-  return res.status(200).json({ message: "Content restriction updated to something else" });
+  return res
+    .status(200)
+    .json({ message: "Content restriction updated to something else" });
 });
-
 
 //To Generate Tokens
 const generateToken = async (id) => {
@@ -244,5 +255,5 @@ module.exports = {
   ReportedPost,
   showresultsforoneuser,
   getuserinsearch,
-  contentrestriction
+  contentrestriction,
 };

@@ -24,10 +24,6 @@ const AllUserPostFeedforUser = () => {
   const [results, setResults] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredResults, setFilteredResults] = useState([]);
-  const [filteredImageUrls, setFilteredImageUrls] = useState([]);
-  const [filteredProfileImageUrls, setFilteredProfileImageUrls] = useState([]);
-  const [filteredCommentProfileImageUrls, setFilteredCommentProfileImageUrls] =
-    useState([]);
   const [show, setShow] = useState({});
   const [comment, setComment] = useState("");
   const [likes, setLikes] = useState({});
@@ -182,7 +178,10 @@ const AllUserPostFeedforUser = () => {
           .map((val, key) =>
             val.FeedStatus == true &&
             val.archieved == false &&
-            val.user.PrivateAccount == false ? (
+            (val.user.PrivateAccount == false || val.user._id == user._id )&&
+            (!val.user.OnlyFollowers ||
+              val.User_Followers.includes(user._id) ||
+              val.user._id == user._id) ? (
               <div key={key} className="Feedpage">
                 {key !== 0 && key % 3 === 0 && <FewPeopleYouwanttoknow />}
                 <h1
