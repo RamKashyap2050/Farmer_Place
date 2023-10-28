@@ -8,6 +8,7 @@ const Report = require("../models/ReportModel");
 const Comment = require("../models/commentModel");
 const { uploadImageToS3 } = require("../AWS_S3/s3");
 const Feed = require("../models/FeedModel");
+const FollowersModel = require("../models/FollowersModel");
 
 //Function that enables us to Signup
 const registerUser = asyncHandler(async (req, res) => {
@@ -199,34 +200,62 @@ const getuserinsearch = asyncHandler(async (req, res) => {
   const id = req.params.id;
   console.log(id);
 
-  const getuserinsearch = await Users.findOne({ _id: id });
-  console.log(getuserinsearch);
-  if (!getuserinsearch) {
-    res.status(404).json({ message: "User not found" });
-  } else {
-    res.status(200).json(getuserinsearch);
+  try {
+    const getuserinsearch = await Users.findOne({ _id: id });
+
+    if (!getuserinsearch) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const followers = await FollowersModel.find({ following_to_ID: id });
+    const User_Followers = followers.map((follower) => follower.followed_by_ID);
+
+    const userWithFollowers = {
+      ...getuserinsearch._doc,
+      User_Followers,
+    };
+    console.log(userWithFollowers);
+    return res.status(200).json(userWithFollowers);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
   }
 });
+
 const contentrestriction = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const data = req.body.contentRestriction; // Assuming you send the selected option as contentRestriction in the request body
-  console.log(id, data);
+  const data = req.body.contentRestriction;
+
+  // Fetch the user's current settings
+  const user = await Users.findById(id);
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
   if (data === "only-me") {
-    await Users.findByIdAndUpdate(id, { PrivateAccount: true });
+    await Users.findByIdAndUpdate(id, {
+      PrivateAccount: true,
+      OnlyFollowers: false,
+    });
 
     return res
       .status(200)
       .json({ message: "Content restriction updated to 'Only Me'" });
   } else if (data === "public") {
-    await Users.findByIdAndUpdate(id, { PrivateAccount: false });
+    await Users.findByIdAndUpdate(id, {
+      PrivateAccount: false,
+      OnlyFollowers: false,
+    });
 
     return res
       .status(200)
       .json({ message: "Content restriction updated to 'Public'" });
-
-      
   } else if (data === "followers") {
-    await Users.findByIdAndUpdate(id, { OnlyFollowers: true });
+    await Users.findByIdAndUpdate(id, {
+      PrivateAccount: false,
+      OnlyFollowers: true,
+    });
 
     return res
       .status(200)

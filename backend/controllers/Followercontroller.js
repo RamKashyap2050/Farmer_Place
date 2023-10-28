@@ -3,13 +3,23 @@ const FollowersModel = require("../models/FollowersModel");
 
 const addfollowers = asyncHandler(async (req, res) => {
   const { userId, loggedInUserId } = req.body;
-  console.log(userId, loggedInUserId);
-  const addfollowers = await FollowersModel.create({
+
+  // Check if a similar entry already exists
+  const existingFollower = await FollowersModel.findOne({
     following_to_ID: userId,
     followed_by_ID: loggedInUserId,
   });
 
-  res.status(201).json(addfollowers);
+  if (existingFollower) {
+    res.status(409).json({ message: "User is already following." });
+  } else {
+    const newFollower = await FollowersModel.create({
+      following_to_ID: userId,
+      followed_by_ID: loggedInUserId,
+    });
+
+    res.status(201).json(newFollower);
+  }
 });
 
 const getUserFollowingUsingUserID = asyncHandler(async (req, res) => {

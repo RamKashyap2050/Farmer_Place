@@ -11,16 +11,24 @@ import { MdVerified } from "react-icons/md";
 import PrivateAccount from "../components/PrivateAccount";
 import NoPosts from "../components/NoPosts";
 import { Link } from "react-router-dom";
-
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const IndividualProfilePageUser = () => {
   const { id } = useParams();
   const [postData, setPostData] = useState([]);
   const [userData, setUserData] = useState(null); // Initialize as null
   const [following, setFollowing] = useState([]);
   const [followers, setFollowers] = useState([]);
-  const [showContent, setShowContent] = useState(false);
-  console.log(postData);
+  const [showContent, setShowContent] = useState(true);
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
 
+  useEffect(() => {
+    console.log("useEffect triggered with user:", user);
+    if (!user) {
+      navigate("/loginuser");
+    }
+  }, [user, navigate]);
   useEffect(() => {
     const backendURL = `/Users/getOneUserforSearch/${id}`;
 
@@ -73,13 +81,29 @@ const IndividualProfilePageUser = () => {
   useEffect(() => {
     if (userData && userData.PrivateAccount === true) {
       setShowContent(false);
-    } else {
+    } else if (
+      userData &&
+      userData.OnlyFollowers === true &&
+      userData.User_Followers.includes(user._id)
+    ) {
       setShowContent(true);
+    } else {
     }
-  }, [userData]);
+  }, [userData, user]);
 
-  const OnFollow = () => {
-    // setShowContent((prevShowContent) => !prevShowContent);
+  const OnFollow = (userId) => {
+    const loggedInUserId = user._id;
+    axios
+      .post(`/Follow/addfollowers`, {
+        userId,
+        loggedInUserId,
+      })
+      .then((response) => {
+        console.log(`You followed user with ID ${userId}`);
+      })
+      .catch((error) => {
+        console.error("Error following user:", error);
+      });
   };
 
   return (
@@ -137,14 +161,13 @@ const IndividualProfilePageUser = () => {
               </Link>
             </div>
           </div>
-          {showContent ? (
+          {user._id == userData._id ? (
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <button
                 className="btn btn-secondary"
-                style={{ width: "100%", marginRight:"1rem" }}
-                onClick={OnFollow}
+                style={{ width: "100%", marginRight: "1rem" }}
               >
-                Following
+                Edit Profile
               </button>
               <button
                 className="btn btn-primary"
@@ -155,13 +178,36 @@ const IndividualProfilePageUser = () => {
               </button>
             </div>
           ) : (
-            <button
-              className="btn btn-primary btn-block"
-              style={{ maxWidth: "100%" }}
-              onClick={OnFollow}
-            >
-              Follow
-            </button>
+            <>
+              {userData.User_Followers.includes(user._id) ? (
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <button
+                    className="btn btn-secondary"
+                    style={{ width: "100%", marginRight: "1rem" }}
+                    onClick={() => OnFollow(userData._id)}
+                  >
+                    Following
+                  </button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={OnFollow}
+                    style={{ width: "100%" }}
+                  >
+                    Share Profile
+                  </button>
+                </div>
+              ) : (
+                <button
+                  className="btn btn-primary btn-block"
+                  style={{ maxWidth: "100%" }}
+                  onClick={() => OnFollow(userData._id)}
+                >
+                  Follow
+                </button>
+              )}
+            </>
           )}
         </Card>
       )}
