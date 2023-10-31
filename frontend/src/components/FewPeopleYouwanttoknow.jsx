@@ -46,23 +46,38 @@ const FewPeopleYouwanttoknow = () => {
       });
   }, [user._id]);
 
+  const isUserFollowed = (userId) => {
+    return following.some((followingToID) => followingToID._id === userId);
+  };
+
   const handleFollow = (userId) => {
     const loggedInUserId = user._id;
+    
+    // Optimistically update the state
+    setFollowing([...following, { _id: userId }]);
+    
     Axios.post(`/Follow/addfollowers`, {
       userId,
       loggedInUserId,
     })
-      .then((response) => {
-        console.log(`You followed user with ID ${userId}`);
-      })
-      .catch((error) => {
-        console.error("Error following user:", error);
-      });
+    .then((response) => {
+      console.log(`You followed user with ID ${userId}`);
+      // Optionally update the state again upon a successful request (you can remove this if you don't need it)
+      setFollowing([...following, { _id: userId }]);
+    })
+    .catch((error) => {
+      console.error("Error following user:", error);
+      // Revert the state if there's an error
+      setFollowing(following.filter(followingToID => followingToID._id !== userId));
+    });
   };
-
+  
   const handleunFollow = (userId) => {
     const loggedInUserId = user._id;
-    console.log(userId, loggedInUserId);
+    
+    // Optimistically update the state
+    setFollowing(following.filter(followingToID => followingToID._id !== userId));
+    
     Axios.delete(`/Follow/unfollow`, {
       data: {
         userId: userId,
@@ -71,11 +86,14 @@ const FewPeopleYouwanttoknow = () => {
     })
     .then((response) => {
       console.log(`You unfollowed user with ID ${userId}`);
+      // Optionally update the state again upon a successful request (you can remove this if you don't need it)
+      setFollowing(following.filter(followingToID => followingToID._id !== userId));
     })
     .catch((error) => {
-      console.error("Error following user:", error);
-    });
+      console.error("Error unfollowing user:", error);
+      });
   };
+  
 
   const onpeoplewantoknow = () => {
     if (!user) {
@@ -132,25 +150,19 @@ const FewPeopleYouwanttoknow = () => {
                   >
                     {person.user_name}
                   </h5>
-                  {following.some(
-                    (followingToID) => followingToID._id === person._id
-                  ) ? (
-                    <button
-                      className="btn btn-secondary btn-md"
-                      style={{ width: "100%" }}
-                      onClick={() => handleunFollow(person._id)}
-                    >
-                      Following
-                    </button>
-                  ) : (
-                    <button
-                      className="btn btn-primary btn-md"
-                      style={{ width: "100%" }}
-                      onClick={() => handleFollow(person._id)}
-                    >
-                      Follow
-                    </button>
-                  )}
+                  <button
+                    className={`btn btn-${
+                      isUserFollowed(person._id) ? "secondary" : "primary"
+                    } btn-md`}
+                    style={{ width: "100%" }}
+                    onClick={() => {
+                      isUserFollowed(person._id)
+                        ? handleunFollow(person._id)
+                        : handleFollow(person._id);
+                    }}
+                  >
+                    {isUserFollowed(person._id) ? "Following" : "Follow"}
+                  </button>
                 </div>
               </div>
             </div>

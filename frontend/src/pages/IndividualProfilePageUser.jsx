@@ -88,6 +88,7 @@ const IndividualProfilePageUser = () => {
     ) {
       setShowContent(true);
     } else {
+      setShowContent(false)
     }
   }, [userData, user]);
 
