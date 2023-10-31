@@ -60,6 +60,23 @@ const FewPeopleYouwanttoknow = () => {
       });
   };
 
+  const handleunFollow = (userId) => {
+    const loggedInUserId = user._id;
+    console.log(userId, loggedInUserId);
+    Axios.delete(`/Follow/unfollow`, {
+      data: {
+        userId: userId,
+        loggedInUserId: loggedInUserId,
+      }
+    })
+    .then((response) => {
+      console.log(`You unfollowed user with ID ${userId}`);
+    })
+    .catch((error) => {
+      console.error("Error following user:", error);
+    });
+  };
+
   const onpeoplewantoknow = () => {
     if (!user) {
       navigate("/loginuser");
@@ -121,6 +138,7 @@ const FewPeopleYouwanttoknow = () => {
                     <button
                       className="btn btn-secondary btn-md"
                       style={{ width: "100%" }}
+                      onClick={() => handleunFollow(person._id)}
                     >
                       Following
                     </button>

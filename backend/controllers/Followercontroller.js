@@ -22,6 +22,23 @@ const addfollowers = asyncHandler(async (req, res) => {
   }
 });
 
+const deleteFollower = asyncHandler(async (req, res) => {
+  const { userId, loggedInUserId} = req.body;
+  console.log("Recieved")
+  console.log(userId, loggedInUserId)
+  const result = await FollowersModel.deleteOne({
+    following_to_ID: userId,
+    followed_by_ID: loggedInUserId,
+  });
+
+  if (result.deletedCount === 0) {
+    res.status(404).json({ message: "Entry not found." });
+  } else {
+    res.status(200).json({ message: "Entry deleted successfully." });
+  }
+});
+
+
 const getUserFollowingUsingUserID = asyncHandler(async (req, res) => {
   const { userid } = req.params;
   console.log(userid);
@@ -84,4 +101,5 @@ module.exports = {
   addfollowers,
   getUserFollowingUsingUserID,
   getUserFollowersUsingUserID,
+  deleteFollower
 };

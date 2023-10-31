@@ -228,7 +228,7 @@ const AllUserPostFeedforUser = () => {
                           onClick={() => handleArchive(val._id)}
                         >
                           Archive <FaArchive />
-                        </button>
+                        </button>{" "}
                         <button
                           className="btn btn-secondary"
                           onClick={() => handleSave(val._id)}
