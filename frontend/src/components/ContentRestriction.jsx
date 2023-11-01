@@ -93,7 +93,7 @@ const ContentRestriction = () => {
               />
               <span className="icon-only-me">
                 <FaLock />
-                &nbsp;Only Me
+                &nbsp;Private 
               </span>
               <p>
                 Content is only visible to you, No one else except you can the
