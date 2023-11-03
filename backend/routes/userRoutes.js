@@ -9,7 +9,8 @@ const {
   updateUserProfile,
   showresultsforoneuser,
   getuserinsearch,
-  contentrestriction
+  contentrestriction,
+  BecomeVerifiedUser
 } = require("../controllers/UserController");
 const {
   changepassword,
@@ -30,4 +31,5 @@ router.route("/updateuser/:userID").put(updateUserProfile);
 router.route("/getOneUserforSearch/:id").get(showresultsforoneuser)
 router.route("/getuser/:id").get(getuserinsearch)
 router.route("/contentrestriction/:id").put(contentrestriction)
+router.route("/becomeverifieduser/:id").put(BecomeVerifiedUser)
 module.exports = router;

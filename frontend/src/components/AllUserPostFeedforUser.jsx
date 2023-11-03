@@ -20,6 +20,7 @@ import { ToastContainer, toast } from "react-toastify";
 import NoResultsFound from "./NoResultsFound";
 import FewPeopleYouwanttoknow from "./FewPeopleYouwanttoknow";
 import { Link } from "react-router-dom";
+import { MdVerified } from "react-icons/md";
 
 const AllUserPostFeedforUser = () => {
   const [results, setResults] = useState([]);
@@ -247,7 +248,8 @@ const AllUserPostFeedforUser = () => {
                       alt="Post Image"
                       className="Dashboardprofilephoto"
                     />
-                    &nbsp;&nbsp;{val.user_name}
+                    &nbsp;{val.user_name}{"  "}{" "}
+                    {val.user.IsSubscriber ? <MdVerified /> : <></>}
                   </h5>
                 </Link>
                 <img

@@ -8,7 +8,7 @@ const getallposts = asyncHandler(async (req, res) => {
   const posts = await Feed.find()
     .populate(
       "user",
-      "user_name image AccountStatus PrivateAccount OnlyFollowers"
+      "user_name image AccountStatus PrivateAccount OnlyFollowers IsSubscriber"
     )
     .populate("liked_by", "user_name image")
     .populate("disliked_by", "user_name image")

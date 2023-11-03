@@ -88,7 +88,7 @@ const IndividualProfilePageUser = () => {
     ) {
       setShowContent(true);
     } else {
-      setShowContent(false)
+      setShowContent(false);
     }
   }, [userData, user]);
 
@@ -108,9 +108,9 @@ const IndividualProfilePageUser = () => {
   };
 
   const onEditProfile = () => {
-    console.log("I am clicked")
-    navigate("/edityourprofile")
-  }
+    console.log("I am clicked");
+    navigate("/edityourprofile");
+  };
   return (
     <div>
       <HeaderforUser />
@@ -125,7 +125,8 @@ const IndividualProfilePageUser = () => {
               />
               <CardContent>
                 <Typography variant="h5" component="div">
-                  {userData.user_name} <MdVerified />
+                  {userData.user_name}{" "}
+                  {userData.IsSubscriber ? <MdVerified /> : <></>}
                 </Typography>
               </CardContent>
             </div>

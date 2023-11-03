@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Button, Overlay, Popover } from "react-bootstrap";
 import { logout, reset } from "../features/auth/authSlice";
+import StripeCheckout from "react-stripe-checkout";
+import Config from "../config.json";
 import {
   FaCamera,
   FaUserEdit,
@@ -15,17 +17,11 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
-// import {
-//   FaPowerOff,
-//   FaUserEdit,
-//   FaRegTimesCircle,
-//   FaList,
-//   FaShoppingBag,
-//   FaUserFriends,
-// } from "react-icons/fa";
+
 import Footer from "../components/Footer";
 import HeaderforUser from "../components/HeaderforUser";
 import "../styles/ProfilePageUser.css";
+import { MdVerified } from "react-icons/md";
 function ProfilePageUser() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -97,13 +93,37 @@ function ProfilePageUser() {
     }
   };
   const onSavedPosts = () => {
-    if(!user){
-      navigate("/loginuser")
+    if (!user) {
+      navigate("/loginuser");
+    } else {
+      navigate("/savedposts");
     }
-    else{
-      navigate("/savedposts")
+  };
+
+  const onVerifiedUser = () => {
+    if (!user) {
+      navigate("/loginuser");
+    } else {
+      navigate("/verifieduser");
     }
+  };
+  console.log(user.IsSubscriber);
+  const STRIPE_PUBLIC_KEY = Config.STRIPE_PUBLIC_KEY;
+
+  function onToken(token) {
+    console.log(token);
+
+    const backendEndpoint = `/Users/becomeverifieduser/${user._id}`;
+
+    Axios.put(backendEndpoint, token)
+      .then((response) => {
+        console.log("Token sent to the backend successfully");
+      })
+      .catch((error) => {
+        console.error("Error sending token to the backend:", error);
+      });
   }
+
   console.log("user: ", user);
 
   return (
@@ -127,7 +147,10 @@ function ProfilePageUser() {
               </div>
             </div>
 
-            <h2>{user?.user_name}</h2>
+            <h2>
+              {user?.user_name}{" "}
+              {user.IsSubscriber ? <MdVerified /> : <span></span>}
+            </h2>
             <h5>{user?.email}</h5>
             <h5>{user?.phone}</h5>
 
@@ -180,7 +203,25 @@ function ProfilePageUser() {
               >
                 Privacy &nbsp;&nbsp;
                 <FaLock />
-              </Button>
+              </Button>{" "}
+              {user.IsSubscriber ? (
+                <></>
+              ) : (
+                <StripeCheckout
+                  currency="CAD"
+                  amount={1000}
+                  token={onToken}
+                  stripeKey={STRIPE_PUBLIC_KEY}
+                  className="btn1 btn-primary btn-block mb-2"
+                >
+                  <Button
+                    className="btn1 btn-primary btn-block mb-2"
+                    style={{ marginBottom: "0.5rem", marginTop: "0.5rem" }}
+                  >
+                    Become Verified User &nbsp;&nbsp; <MdVerified />
+                  </Button>
+                </StripeCheckout>
+              )}
               <Button
                 onClick={onSavedPosts}
                 className="btn1 btn-primary btn-block mb-2"

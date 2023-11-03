@@ -9,6 +9,8 @@ const Comment = require("../models/commentModel");
 const { uploadImageToS3 } = require("../AWS_S3/s3");
 const Feed = require("../models/FeedModel");
 const FollowersModel = require("../models/FollowersModel");
+const { v4: uuidv4 } = require("uuid");
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 //Function that enables us to Signup
 const registerUser = asyncHandler(async (req, res) => {
@@ -70,6 +72,7 @@ const registerUser = asyncHandler(async (req, res) => {
     phone: user.phone,
     email: user.email,
     image: user.image,
+    IsSubscriber : user.IsSubscriber,
     token: await generateToken(user.id),
     message: "You are registered",
   });
@@ -97,6 +100,7 @@ const loginUser = asyncHandler(async (req, res) => {
           phone: user.phone,
           email: user.email,
           image: user.image,
+          IsSubscriber: user.IsSubscriber,
           token: await generateToken(user.id),
         });
       } else {
@@ -222,6 +226,42 @@ const getuserinsearch = asyncHandler(async (req, res) => {
   }
 });
 
+const BecomeVerifiedUser = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const token = req.body;
+
+  try {
+    const customer = await stripe.customers.create({
+      email: token.email,
+      source: token.id,
+    });
+
+    const payment = await stripe.charges.create({
+      amount: 10 * 100,
+      customer: customer.id,
+      currency: "CAD",
+      receipt_email: token.email,
+    });
+
+    if (payment) {
+      const updatedUser = await Users.updateOne(
+        { _id: id }, // Update the user with the specified ID
+        { $set: { IsSubscriber: true } } // Update the 'verified' field to True
+      );
+
+      if (updatedUser) {
+        res.status(200).json({ message: "Payment successful and user updated." });
+      } else {
+        res.status(500).json({ message: "Failed to update user." });
+      }
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Payment failed." });
+  }
+});
+
+
 const contentrestriction = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const data = req.body.contentRestriction;
@@ -285,4 +325,5 @@ module.exports = {
   showresultsforoneuser,
   getuserinsearch,
   contentrestriction,
+  BecomeVerifiedUser,
 };

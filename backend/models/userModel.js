@@ -34,6 +34,10 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    IsSubscriber: {
+      type: Boolean,
+      default: false
+    },
   },
   { collection: "Users", timestamp: true }
 );
