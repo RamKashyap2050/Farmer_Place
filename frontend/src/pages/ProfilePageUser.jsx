@@ -107,7 +107,6 @@ function ProfilePageUser() {
       navigate("/verifieduser");
     }
   };
-  console.log(user.IsSubscriber);
   const STRIPE_PUBLIC_KEY = Config.STRIPE_PUBLIC_KEY;
 
   function onToken(token) {
@@ -149,7 +148,7 @@ function ProfilePageUser() {
 
             <h2>
               {user?.user_name}{" "}
-              {user.IsSubscriber ? <MdVerified /> : <span></span>}
+              {user?.IsSubscriber ? <MdVerified /> : <span></span>}
             </h2>
             <h5>{user?.email}</h5>
             <h5>{user?.phone}</h5>
@@ -204,7 +203,7 @@ function ProfilePageUser() {
                 Privacy &nbsp;&nbsp;
                 <FaLock />
               </Button>{" "}
-              {user.IsSubscriber ? (
+              {user?.IsSubscriber ? (
                 <></>
               ) : (
                 <StripeCheckout
