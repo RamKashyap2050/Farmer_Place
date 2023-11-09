@@ -100,13 +100,6 @@ function ProfilePageUser() {
     }
   };
 
-  const onVerifiedUser = () => {
-    if (!user) {
-      navigate("/loginuser");
-    } else {
-      navigate("/verifieduser");
-    }
-  };
   const STRIPE_PUBLIC_KEY = Config.STRIPE_PUBLIC_KEY;
 
   function onToken(token) {
@@ -117,6 +110,9 @@ function ProfilePageUser() {
     Axios.put(backendEndpoint, token)
       .then((response) => {
         console.log("Token sent to the backend successfully");
+
+        // Update a value in localStorage when the request is successful
+        localStorage.setItem("IsSubscriber", "true"); // Change 'someKey' to the appropriate key
       })
       .catch((error) => {
         console.error("Error sending token to the backend:", error);

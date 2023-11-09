@@ -10,7 +10,7 @@ const FewPeopleYouwanttoknow = () => {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const [following, setFollowing] = useState([]);
-
+  const [UserFollowing, setUserFollowing] = useState([]);
   useEffect(() => {
     console.log("useEffect triggered with user:", user);
     if (!user) {
@@ -35,65 +35,91 @@ const FewPeopleYouwanttoknow = () => {
   useEffect(() => {
     Axios.get(`/Follow/getfollowingforuser/${user._id}`)
       .then((response) => {
-        const fetchedFollowing = response.data.followers.map(
-          (follower) => follower.following_to_ID
-        );
+        const fetchedFollowing = response.data.followers.map((follower) => ({
+          followerDetails: follower.following_to_ID,
+          requestStatus: follower.requestStatus,
+        }));
         setFollowing(fetchedFollowing);
-        console.log("Following for fewpeople", following);
       })
       .catch((error) => {
         console.error("Error fetching following:", error);
       });
   }, [user._id]);
 
+  console.log(
+    `Main Following for User ${user.user_name} on Few People Page`,
+    following
+  );
+  console.log(
+    `Only Following sub Following for User ${user.user_name} on Few People Page`,
+    UserFollowing
+  );
+
   const isUserFollowed = (userId) => {
-    return following.some((followingToID) => followingToID._id === userId);
+    const followingInfo = following.find(
+      (followingToID) => followingToID.followerDetails._id === userId
+    );
+
+    return !!followingInfo; // Return true if followingInfo is found, otherwise false
+  };
+
+  const isRequestAccepted = (userId) => {
+    const followingInfo = following.find(
+      (followingToID) => followingToID.followerDetails._id === userId
+    );
+
+    return followingInfo ? followingInfo.requestStatus === "accepted" : false;
   };
 
   const handleFollow = (userId) => {
     const loggedInUserId = user._id;
-    
+
     // Optimistically update the state
     setFollowing([...following, { _id: userId }]);
-    
+
     Axios.post(`/Follow/addfollowers`, {
       userId,
       loggedInUserId,
     })
-    .then((response) => {
-      console.log(`You followed user with ID ${userId}`);
-      // Optionally update the state again upon a successful request (you can remove this if you don't need it)
-      setFollowing([...following, { _id: userId }]);
-    })
-    .catch((error) => {
-      console.error("Error following user:", error);
-      // Revert the state if there's an error
-      setFollowing(following.filter(followingToID => followingToID._id !== userId));
-    });
+      .then((response) => {
+        console.log(`You followed user with ID ${userId}`);
+        // Optionally update the state again upon a successful request (you can remove this if you don't need it)
+        setFollowing([...following, { _id: userId }]);
+      })
+      .catch((error) => {
+        console.error("Error following user:", error);
+        // Revert the state if there's an error
+        setFollowing(
+          following.filter((followingToID) => followingToID._id !== userId)
+        );
+      });
   };
-  
+
   const handleunFollow = (userId) => {
     const loggedInUserId = user._id;
-    
+
     // Optimistically update the state
-    setFollowing(following.filter(followingToID => followingToID._id !== userId));
-    
+    setFollowing(
+      following.filter((followingToID) => followingToID._id !== userId)
+    );
+
     Axios.delete(`/Follow/unfollow`, {
       data: {
         userId: userId,
         loggedInUserId: loggedInUserId,
-      }
+      },
     })
-    .then((response) => {
-      console.log(`You unfollowed user with ID ${userId}`);
-      // Optionally update the state again upon a successful request (you can remove this if you don't need it)
-      setFollowing(following.filter(followingToID => followingToID._id !== userId));
-    })
-    .catch((error) => {
-      console.error("Error unfollowing user:", error);
+      .then((response) => {
+        console.log(`You unfollowed user with ID ${userId}`);
+        // Optionally update the state again upon a successful request (you can remove this if you don't need it)
+        setFollowing(
+          following.filter((followingToID) => followingToID._id !== userId)
+        );
+      })
+      .catch((error) => {
+        console.error("Error unfollowing user:", error);
       });
   };
-  
 
   const onpeoplewantoknow = () => {
     if (!user) {
@@ -152,7 +178,11 @@ const FewPeopleYouwanttoknow = () => {
                   </h5>
                   <button
                     className={`btn btn-${
-                      isUserFollowed(person._id) ? "secondary" : "primary"
+                      isUserFollowed(person._id)
+                        ? isRequestAccepted(person._id)
+                          ? "secondary"
+                          : "primary"
+                        : "primary"
                     } btn-md`}
                     style={{ width: "100%" }}
                     onClick={() => {
@@ -161,7 +191,11 @@ const FewPeopleYouwanttoknow = () => {
                         : handleFollow(person._id);
                     }}
                   >
-                    {isUserFollowed(person._id) ? "Following" : "Follow"}
+                    {isUserFollowed(person._id)
+                      ? isRequestAccepted(person._id)
+                        ? "Following"
+                        : "Request Sent"
+                      : "Follow"}
                   </button>
                 </div>
               </div>

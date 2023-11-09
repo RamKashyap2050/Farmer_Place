@@ -1,26 +1,54 @@
 const asyncHandler = require("express-async-handler");
 const FollowersModel = require("../models/FollowersModel");
-
+const Users = require("../models/userModel")
 const addfollowers = asyncHandler(async (req, res) => {
   const { userId, loggedInUserId } = req.body;
 
-  // Check if a similar entry already exists
-  const existingFollower = await FollowersModel.findOne({
-    following_to_ID: userId,
-    followed_by_ID: loggedInUserId,
-  });
+  const targetUser = await Users.findById(userId);
 
-  if (existingFollower) {
-    res.status(409).json({ message: "User is already following." });
+  if (!targetUser) {
+    return res.status(404).json({ message: "Target user not found." });
+  }
+
+  if (targetUser.PrivateAccount || targetUser.OnlyFollowers) {
+    const existingRequest = await FollowersModel.findOne({
+      following_to_ID: userId,
+      followed_by_ID: loggedInUserId,
+      requestStatus: "pending", 
+    });
+
+    if (existingRequest) {
+      return res.status(409).json({ message: "Follow request already sent." });
+    }
+
+    const newRequest = await FollowersModel.create({
+      following_to_ID: userId,
+      followed_by_ID: loggedInUserId,
+      requestStatus: "pending",
+    });
+
+    return res.status(201).json(newRequest);
   } else {
+    const existingFollower = await FollowersModel.findOne({
+      following_to_ID: userId,
+      followed_by_ID: loggedInUserId,
+      requestStatus: "accepted", 
+    });
+
+    if (existingFollower) {
+      return res.status(409).json({ message: "User is already following." });
+    }
+
     const newFollower = await FollowersModel.create({
       following_to_ID: userId,
       followed_by_ID: loggedInUserId,
+      requestStatus: "accepted",
     });
 
-    res.status(201).json(newFollower);
+    return res.status(201).json(newFollower);
   }
 });
+
 
 const deleteFollower = asyncHandler(async (req, res) => {
   const { userId, loggedInUserId} = req.body;
@@ -52,7 +80,7 @@ const getUserFollowingUsingUserID = asyncHandler(async (req, res) => {
         "followed_by_ID",
         "user_name image AccountStatus PrivateAccount OnlyFollowers"
       )
-      .select("following_to_id followed_by_id");
+      .select("following_to_id followed_by_id requestStatus");
     console.log("Follower of User", followers);
 
     if (!followers || followers.length === 0) {
@@ -81,7 +109,7 @@ const getUserFollowersUsingUserID = asyncHandler(async (req, res) => {
         "followed_by_ID",
         "user_name image AccountStatus PrivateAccount OnlyFollowers"
       )
-      .select("followed_by_ID");
+      .select("followed_by_ID requestStatus");
     console.log(followers);
 
     if (!followers || followers.length === 0) {
