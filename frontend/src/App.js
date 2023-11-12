@@ -29,76 +29,68 @@ import ViewIndividualUserFollowersandFollowing from "./pages/ViewIndividualUserF
 import ContentRestriction from "./components/ContentRestriction";
 import WorkInProgress from "./pages/WorkInProgress";
 import SavedPostsforUser from "./pages/SavedPostsforUser";
+import FriendRequestApproval from "./pages/FriendRequestApproval";
 
 function App() {
-
   return (
     <>
       <Router />
-        <Router>
-          <div>
-            <Routes>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/loginuser" element={<LoginforUser />} />
-              <Route path="/signupuser" element={<SignupforUser />} />
-              <Route path="/loginadmin" element={<LoginforAdmin />} />
-              <Route path="/edityourprofile" element={<EditYourProfile />} />
-              <Route path="/getallUserforAdmin" element={<AllUsersAdmin />} />
-              <Route path="/dashboard" element={<ProfilePageUser />} />
-              <Route path="/dashboardAdmin" element={<DashboardForAdmin />} />
-              <Route path="/forgotpassword" element={<ForgotPasswordForm />} />
-              <Route
-                path="/reset-password/:id/:token"
-                element={<ResetPasswordForm />}
-              />
-              <Route
-                path="/forgotpasswordAdmin"
-                element={<ForgotPasswordAdmin />}
-              />
-              <Route
-                path="/reset-password-admin/:id/:token"
-                element={<ResetPasswordAdmin />}
-              />
-              <Route path="/feedpage" element={<Feedpage />} />
-              <Route path="/marketplace" element={<MarketPlace />} />
-              <Route
-                path="/getallistingsforadmin"
-                element={<AllListingsforAdmin />}
-              />
-              <Route
-                path="/getallpostsforadmin"
-                element={<AllPostsforAdmin />}
-              />
-              <Route path="/feedback" element={<Feedback />} />
-              <Route path="/manageuserpost" element={<ManagePostsforUser />} />
-              <Route
-                path="/manageuserproduct"
-                element={<ManageMarketPlace />}
-              />
-              <Route
-                path="/cehckoutfeedbacks"
-                element={<CheckoutFeedbacks />}
-              />
-              <Route path="/followers" element={<Peopleyouwanttoknow />} />
-              <Route path="/checkuserfollowers" element={<ManageFollowers />} />
-              <Route path="/checkuserfollowing" element={<ManageFollowing />} />
-              <Route
-                path="/profile/:id"
-                element={<IndividualProfilePageUser />}
-              />
-              <Route
-                path="/profile/:id/viewfollowers"
-                element={<ViewIndividualUserFollowersandFollowing />}
-              />
-              <Route
-                path="/contentrestriction"
-                element={<ContentRestriction />}
-              />
-              <Route path="/workinprogress" element={<WorkInProgress />} />
-              <Route path="/savedposts" element={<SavedPostsforUser />} />
-            </Routes>
-          </div>
-        </Router>
+      <Router>
+        <div>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/loginuser" element={<LoginforUser />} />
+            <Route path="/signupuser" element={<SignupforUser />} />
+            <Route path="/loginadmin" element={<LoginforAdmin />} />
+            <Route path="/edityourprofile" element={<EditYourProfile />} />
+            <Route path="/getallUserforAdmin" element={<AllUsersAdmin />} />
+            <Route path="/dashboard" element={<ProfilePageUser />} />
+            <Route path="/dashboardAdmin" element={<DashboardForAdmin />} />
+            <Route path="/forgotpassword" element={<ForgotPasswordForm />} />
+            <Route
+              path="/reset-password/:id/:token"
+              element={<ResetPasswordForm />}
+            />
+            <Route
+              path="/forgotpasswordAdmin"
+              element={<ForgotPasswordAdmin />}
+            />
+            <Route
+              path="/reset-password-admin/:id/:token"
+              element={<ResetPasswordAdmin />}
+            />
+            <Route path="/feedpage" element={<Feedpage />} />
+            <Route path="/marketplace" element={<MarketPlace />} />
+            <Route
+              path="/getallistingsforadmin"
+              element={<AllListingsforAdmin />}
+            />
+            <Route path="/getallpostsforadmin" element={<AllPostsforAdmin />} />
+            <Route path="/feedback" element={<Feedback />} />
+            <Route path="/manageuserpost" element={<ManagePostsforUser />} />
+            <Route path="/manageuserproduct" element={<ManageMarketPlace />} />
+            <Route path="/cehckoutfeedbacks" element={<CheckoutFeedbacks />} />
+            <Route path="/followers" element={<Peopleyouwanttoknow />} />
+            <Route path="/checkuserfollowers" element={<ManageFollowers />} />
+            <Route path="/checkuserfollowing" element={<ManageFollowing />} />
+            <Route
+              path="/profile/:id"
+              element={<IndividualProfilePageUser />}
+            />
+            <Route
+              path="/profile/:id/viewfollowers"
+              element={<ViewIndividualUserFollowersandFollowing />}
+            />
+            <Route
+              path="/contentrestriction"
+              element={<ContentRestriction />}
+            />
+            <Route path="/workinprogress" element={<WorkInProgress />} />
+            <Route path="/savedposts" element={<SavedPostsforUser />} />
+            <Route path="/friendrequests" element={<FriendRequestApproval />} />
+          </Routes>
+        </div>
+      </Router>
 
       <ToastContainer />
     </>
