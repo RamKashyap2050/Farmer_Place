@@ -140,7 +140,7 @@ const IndividualProfilePageUser = () => {
                 id="custom-link2"
                 onClick={(e) => {
                   if (!showContent) {
-                    e.preventDefault(); // Prevent the default navigation behavior
+                    e.preventDefault();
                   }
                 }}
               >
@@ -155,7 +155,7 @@ const IndividualProfilePageUser = () => {
                 id="custom-link"
                 onClick={(e) => {
                   if (!showContent) {
-                    e.preventDefault(); // Prevent the default navigation behavior
+                    e.preventDefault();
                   }
                 }}
               >
@@ -166,7 +166,7 @@ const IndividualProfilePageUser = () => {
               </Link>
             </div>
           </div>
-          {user._id == userData._id ? (
+          {user._id === userData._id ? (
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <button
                 className="btn btn-secondary"
@@ -185,33 +185,64 @@ const IndividualProfilePageUser = () => {
             </div>
           ) : (
             <>
-              {userData.User_Followers.includes(user._id) ? (
+              {userData.User_Following.some(
+                (follower) =>
+                  follower.following_id === user._id &&
+                  follower.requestStatus === "pending"
+              ) ? (
                 <div
-                  style={{ display: "flex", justifyContent: "space-between" }}
+                  style={{ display: "flex", justifyContent: "space-around" }}
                 >
                   <button
-                    className="btn btn-secondary"
+                    className="btn btn-primary"
                     style={{ width: "100%", marginRight: "1rem" }}
                     onClick={() => OnFollow(userData._id)}
                   >
-                    Following
-                  </button>
+                    Accept
+                  </button>{" "}
                   <button
-                    className="btn btn-primary"
-                    onClick={OnFollow}
-                    style={{ width: "100%" }}
+                    className="btn btn-danger"
+                    style={{ width: "100%", marginRight: "1rem" }}
+                    onClick={() => OnFollow(userData._id)}
                   >
-                    Share Profile
-                  </button>
+                    Reject
+                  </button>{" "}
                 </div>
               ) : (
-                <button
-                  className="btn btn-primary btn-block"
-                  style={{ maxWidth: "100%" }}
-                  onClick={() => OnFollow(userData._id)}
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  Follow
-                </button>
+                  {userData.User_Followers.some(
+                    (follower) =>
+                      follower.follower_id === user._id &&
+                      follower.requestStatus === "accepted"
+                  ) ? (
+                    <>
+                      <button
+                        className="btn btn-secondary"
+                        style={{ width: "100%", marginRight: "1rem" }}
+                        onClick={() => OnFollow(userData._id)}
+                      >
+                        Following
+                      </button>
+                      <button
+                        className="btn btn-primary"
+                        onClick={OnFollow}
+                        style={{ width: "100%" }}
+                      >
+                        Share Profile
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      className="btn btn-primary btn-block"
+                      style={{ maxWidth: "100%" }}
+                      onClick={() => OnFollow(userData._id)}
+                    >
+                      Follow
+                    </button>
+                  )}
+                </div>
               )}
             </>
           )}

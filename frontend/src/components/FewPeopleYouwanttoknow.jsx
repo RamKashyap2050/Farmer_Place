@@ -111,7 +111,6 @@ const FewPeopleYouwanttoknow = () => {
     })
       .then((response) => {
         console.log(`You unfollowed user with ID ${userId}`);
-        // Optionally update the state again upon a successful request (you can remove this if you don't need it)
         setFollowing(
           following.filter((followingToID) => followingToID._id !== userId)
         );

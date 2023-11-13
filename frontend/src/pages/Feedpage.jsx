@@ -7,7 +7,13 @@ import "../styles/Feedpage.css";
 import { ToastContainer, toast } from "react-toastify";
 import AllUserPostFeedforUser from "../components/AllUserPostFeedforUser";
 import FewMarketPlaceProducts from "../components/FewMarketPlaceProducts";
-import { FaImage } from "react-icons/fa";
+import {
+  FaBold,
+  FaImage,
+  FaItalic,
+  FaUnderline,
+  FaVideo,
+} from "react-icons/fa";
 const Feedpage = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
@@ -81,45 +87,122 @@ const Feedpage = () => {
       <br />
       <div className="Feedpagecontainer">
         <div className="Feedpage">
-          {/* <h3 style={{textAlign:"center", fontWeight:700}}>Share what's on your mind ?</h3>
-        <span class="line"></span><br /><br /> */}
-
           <form
             onSubmit={onSubmit}
             encType="multipart/form-data"
             className="form"
+            style={{ position: "relative" }}
           >
-            <div class="form-group">
-              <label for="title" class="text-white">
+            <div className="form-group">
+              <label htmlFor="title" className="text-white">
                 Title:
               </label>
               <input
                 type="text"
                 id="title"
                 name="title"
-                class="form-control form-control-lg bg-dark text-white"
+                className="form-control form-control-lg bg-dark text-white"
                 required
                 value={title}
                 onChange={onChange}
                 placeholder="Share what is on your mind"
               />
             </div>
-            <div class="form-group">
-              <label for="content" class="text-white">
+            <div className="form-group">
+              <label htmlFor="content" className="text-white">
                 Content:
               </label>
-              <textarea
-                id="content"
-                name="content"
-                class="form-control form-control-lg bg-dark text-white"
-                rows="6"
-                required
-                value={content}
-                onChange={onChange}
-                placeholder="Write your content here"
-              ></textarea>
+              <div style={{ position: "relative" }}>
+                <textarea
+                  id="content"
+                  name="content"
+                  className="form-control form-control-lg bg-dark text-white"
+                  rows="3"
+                  required
+                  value={content}
+                  onChange={onChange}
+                  placeholder="Write your content here"
+                ></textarea>
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: "10px",
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    top: "6rem",
+                    left: "2rem",
+                  }}
+                >
+                  <div style={{display:"flex", justifyContent:"space-around", flexDirection:"row", alignItems:"self-start"}}>
+                    <div className="form-group">
+                      <input
+                        type="file"
+                        className="custom-file-input"
+                        id="post_image"
+                        name="post_image"
+                        onChange={onChange}
+                      />
+                      <label htmlFor="post_image">
+                        <FaImage />
+                      </label>
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="file"
+                        className="custom-file-input"
+                        id="post_image"
+                        name="post_image"
+                        onChange={onChange}
+                      />
+                      <label htmlFor="post_image">
+                        <FaBold />
+                      </label>
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="file"
+                        className="custom-file-input"
+                        id="post_image"
+                        name="post_image"
+                        onChange={onChange}
+                      />
+                      <label htmlFor="post_image">
+                        <FaItalic />
+                      </label>
+                    </div>
+                    {/* <FaBold style={{marginRight:"1rem"}}/>
+                  <FaItalic style={{ marginRight: "1rem" }} />
+                  <FaUnderline style={{ marginRight: "1rem" }} /> */}
+                    <div className="form-group">
+                      <input
+                        type="file"
+                        className="custom-file-input"
+                        id="post_image"
+                        name="post_image"
+                        onChange={onChange}
+                      />
+                      <label htmlFor="post_image">
+                        <FaUnderline />
+                      </label>
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="file"
+                        className="custom-file-input"
+                        id="post_image"
+                        name="post_image"
+                        onChange={onChange}
+                      />
+                      <label htmlFor="post_image">
+                        <FaVideo />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
               <label htmlFor="post_image" className="text-white">
                 Choose an Image to Upload <FaImage />
               </label>
@@ -136,8 +219,11 @@ const Feedpage = () => {
                   htmlFor="post_image"
                 ></label>
               </div>
-            </div>
-            <button type="submit" class="btn btn-primary btn-lg btn-block">
+            </div> */}
+            <button
+              type="submit"
+              className="btn btn-primary btn-lg btn-block mt-3"
+            >
               Submit
             </button>
           </form>

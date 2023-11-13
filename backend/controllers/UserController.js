@@ -212,19 +212,43 @@ const getuserinsearch = asyncHandler(async (req, res) => {
     }
 
     const followers = await FollowersModel.find({ following_to_ID: id });
-    const User_Followers = followers.map((follower) => follower.followed_by_ID);
+
+    const following = await FollowersModel.find({followed_by_ID: id});
+
+    // Retrieve follower IDs and requestStatus
+    const followersInfo = await Promise.all(
+      followers.map(async (follower) => {
+        const user = await Users.findOne({ _id: follower.followed_by_ID });
+        return {
+          follower_id: follower.followed_by_ID,
+          requestStatus: follower.requestStatus,
+        };
+      })
+    );
+
+    const followingInfo = await Promise.all(
+      following.map(async (follower) => {
+        const user = await Users.findOne({ _id: follower.following_to_ID });
+        return {
+          following_id: follower.following_to_ID,
+          requestStatus: follower.requestStatus,
+        };
+      })
+    );
 
     const userWithFollowers = {
       ...getuserinsearch._doc,
-      User_Followers,
+      User_Followers: followersInfo,
+      User_Following: followingInfo
     };
-    console.log(userWithFollowers);
+    console.log("User With Followers for Individual Page", userWithFollowers)
     return res.status(200).json(userWithFollowers);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server error" });
   }
 });
+
 
 const BecomeVerifiedUser = asyncHandler(async (req, res) => {
   const { id } = req.params;

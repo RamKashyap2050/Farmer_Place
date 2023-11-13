@@ -81,7 +81,6 @@ const getUserFollowingUsingUserID = asyncHandler(async (req, res) => {
         "user_name image AccountStatus PrivateAccount OnlyFollowers"
       )
       .select("following_to_id followed_by_id requestStatus");
-    console.log("Follower of User", followers);
 
     if (!followers || followers.length === 0) {
       return res
@@ -110,7 +109,6 @@ const getUserFollowersUsingUserID = asyncHandler(async (req, res) => {
         "user_name image AccountStatus PrivateAccount OnlyFollowers"
       )
       .select("followed_by_ID requestStatus");
-    console.log(followers);
 
     if (!followers || followers.length === 0) {
       return res
