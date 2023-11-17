@@ -10,6 +10,7 @@ const FewPeopleYouwanttoknow = () => {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const [following, setFollowing] = useState([]);
+  const [followers, setFollowers] = useState([]);
   const [UserFollowing, setUserFollowing] = useState([]);
   useEffect(() => {
     console.log("useEffect triggered with user:", user);
@@ -46,21 +47,37 @@ const FewPeopleYouwanttoknow = () => {
       });
   }, [user._id]);
 
+  useEffect(() => {
+    Axios.get(`/Follow/getfollowersforuser/${user._id}`)
+      .then((response) => {
+        const fetchedFollowers = response.data.followers.map((follower) => ({
+          followerDetails: follower.followed_by_ID,
+          requestStatus: follower.requestStatus,
+        }));
+        setFollowers(fetchedFollowers);
+      })
+      .catch((error) => {
+        console.error("Error fetching followers:", error);
+      });
+  }, [user._id]);
+
   console.log(
     `Main Following for User ${user.user_name} on Few People Page`,
     following
   );
   console.log(
-    `Only Following sub Following for User ${user.user_name} on Few People Page`,
-    UserFollowing
+    `Main Page Followers for User ${user.user_name} on Few people page`,
+    followers
   );
-
   const isUserFollowed = (userId) => {
+    const followerInfo = followers.find(
+      (followingToID) => followingToID.followerDetails._id === userId
+    );
     const followingInfo = following.find(
       (followingToID) => followingToID.followerDetails._id === userId
     );
 
-    return !!followingInfo; // Return true if followingInfo is found, otherwise false
+    return !!followingInfo || !!followerInfo; // Return true if followingInfo is found, otherwise false
   };
 
   const isRequestAccepted = (userId) => {
@@ -69,6 +86,18 @@ const FewPeopleYouwanttoknow = () => {
     );
 
     return followingInfo ? followingInfo.requestStatus === "accepted" : false;
+  };
+
+  const isRequestPending = (userId) => {
+    const followingInfo = followers.find(
+      (followingToID) => followingToID.followerDetails._id === userId
+    );
+
+    return followingInfo ? followingInfo.requestStatus === "pending" : false;
+  };
+
+  const handleAcceptRequest = (userId) => {
+    // Add logic to handle accepting the follow request
   };
 
   const handleFollow = (userId) => {
@@ -180,19 +209,25 @@ const FewPeopleYouwanttoknow = () => {
                       isUserFollowed(person._id)
                         ? isRequestAccepted(person._id)
                           ? "secondary"
-                          : "primary"
+                          : isRequestPending(person._id)
+                          ? "success"
+                          : "danger"
                         : "primary"
                     } btn-md`}
                     style={{ width: "100%" }}
                     onClick={() => {
                       isUserFollowed(person._id)
-                        ? handleunFollow(person._id)
+                        ? isRequestAccepted(person._id)
+                          ? handleunFollow(person._id)
+                          : handleAcceptRequest(person._id)
                         : handleFollow(person._id);
                     }}
                   >
                     {isUserFollowed(person._id)
                       ? isRequestAccepted(person._id)
                         ? "Following"
+                        : isRequestPending(person._id)
+                        ? "Accept"
                         : "Request Sent"
                       : "Follow"}
                   </button>
