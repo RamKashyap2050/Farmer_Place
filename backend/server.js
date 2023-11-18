@@ -33,6 +33,7 @@ app.use("/Admin", require("./routes/AdminRoutes"));
 app.use("/Feed", require("./routes/FeedRoutes"));
 app.use("/MarketPlace", require("./routes/MarketPlaceRoutes"));
 app.use("/Follow", require("./routes/FollowerRoutes"));
+app.use("/CloseFriend", require("./routes/CloseFriendsRoutes"));
 
 console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === "production") {

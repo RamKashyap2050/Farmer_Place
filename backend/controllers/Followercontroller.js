@@ -123,9 +123,37 @@ const getUserFollowersUsingUserID = asyncHandler(async (req, res) => {
   }
 });
 
+
+const UpdateFollowerStatus = async (req, res) => {
+  try {
+    const { userId, loggedInUserId } = req.body;
+    console.log(userId,loggedInUserId)
+    const followerRecord = await FollowersModel.findOne({
+      followed_by_ID: userId,
+      following_to_ID: loggedInUserId
+    });
+    
+    if (!followerRecord) {
+      return res.status(404).json({ message: 'Follower record not found.' });
+    }
+
+    followerRecord.requestStatus = 'accepted'; 
+
+    await followerRecord.save();
+
+    res.status(200).json({ message: 'Follower record updated successfully.' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+
+
 module.exports = {
   addfollowers,
   getUserFollowingUsingUserID,
   getUserFollowersUsingUserID,
-  deleteFollower
+  deleteFollower,
+  UpdateFollowerStatus
 };

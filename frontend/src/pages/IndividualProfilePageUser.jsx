@@ -106,6 +106,38 @@ const IndividualProfilePageUser = () => {
       });
   };
 
+  const OnCloseFriend = (userId) => {
+    const loggedInUserId = user._id;
+    axios
+      .post(`/CloseFriend/addclosefriends`, {
+        userId,
+        loggedInUserId,
+      })
+      .then((response) => {
+        console.log(`You followed user with ID ${userId}`);
+      })
+      .catch((error) => {
+        console.error("Error following user:", error);
+      });
+  };
+
+
+  const OnAcceptRequest = (userId) => {
+    //LoggedInUserID is the user that's logged in Primary user
+    //userId is the ID of the user whose ID request status will be update
+    const loggedInUserId = user._id;
+    axios
+      .put(`/Follow/updatefollowersstatus`, {
+        userId,
+        loggedInUserId,
+      })
+      .then((response) => {
+        console.log(`You followed user with ID ${userId}`);
+      })
+      .catch((error) => {
+        console.error("Error following user:", error);
+      });
+  };
   const onEditProfile = () => {
     console.log("I am clicked");
     navigate("/edityourprofile");
@@ -196,7 +228,7 @@ const IndividualProfilePageUser = () => {
                   <button
                     className="btn btn-primary"
                     style={{ width: "100%", marginRight: "1rem" }}
-                    onClick={() => OnFollow(userData._id)}
+                    onClick={() => OnAcceptRequest(userData._id)}
                   >
                     Accept
                   </button>{" "}
@@ -226,6 +258,13 @@ const IndividualProfilePageUser = () => {
                         Following
                       </button>
                       <button
+                        className="btn btn-success"
+                        style={{ width: "100%", marginRight: "1rem" }}
+                        onClick={() => OnCloseFriend(userData._id)}
+                      >
+                        Add Close Friend
+                      </button>
+                      <button
                         className="btn btn-primary"
                         onClick={OnFollow}
                         style={{ width: "100%" }}
@@ -233,6 +272,7 @@ const IndividualProfilePageUser = () => {
                         Share Profile
                       </button>
                     </>
+                    
                   ) : (
                     <button
                       className="btn btn-primary btn-block"
