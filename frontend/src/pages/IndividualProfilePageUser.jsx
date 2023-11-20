@@ -43,7 +43,7 @@ const IndividualProfilePageUser = () => {
   }, [id]);
 
   useEffect(() => {
-    const backendURL = `/Users/getuser/${id}`;
+    const backendURL = `/Users/getuser/${id}/${user._id}`;
 
     axios
       .get(backendURL)
@@ -121,7 +121,6 @@ const IndividualProfilePageUser = () => {
       });
   };
 
-
   const OnAcceptRequest = (userId) => {
     //LoggedInUserID is the user that's logged in Primary user
     //userId is the ID of the user whose ID request status will be update
@@ -152,8 +151,13 @@ const IndividualProfilePageUser = () => {
               <CardMedia
                 alt={userData.user_name}
                 image={userData.image}
-                className="profilephoto"
+                className={
+                  userData.Close_Friends
+                    ? "CloseFriendsprofilephoto"
+                    : "profilephoto"
+                }
               />
+
               <CardContent>
                 <Typography variant="h5" component="div">
                   {userData.user_name}{" "}
@@ -257,13 +261,15 @@ const IndividualProfilePageUser = () => {
                       >
                         Following
                       </button>
-                      <button
-                        className="btn btn-success"
-                        style={{ width: "100%", marginRight: "1rem" }}
-                        onClick={() => OnCloseFriend(userData._id)}
-                      >
-                        Add Close Friend
-                      </button>
+                      {userData.Close_Friends ? null : (
+                        <button
+                          className="btn btn-success"
+                          style={{ width: "100%", marginRight: "1rem" }}
+                          onClick={() => OnCloseFriend(userData._id)}
+                        >
+                          Add Close Friend
+                        </button>
+                      )}
                       <button
                         className="btn btn-primary"
                         onClick={OnFollow}
@@ -272,7 +278,6 @@ const IndividualProfilePageUser = () => {
                         Share Profile
                       </button>
                     </>
-                    
                   ) : (
                     <button
                       className="btn btn-primary btn-block"

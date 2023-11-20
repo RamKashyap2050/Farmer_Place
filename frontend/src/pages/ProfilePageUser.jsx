@@ -92,6 +92,14 @@ function ProfilePageUser() {
       navigate("/contentrestriction");
     }
   };
+
+  const onClosefriends = () => {
+    if (!user) {
+      navigate("/loginuser");
+    } else {
+      navigate("/editclosefriends");
+    }
+  };
   const onSavedPosts = () => {
     if (!user) {
       navigate("/loginuser");
@@ -169,6 +177,13 @@ function ProfilePageUser() {
                 className="btn1 btn-secondary btn-block mb-2"
               >
                 View your Following&nbsp;&nbsp;
+                <FaUserFriends />
+              </Button>
+              <Button
+                onClick={onClosefriends}
+                className="btn1 btn-secondary btn-block mb-2"
+              >
+                Edit Close Friends &nbsp;&nbsp;
                 <FaUserFriends />
               </Button>
               <Button

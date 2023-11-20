@@ -29,7 +29,7 @@ router.route("/feedback").post(protect, StoreFeedback);
 router.route("/report").post(ReportedPost);
 router.route("/updateuser/:userID").put(updateUserProfile);
 router.route("/getOneUserforSearch/:id").get(showresultsforoneuser)
-router.route("/getuser/:id").get(getuserinsearch)
+router.route("/getuser/:id/:loggedinuserid").get(getuserinsearch)
 router.route("/contentrestriction/:id").put(contentrestriction)
 router.route("/becomeverifieduser/:id").put(BecomeVerifiedUser)
 module.exports = router;

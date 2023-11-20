@@ -29,6 +29,7 @@ const AllUserPostFeedforUser = () => {
   const [show, setShow] = useState({});
   const [comment, setComment] = useState("");
   const [likes, setLikes] = useState({});
+  const [users, setUsers] = useState([]);
 
   const handleClick = (postId) => {
     setShow((prevState) => ({
@@ -61,6 +62,19 @@ const AllUserPostFeedforUser = () => {
         console.log(error);
       });
   }, []);
+
+  useEffect(() => {
+    Axios.get("/Admin/getallusers/")
+      .then((response) => {
+        const populatedData = response.data;
+        setUsers(populatedData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  console.log("Users", users)
+
   console.log("Total Feed", results);
   useEffect(() => {
     const filtered = results.filter(
@@ -186,6 +200,15 @@ const AllUserPostFeedforUser = () => {
           <FaSearch />
         </div>
       </div>
+      {/* {users.map((val, key) => (
+        <div key={key}>
+          <img
+            src={val.image}
+            alt="User Profile"
+            className="card-img-top fewpeopleprofilephoto"
+          />
+        </div>
+      ))}; */}
 
       {filteredResults.length > 0 ? (
         filteredResults
@@ -248,8 +271,8 @@ const AllUserPostFeedforUser = () => {
                       alt="Post Image"
                       className="Dashboardprofilephoto"
                     />
-                    &nbsp;{val.user_name}{"  "}{" "}
-                    {val.user.IsSubscriber ? <MdVerified /> : <></>}
+                    &nbsp;{val.user_name}
+                    {"  "} {val.user.IsSubscriber ? <MdVerified /> : <></>}
                   </h5>
                 </Link>
                 <img

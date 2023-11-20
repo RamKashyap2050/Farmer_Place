@@ -30,6 +30,7 @@ import ContentRestriction from "./components/ContentRestriction";
 import WorkInProgress from "./pages/WorkInProgress";
 import SavedPostsforUser from "./pages/SavedPostsforUser";
 import FriendRequestApproval from "./pages/FriendRequestApproval";
+import CloseFriends from "./pages/CloseFriends";
 
 function App() {
   return (
@@ -88,6 +89,7 @@ function App() {
             <Route path="/workinprogress" element={<WorkInProgress />} />
             <Route path="/savedposts" element={<SavedPostsforUser />} />
             <Route path="/friendrequests" element={<FriendRequestApproval />} />
+            <Route path="/editclosefriends" element={<CloseFriends />} />
           </Routes>
         </div>
       </Router>

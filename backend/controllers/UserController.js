@@ -11,6 +11,7 @@ const Feed = require("../models/FeedModel");
 const FollowersModel = require("../models/FollowersModel");
 const { v4: uuidv4 } = require("uuid");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const CloseFriends = require("../models/CloseFriendsModel");
 
 //Function that enables us to Signup
 const registerUser = asyncHandler(async (req, res) => {
@@ -72,7 +73,7 @@ const registerUser = asyncHandler(async (req, res) => {
     phone: user.phone,
     email: user.email,
     image: user.image,
-    IsSubscriber : user.IsSubscriber,
+    IsSubscriber: user.IsSubscriber,
     token: await generateToken(user.id),
     message: "You are registered",
   });
@@ -202,7 +203,13 @@ const showresultsforoneuser = asyncHandler(async (req, res) => {
 
 const getuserinsearch = asyncHandler(async (req, res) => {
   const id = req.params.id;
-  console.log(id);
+  const loggedinuserid  = req.params.loggedinuserid;
+  let isCloseFriend = false;
+
+
+  
+  console.log(`ID(ID of whose results are being display,  Close_Friend_ID):${id} `)
+  console.log(`Who is Primary user(ID of whose are viewing those results are being display, user_ID):${loggedinuserid} `)
 
   try {
     const getuserinsearch = await Users.findOne({ _id: id });
@@ -212,8 +219,12 @@ const getuserinsearch = asyncHandler(async (req, res) => {
     }
 
     const followers = await FollowersModel.find({ following_to_ID: id });
-
-    const following = await FollowersModel.find({followed_by_ID: id});
+    const following = await FollowersModel.find({ followed_by_ID: id });
+    const close_friends = await CloseFriends.findOne({
+      Close_Friend_ID: id,
+      user_ID: loggedinuserid,
+    });
+    console.log("Close Friends", close_friends)
 
     // Retrieve follower IDs and requestStatus
     const followersInfo = await Promise.all(
@@ -236,12 +247,18 @@ const getuserinsearch = asyncHandler(async (req, res) => {
       })
     );
 
+    if (close_friends) {
+      isCloseFriend = true;
+    }
+    
     const userWithFollowers = {
       ...getuserinsearch._doc,
       User_Followers: followersInfo,
-      User_Following: followingInfo
+      User_Following: followingInfo,
+      Close_Friends: isCloseFriend,
     };
-    console.log("User With Followers for Individual Page", userWithFollowers)
+
+    console.log("User With Followers for Individual Page", userWithFollowers);
     return res.status(200).json(userWithFollowers);
   } catch (error) {
     console.error(error);
@@ -274,7 +291,9 @@ const BecomeVerifiedUser = asyncHandler(async (req, res) => {
       );
 
       if (updatedUser) {
-        res.status(200).json({ message: "Payment successful and user updated." });
+        res
+          .status(200)
+          .json({ message: "Payment successful and user updated." });
       } else {
         res.status(500).json({ message: "Failed to update user." });
       }
@@ -284,7 +303,6 @@ const BecomeVerifiedUser = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Payment failed." });
   }
 });
-
 
 const contentrestriction = asyncHandler(async (req, res) => {
   const { id } = req.params;
