@@ -31,6 +31,7 @@ import WorkInProgress from "./pages/WorkInProgress";
 import SavedPostsforUser from "./pages/SavedPostsforUser";
 import FriendRequestApproval from "./pages/FriendRequestApproval";
 import CloseFriends from "./pages/CloseFriends";
+import NewPost from "./components/NewPost";
 
 function App() {
   return (
@@ -90,6 +91,7 @@ function App() {
             <Route path="/savedposts" element={<SavedPostsforUser />} />
             <Route path="/friendrequests" element={<FriendRequestApproval />} />
             <Route path="/editclosefriends" element={<CloseFriends />} />
+            <Route path="/newpost" element={<NewPost />} />
           </Routes>
         </div>
       </Router>

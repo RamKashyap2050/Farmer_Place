@@ -8,6 +8,8 @@ import {
   FaUser,
   FaFacebookMessenger,
 } from "react-icons/fa";
+import { MdAddBox } from "react-icons/md";
+
 const HeaderforUser = () => {
   return (
     <header>
@@ -32,6 +34,14 @@ const HeaderforUser = () => {
             </li>
           </Link>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <Link to="/newpost">
+            <li>
+              <a href="#" className="brand-icons">
+                <MdAddBox />
+              </a>
+            </li>
+          </Link>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <Link to="/dashboard">
             <li>
               <a href="#" className="brand-icons">
@@ -47,15 +57,15 @@ const HeaderforUser = () => {
               </a>
             </li>
           </Link>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <Link to="/workinprogress">
+          {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */}
+          {/* <Link to="/workinprogress">
             <li>
               <a href="#" className="brand-icons">
                 <FaFacebookMessenger />
               </a>
             </li>
           </Link>
-          &nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp; */}
         </ul>
       </nav>
     </header>

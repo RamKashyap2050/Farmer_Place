@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { useSelector } from "react-redux";
 import "../styles/Alluserposts.css";
-import { Buffer } from "buffer";
 import Box from "@mui/material/Box";
 import {
   FaSearch,
@@ -17,10 +16,10 @@ import {
 } from "react-icons/fa";
 import Skeleton from "@mui/material/Skeleton";
 import { ToastContainer, toast } from "react-toastify";
-import NoResultsFound from "./NoResultsFound";
 import FewPeopleYouwanttoknow from "./FewPeopleYouwanttoknow";
 import { Link } from "react-router-dom";
 import { MdVerified } from "react-icons/md";
+import Stories from "./Stories";
 
 const AllUserPostFeedforUser = () => {
   const [results, setResults] = useState([]);
@@ -73,7 +72,7 @@ const AllUserPostFeedforUser = () => {
         console.log(error);
       });
   }, []);
-  console.log("Users", users)
+  console.log("Users", users);
 
   console.log("Total Feed", results);
   useEffect(() => {
@@ -181,7 +180,7 @@ const AllUserPostFeedforUser = () => {
   return (
     <>
       <div style={{ position: "relative", maxWidth: "400px", margin: "auto" }}>
-        <input
+        {/* <input
           type="text"
           placeholder="Search posts..."
           value={searchTerm}
@@ -198,18 +197,10 @@ const AllUserPostFeedforUser = () => {
           }}
         >
           <FaSearch />
-        </div>
+        </div> */}
       </div>
-      {/* {users.map((val, key) => (
-        <div key={key}>
-          <img
-            src={val.image}
-            alt="User Profile"
-            className="card-img-top fewpeopleprofilephoto"
-          />
-        </div>
-      ))}; */}
 
+      <Stories />
       {filteredResults.length > 0 ? (
         filteredResults
           .slice()
