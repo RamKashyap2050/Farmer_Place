@@ -214,3 +214,11 @@ td{
 /* Carousel Styling */
 
 
+.round-btn{
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 12px;
+  padding: 20px 40px;
+}

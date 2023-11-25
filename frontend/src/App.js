@@ -32,6 +32,8 @@ import SavedPostsforUser from "./pages/SavedPostsforUser";
 import FriendRequestApproval from "./pages/FriendRequestApproval";
 import CloseFriends from "./pages/CloseFriends";
 import NewPost from "./components/NewPost";
+import ManageCommunity from "./pages/ManageCommunity";
+import CreateCommunity from "./pages/CreateCommunity";
 
 function App() {
   return (
@@ -92,6 +94,8 @@ function App() {
             <Route path="/friendrequests" element={<FriendRequestApproval />} />
             <Route path="/editclosefriends" element={<CloseFriends />} />
             <Route path="/newpost" element={<NewPost />} />
+            <Route path="/managecommunity" element={<ManageCommunity />} />
+            <Route path="/managecommunity/createcommunity" element={<CreateCommunity />} />
           </Routes>
         </div>
       </Router>

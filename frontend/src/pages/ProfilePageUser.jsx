@@ -92,7 +92,14 @@ function ProfilePageUser() {
       navigate("/contentrestriction");
     }
   };
-
+  const onManageCommunity = () => {
+    if(!user){
+      navigate("/loginuser")
+    }
+    else{
+      navigate("/managecommunity/createcommunity")
+    }
+  }
   const onClosefriends = () => {
     if (!user) {
       navigate("/loginuser");
@@ -192,6 +199,13 @@ function ProfilePageUser() {
               >
                 Manage your Content&nbsp;&nbsp;
                 <FaList />
+              </Button>
+              <Button
+                onClick={onManageCommunity}
+                className="btn1 btn-secondary btn-block mb-2"
+              >
+                Manage Community&nbsp;&nbsp;
+                <FaUserFriends />
               </Button>
               <Button
                 onClick={onManageListing}

@@ -35,7 +35,6 @@ app.use("/MarketPlace", require("./routes/MarketPlaceRoutes"));
 app.use("/Follow", require("./routes/FollowerRoutes"));
 app.use("/CloseFriend", require("./routes/CloseFriendsRoutes"));
 
-console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/build")));
 

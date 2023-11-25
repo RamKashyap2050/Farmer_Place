@@ -3,6 +3,7 @@ import Axios from "axios";
 import { useSelector } from "react-redux";
 import "../styles/Alluserposts.css";
 import Box from "@mui/material/Box";
+import { Dropdown, MenuItem } from "react-bootstrap";
 import {
   FaSearch,
   FaExclamationTriangle,
@@ -14,6 +15,7 @@ import {
   FaArchive,
   FaSave,
 } from "react-icons/fa";
+import { IoSettings } from "react-icons/io5";
 import Skeleton from "@mui/material/Skeleton";
 import { ToastContainer, toast } from "react-toastify";
 import FewPeopleYouwanttoknow from "./FewPeopleYouwanttoknow";
@@ -220,37 +222,69 @@ const AllUserPostFeedforUser = () => {
                   {val.title}
                   <div>
                     {val.user.user_name !== user.user_name ? (
-                      <>
-                        {" "}
-                        <button
-                          className="btn btn-warning"
-                          onClick={() => handleReport(val)}
+                      <Dropdown>
+                        <Dropdown.Toggle
+                          // bsStyle="default"
+                          // id="dropdown-custom-components"
+                          style={{
+                            backgroundColor: "lightgray",
+                            border: "none",
+                          }}
                         >
-                          Report <FaExclamationTriangle />
-                        </button>{" "}
-                        <button
-                          className="btn btn-secondary"
-                          onClick={() => handleSave(val._id)}
-                        >
-                          Save
-                          <FaSave />
-                        </button>
-                      </>
+                          <IoSettings style={{ color: "black" }} />
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu className="super-colors">
+                          <Dropdown.Item eventKey="1">
+                            <button
+                              className="btn btn-warning btn-block w-25"
+                              onClick={() => handleReport(val)}
+                            >
+                              Report <FaExclamationTriangle />
+                            </button>
+                          </Dropdown.Item>
+                          <Dropdown.Item eventKey="2">
+                            <button
+                              className="btn btn-secondary btn-block w-25"
+                              onClick={() => handleSave(val._id)}
+                            >
+                              Save <FaSave />
+                            </button>
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
                     ) : (
-                      <>
-                        <button
-                          className="btn btn-primary"
-                          onClick={() => handleArchive(val._id)}
+                      <Dropdown>
+                        <Dropdown.Toggle
+                          // bsStyle="default"
+                          // id="dropdown-custom-components"
+                          style={{
+                            backgroundColor: "lightgray",
+                            border: "none",
+                          }}
                         >
-                          Archive <FaArchive />
-                        </button>{" "}
-                        <button
-                          className="btn btn-secondary"
-                          onClick={() => handleSave(val._id)}
-                        >
-                          Save <FaSave />
-                        </button>
-                      </>
+                          <IoSettings style={{ color: "black" }} />
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu className="super-colors">
+                          <Dropdown.Item eventKey="1">
+                            <button
+                              className="btn btn-primary btn-block"
+                              onClick={() => handleArchive(val._id)}
+                            >
+                              Archive <FaArchive />
+                            </button>{" "}
+                          </Dropdown.Item>
+                          <Dropdown.Item eventKey="2">
+                            <button
+                              className="btn btn-secondary btn-block"
+                              onClick={() => handleSave(val._id)}
+                            >
+                              Save <FaSave />
+                            </button>
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
                     )}
                   </div>
                 </h1>
