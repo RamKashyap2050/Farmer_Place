@@ -235,15 +235,13 @@ td{
   position: relative;
   text-align: center;
   margin-bottom: 2rem;
-  padding: 14px;
 
 
 }
 
 .CommunityCoverPhoto {
-  height: 250px; /* Adjust the height as needed */
-   object-fit: cover;
-
+  height: 250px; 
+  object-fit: cover;
   margin: auto;
   text-align: center;
 
