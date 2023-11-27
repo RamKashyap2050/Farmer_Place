@@ -34,6 +34,8 @@ import CloseFriends from "./pages/CloseFriends";
 import NewPost from "./components/NewPost";
 import ManageCommunity from "./pages/ManageCommunity";
 import CreateCommunity from "./pages/CreateCommunity";
+import ExistingCommunity from "./pages/ExisitingCommunity";
+import CreateCommunityContent from "./pages/CreateCommunityContent";
 
 function App() {
   return (
@@ -95,7 +97,18 @@ function App() {
             <Route path="/editclosefriends" element={<CloseFriends />} />
             <Route path="/newpost" element={<NewPost />} />
             <Route path="/managecommunity" element={<ManageCommunity />} />
-            <Route path="/managecommunity/createcommunity" element={<CreateCommunity />} />
+            <Route
+              path="/managecommunity/createcommunity"
+              element={<CreateCommunity />}
+            />
+            <Route
+              path="/managecommunity/existingcommunity"
+              element={<ExistingCommunity />}
+            />
+            <Route
+              path="/createCommunityContent/:id"
+              element={<CreateCommunityContent />}
+            />
           </Routes>
         </div>
       </Router>

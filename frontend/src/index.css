@@ -222,3 +222,41 @@ td{
   border-radius: 12px;
   padding: 20px 40px;
 }
+
+
+/* Community Individual Page Styling */
+.CommunityCard{
+  border: solid #f7f7f9;
+  align-items: center;
+  text-align: center;
+  margin: auto;
+}
+.CommunityImageCard {
+  position: relative;
+  text-align: center;
+  margin-bottom: 2rem;
+
+}
+
+.CommunityCoverPhoto {
+  height: 250px; /* Adjust the height as needed */
+   object-fit: cover;
+
+  margin: auto;
+  text-align: center;
+
+}
+
+.CommunityProfilePhoto {
+  position: absolute;
+  bottom: 0; /* Adjust the distance from the bottom as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 75px; /* Adjust the width as needed */
+  height: 75px; /* Adjust the height as needed */
+  border-radius: 50%;
+  border: 3px solid #fff; /* Add a border for better visualization */
+  margin-bottom: -25px; /* Adjust this value based on the desired distance between the two images */
+
+}
+

@@ -4,7 +4,7 @@ import HeaderforUser from "../components/HeaderforUser";
 import Footer from "../components/Footer";
 import { FaUserPlus } from "react-icons/fa";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 
 const CreateCommunity = () => {
   const { user } = useSelector((state) => state.auth);
@@ -14,10 +14,17 @@ const CreateCommunity = () => {
     Community_Name: "",
     Community_Description: "",
     Community_Image: null,
+    Community_Cover_Image: null,
   });
 
-  const { Admin_ID, Community_Name, Community_Description, Community_Image } =
-    formData;
+  const navigate = useNavigate();
+  const {
+    Admin_ID,
+    Community_Name,
+    Community_Description,
+    Community_Image,
+    Community_Cover_Image,
+  } = formData;
 
   const onChange = (e) => {
     if (e.target.type === "file") {
@@ -33,6 +40,14 @@ const CreateCommunity = () => {
     }
   };
 
+  const onShowExistingCommunities = () => {
+    if (!user) {
+      navigate("/");
+    } else {
+      navigate("/managecommunity/existingcommunity");
+    }
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -43,9 +58,13 @@ const CreateCommunity = () => {
       formDataToSend.append("Community_Name", Community_Name);
       formDataToSend.append("Community_Description", Community_Description);
       formDataToSend.append("Community_Image", Community_Image);
+      formDataToSend.append("Community_Cover_Image", Community_Cover_Image);
 
       // Make the POST request using Axios
-      const response = await axios.post("/", formDataToSend);
+      const response = await axios.post(
+        "/Community/createcommunity",
+        formDataToSend
+      );
 
       // Handle the response, e.g., show a success message
       console.log(response.data);
@@ -56,6 +75,7 @@ const CreateCommunity = () => {
         Community_Name: "",
         Community_Description: "",
         Community_Image: null,
+        Community_Cover_Image: null,
       });
     } catch (error) {
       // Handle error, e.g., show an error message
@@ -70,12 +90,15 @@ const CreateCommunity = () => {
         <h1>Manage Community</h1>
         <button
           className="round-btn  btn btn-primary"
-        //   onClick={onCreateCommunity}
+          //   onClick={onCreateCommunity}
         >
           Create a new community <FaUserPlus />
         </button>
         &nbsp;&nbsp;
-        <button className="round-btn btn btn-secondary">
+        <button
+          className="round-btn btn btn-secondary"
+          onClick={onShowExistingCommunities}
+        >
           Show your Existing Communities/Communities you are a part
         </button>
       </div>
@@ -117,7 +140,7 @@ const CreateCommunity = () => {
         </div>
         <div className="form-group">
           <label htmlFor="Community_Image" className="text-white">
-            Choose an Cover Image for Community:
+            Choose an Profile Image for Community:
           </label>
           <div className="custom-file">
             <input
@@ -131,6 +154,24 @@ const CreateCommunity = () => {
               className="custom-file-label"
               htmlFor="Community_Image"
             ></label>
+          </div>
+          <div className="form-group">
+            <label htmlFor="Community_Image" className="text-white">
+              Choose an Cover Photo for Community:
+            </label>
+            <div className="custom-file">
+              <input
+                type="file"
+                className="custom-file-input"
+                id="Community_Cover_Image"
+                name="Community_Cover_Image"
+                onChange={onChange}
+              />
+              <label
+                className="custom-file-label"
+                htmlFor="Community_Cover_Image"
+              ></label>
+            </div>
           </div>
         </div>
         <button type="submit" className="btn btn-primary btn-lg btn-block mt-3">

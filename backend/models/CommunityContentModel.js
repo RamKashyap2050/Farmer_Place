@@ -19,8 +19,8 @@ const communitySchema = mongoose.Schema({
 
 },
 {
-  collection: 'Community',
+  collection: 'CommunityContent',
   timestamp: true
 });
 
-module.exports = mongoose.model('Community', communitySchema);
+module.exports = mongoose.model('CommunityContent', communitySchema);

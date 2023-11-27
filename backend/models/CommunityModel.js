@@ -17,6 +17,9 @@ const communitySchema = mongoose.Schema({
   Community_Image: {
     type: String
   },
+  Community_Cover_Image:{
+    type: String
+  },
   Community_Description:{
     type: String
   }
