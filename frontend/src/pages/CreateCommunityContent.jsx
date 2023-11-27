@@ -110,7 +110,7 @@ const CreateCommunityContent = () => {
       >
         <div className="form-group">
           <label htmlFor="content" className="text-white">
-            Content:
+            Broadcast:
           </label>
           <div style={{ position: "relative" }}>
             <textarea
