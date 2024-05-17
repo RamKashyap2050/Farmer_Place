@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import HeaderforUser from "../components/HeaderforUser";
 import Footer from "../components/Footer";
 import { useSelector } from "react-redux";
-import { FaImage } from "react-icons/fa";
+import { FaImage, FaTrash } from "react-icons/fa";
 import "../styles/Feedpage.css";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -17,7 +17,7 @@ const CreateCommunityContent = () => {
   const [communityData, setCommunityData] = useState("");
   const [show, setShow] = useState(false);
   const [followers, setFollowers] = useState([]);
-
+  const [editMembers, setEditMembers] = useState(false);
   useEffect(() => {
     console.log("useEffect triggered with user:", user);
     if (!user) {
@@ -38,7 +38,6 @@ const CreateCommunityContent = () => {
         console.error("Error fetching user data:", error);
       });
   }, [id]);
-  console.log(user.user_name);
 
   const onAddMembers = () => {
     setShow(true);
@@ -114,14 +113,39 @@ const CreateCommunityContent = () => {
 
   const handleAddMembersClick = () => {
     setShow(true);
-    console.log("Clicked");
+    setEditMembers(false);
   };
 
   const handleModalClose = () => {
     setShow(false);
   };
 
-  console.log(show);
+  const handleEditModalClose = () => {
+    setEditMembers(false);
+  };
+  const sendRequest = async (userId) => {
+    const dataToSend = {
+      Admin_ID: communityData.Admin_ID,
+      user_id: userId,
+      Community_ID: communityData._id,
+    };
+
+    try {
+      const response = await axios.put(`/Community/sendinvite`, dataToSend);
+      console.log("Response:", response.data);
+      // Handle the response as needed
+    } catch (error) {
+      console.error("Error:", error.message);
+      // Handle the error
+    }
+  };
+
+  const handleEditMembersClick = () => {
+    setEditMembers(true);
+    setShow(false);
+    console.log("Show Variable", show);
+    console.log("Edit Variable", editMembers);
+  };
   return (
     <div>
       <HeaderforUser />
@@ -161,7 +185,7 @@ const CreateCommunityContent = () => {
       >
         <div className="form-group">
           <label htmlFor="content" className="text-white">
-            Broadcast:
+            Post:
           </label>
           <div style={{ position: "relative" }}>
             <textarea
@@ -214,42 +238,111 @@ const CreateCommunityContent = () => {
           Submit
         </button>
       </form>
-      {show ? (
-        <Modal
-          show={show}
-          onHide={handleModalClose}
-          aria-labelledby="contained-modal-title-vcenter"
-          style={{ opacity: 1, marginTop: "15rem" }}
-          centered
-        >
-          <Modal.Header>
-            <Modal.Title id="contained-modal-title-vcenter">
-              Add Members
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <p style={{fontWeight:"bold"}}>You can add people from your followers to Community: </p><br />
-            <div style={{overflowY:"scroll"}}>
-            {followers.map((follower) => (
-              <div key={follower.id} style={{display:"flex", justifyContent:"space-between", marginBottom:"2rem"}}>
-               <div style={{display:"flex"}}>
-               <img src={follower.followed_by_ID.image}  className="Commentprofilephoto" />&nbsp;&nbsp;
-                <p>{follower.followed_by_ID.user_name}</p>
-               </div>
-                <button className="btn btn-secondary">Join</button>
+      <>
+        {show ? (
+          <Modal
+            show={show}
+            onHide={handleModalClose}
+            fullscreen="xl-down" // Set the breakpoint for fullscreen
+            aria-labelledby="contained-modal-title-vcenter"
+            style={{
+              opacity: 1,
+              marginTop: "15rem",
+              width: "100%",
+              height: "100vh",
+            }}
+            centered
+          >
+            <Modal.Header>
+              <Modal.Title id="contained-modal-title-vcenter">
+                Add Members
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p style={{ fontWeight: "bold" }}>
+                You can add people from your followers to Community:{" "}
+              </p>
+              <br />
+              <div style={{ overflowY: "scroll" }}>
+                {followers.map((follower) => (
+                  <div
+                    key={follower.id}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginBottom: "2rem",
+                    }}
+                  >
+                    <div style={{ display: "flex" }}>
+                      <img
+                        src={follower.followed_by_ID.image}
+                        className="Commentprofilephoto"
+                      />
+                      &nbsp;&nbsp;
+                      <p>{follower.followed_by_ID.user_name}</p>
+                    </div>
+                    <button
+                      className="btn btn-secondary"
+                      onClick={() => sendRequest(follower.followed_by_ID._id)}
+                    >
+                      Invite
+                    </button>
+                  </div>
+                ))}
               </div>
-            ))}
-            </div>
-            <Button
-              type="submit"
-              variant="primary"
-              onSubmit={handleAddMembersSubmit}
-            >
-              Add Members
-            </Button>
-          </Modal.Body>
-        </Modal>
-      ) : null}
+              <Button
+                type="submit"
+                variant="primary"
+                onSubmit={handleAddMembersSubmit}
+              >
+                Add Members
+              </Button>
+            </Modal.Body>
+          </Modal>
+        ) : null}
+      </>
+
+      <>
+        {editMembers ? (
+          <Modal
+            show={editMembers}
+            onHide={handleEditModalClose}
+            aria-labelledby="contained-modal-title-vcenter"
+            style={{ opacity: 1, marginTop: "15rem" }}
+            centered
+          >
+            <Modal.Body>
+              <p style={{ fontWeight: "bold" }}>Edit people in Community: </p>
+              <br />
+              <div style={{ overflowY: "scroll" }}>
+                {communityData.Members.map((follower) => (
+                  <div
+                    key={follower.user_id.id}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginBottom: "2rem",
+                    }}
+                  >
+                    <div style={{ display: "flex" }}>
+                      <img
+                        src={follower.user_id.image}
+                        className="Commentprofilephoto"
+                      />
+                      &nbsp;&nbsp;
+                      <p>{follower.user_id.user_name}</p>
+                    </div>
+                    <button className="btn">
+                      <FaTrash />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </Modal.Body>
+          </Modal>
+        ) : null}
+      </>
+
       <br />
       <br />
       <div
@@ -268,7 +361,11 @@ const CreateCommunityContent = () => {
           Add Memebers
         </button>
         &nbsp;&nbsp;
-        <button className="btn btn-secondary" style={{ width: "100%" }}>
+        <button
+          className="btn btn-secondary"
+          style={{ width: "100%" }}
+          onClick={handleEditMembersClick}
+        >
           Edit Members
         </button>
       </div>

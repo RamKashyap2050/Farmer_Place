@@ -41,11 +41,11 @@ const ExistingCommunity = () => {
       <div style={{ margin: '2rem auto', textAlign: 'center' }}>
         <h1>Manage Community</h1>
         <button className="round-btn btn btn-primary" onClick={onCreateCommunity}>
-          Create a new community <FaUserPlus />
+          Create a new Page <FaUserPlus />
         </button>
         &nbsp;&nbsp;
         <button className="round-btn btn btn-secondary">
-          Show your Existing Communities/Communities you are a part
+          Show your Existing Page/Pages you are a part
         </button>
       </div>
       <div className="row d-flex" style={{ justifyContent: "space-around" }}>
@@ -76,7 +76,7 @@ const ExistingCommunity = () => {
                     style={{ width: "100%" }}
                  
                   >
-                   Visit Community
+                   Visit Page
                   </button>
                 </div>
               </div>

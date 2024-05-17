@@ -126,8 +126,7 @@ function ProfilePageUser() {
       .then((response) => {
         console.log("Token sent to the backend successfully");
 
-        // Update a value in localStorage when the request is successful
-        localStorage.setItem("IsSubscriber", "true"); // Change 'someKey' to the appropriate key
+        localStorage.setItem("IsSubscriber", "true"); 
       })
       .catch((error) => {
         console.error("Error sending token to the backend:", error);
@@ -204,7 +203,7 @@ function ProfilePageUser() {
                 onClick={onManageCommunity}
                 className="btn1 btn-secondary btn-block mb-2"
               >
-                Manage Community&nbsp;&nbsp;
+                Manage Page&nbsp;&nbsp;
                 <FaUserFriends />
               </Button>
               <Button

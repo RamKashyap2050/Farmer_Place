@@ -7,12 +7,18 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { MdVerified } from "react-icons/md";
+import {
+  MdVerified,
+  MdNotifications,
+  MdNotificationsActive,
+} from "react-icons/md";
 import PrivateAccount from "../components/PrivateAccount";
 import NoPosts from "../components/NoPosts";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import bellSoundFile from "../bell.mp3";
+
 const IndividualProfilePageUser = () => {
   const { id } = useParams();
   const [postData, setPostData] = useState([]);
@@ -20,6 +26,8 @@ const IndividualProfilePageUser = () => {
   const [following, setFollowing] = useState([]);
   const [followers, setFollowers] = useState([]);
   const [showContent, setShowContent] = useState(true);
+  const [ringBell, setRingBell] = useState(false);
+
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
 
@@ -91,6 +99,7 @@ const IndividualProfilePageUser = () => {
     }
   }, [userData, user]);
 
+  //To Follow Someone
   const OnFollow = (userId) => {
     const loggedInUserId = user._id;
     axios
@@ -106,6 +115,7 @@ const IndividualProfilePageUser = () => {
       });
   };
 
+  //Add Close Friends
   const OnCloseFriend = (userId) => {
     const loggedInUserId = user._id;
     axios
@@ -121,9 +131,15 @@ const IndividualProfilePageUser = () => {
       });
   };
 
+  //To Subscribe Someone Channel
+
+  const handleSubscribe = () => {
+    const bellSound = new Audio(bellSoundFile);
+    bellSound.play();
+    ringBell == false ? setRingBell(true) : setRingBell(false);
+    console.log("Subscribed");
+  };
   const OnAcceptRequest = (userId) => {
-    //LoggedInUserID is the user that's logged in Primary user
-    //userId is the ID of the user whose ID request status will be update
     const loggedInUserId = user._id;
     axios
       .put(`/Follow/updatefollowersstatus`, {
@@ -157,14 +173,21 @@ const IndividualProfilePageUser = () => {
                     : "profilephoto"
                 }
               />
-
               <CardContent>
-                <Typography variant="h5" component="div">
-                  {userData.user_name}{" "}
-                  {userData.IsSubscriber ? <MdVerified /> : <></>}
+                <Typography
+                  variant="h5"
+                  component="div"
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <div>
+                    {" "}
+                    {userData.user_name}{" "}
+                    {userData.IsSubscriber ? <MdVerified /> : <></>}
+                  </div>
                 </Typography>
               </CardContent>
             </div>
+
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <div style={{ marginRight: "16px" }}>
                 <h2>{postData.length}</h2>
@@ -273,9 +296,28 @@ const IndividualProfilePageUser = () => {
                       <button
                         className="btn btn-primary"
                         onClick={OnFollow}
-                        style={{ width: "100%" }}
+                        style={{ width: "100%", marginRight: "1rem" }}
                       >
                         Share Profile
+                      </button>
+                      <button
+                        className="btn btn-secondary"
+                        style={{ width: "20%" }}
+                      >
+                        {ringBell ? (
+                          <MdNotifications
+                            style={{ cursor: "pointer" }}
+                            onClick={handleSubscribe}
+                          />
+                        ) : (
+                          <MdNotificationsActive
+                            style={{
+                              cursor: "pointer",
+                              opacity: 0.3,
+                            }}
+                            onClick={handleSubscribe}
+                          />
+                        )}
                       </button>
                     </>
                   ) : (

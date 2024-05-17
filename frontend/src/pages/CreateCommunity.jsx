@@ -92,14 +92,17 @@ const CreateCommunity = () => {
           className="round-btn  btn btn-primary"
           //   onClick={onCreateCommunity}
         >
-          Create a new community <FaUserPlus />
+          Create a new Page<FaUserPlus />
         </button>
         &nbsp;&nbsp;
         <button
           className="round-btn btn btn-secondary"
           onClick={onShowExistingCommunities}
         >
-          Show your Existing Communities/Communities you are a part
+          Show your Existing Pages/Pages you are a part
+        </button>
+        <button className="round-btn btn btn-primary">
+          Check Pending Invites
         </button>
       </div>
       <form
@@ -110,7 +113,7 @@ const CreateCommunity = () => {
       >
         <div className="form-group">
           <label htmlFor="Community_Name" className="text-white">
-            Community Name:
+            Page Name:
           </label>
           <input
             type="text"
@@ -125,7 +128,7 @@ const CreateCommunity = () => {
         </div>
         <div className="form-group">
           <label htmlFor="Community_Description" className="text-white">
-            Community Description:
+            Page Description:
           </label>
           <textarea
             id="Community_Description"
@@ -140,7 +143,7 @@ const CreateCommunity = () => {
         </div>
         <div className="form-group">
           <label htmlFor="Community_Image" className="text-white">
-            Choose an Profile Image for Community:
+            Choose an Profile Image for Page:
           </label>
           <div className="custom-file">
             <input
@@ -157,7 +160,7 @@ const CreateCommunity = () => {
           </div>
           <div className="form-group">
             <label htmlFor="Community_Image" className="text-white">
-              Choose an Cover Photo for Community:
+              Choose an Cover Photo for Page:
             </label>
             <div className="custom-file">
               <input
@@ -175,7 +178,7 @@ const CreateCommunity = () => {
           </div>
         </div>
         <button type="submit" className="btn btn-primary btn-lg btn-block mt-3">
-          Create Community
+          Create Page
         </button>
       </form>
       <Footer />

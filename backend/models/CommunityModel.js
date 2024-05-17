@@ -7,8 +7,14 @@ const communitySchema = mongoose.Schema({
     ref: 'Users',
   },
   Members: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Users',
+    user_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Users'
+    },
+    requestStatus:{
+      type: String,
+      default: 'invited'
+    } 
   }],
   Community_Name: {
     type: String,

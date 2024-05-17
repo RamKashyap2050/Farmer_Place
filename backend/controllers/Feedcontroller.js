@@ -21,7 +21,7 @@ const getallposts = asyncHandler(async (req, res) => {
       },
     })
     .select(
-      "title content user post_image FeedStatus liked_by disliked_by comments archieved"
+      "title content user post_image VideoUrl FeedStatus liked_by disliked_by comments archieved"
     );
 
   // Define a function to get user followers
@@ -47,6 +47,7 @@ const getallposts = asyncHandler(async (req, res) => {
   const responseSize = JSON.stringify(postsWithFollowers).length;
 
   console.log(`Data size of the response: ${responseSize} bytes`);
+  console.log(postsWithFollowers);
 
   res.status(200).json(postsWithFollowers);
 });
@@ -62,21 +63,47 @@ const getFeed = asyncHandler(async (req, res) => {
 
 const setFeedPost = asyncHandler(async (req, res) => {
   const { title, content } = req.body;
-  const post_image = req.files.post_image;
+  const file = req.files.post_image || req.files.video;
 
-  if (!title || !content || !post_image) {
-    res.status(403).send({ message: "Please enter all fields" });
+  if (!title || !content || !file) {
+    return res.status(403).send({ message: "Please enter all fields" });
   }
-  const imageUrl = await uploadImageToS3(post_image);
+
+  let fileUrl = "";
+  let isImage = false;
+  let isVideo = false;
+
+  if (file.mimetype.startsWith("image/")) {
+    fileUrl = await uploadImageToS3(file);
+    isImage = true;
+  } else if (file.mimetype.startsWith("video/")) {
+    fileUrl = await uploadImageToS3(file);
+    isVideo = true;
+  } else {
+    return res.status(400).send({ message: "Unsupported file type" });
+  }
 
   const feed = await Feed.create({
     title,
     content,
-    post_image: imageUrl,
+    post_image: isImage ? fileUrl : "",
+    VideoUrl: isVideo ? fileUrl : "",
     user: req.user.id, // Set the "user" field to the authenticated user's ID
   });
 
   res.status(200).json(feed);
+});
+
+
+//Get the One Post of One User in their Profile Page Display
+const getonepostofoneuser = asyncHandler(async (req, res) => {
+  console.log("I am Here");
+  const feed = await Feed.findById(req.params.id);
+  console.log(feed);
+  if (!feed) {
+    console.error(error);
+  }
+  res.json(feed).status(200);
 });
 
 //Function that user to delete his posts
@@ -188,7 +215,7 @@ const SavePost = asyncHandler(async (req, res) => {
     saving_user_id: data.user_id,
     post_id: data.post,
   });
-  res.status(201).json(SavePosts)
+  res.status(201).json(SavePosts);
 });
 
 const getSavedPosts = asyncHandler(async (req, res) => {
@@ -214,8 +241,6 @@ const getSavedPosts = asyncHandler(async (req, res) => {
   }
 });
 
-
-
 const archivepost = asyncHandler(async (req, res) => {
   const post = req.params.post;
   console.log(post);
@@ -237,5 +262,6 @@ module.exports = {
   makeComment,
   archivepost,
   SavePost,
-  getSavedPosts
+  getSavedPosts,
+  getonepostofoneuser,
 };

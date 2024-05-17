@@ -300,11 +300,27 @@ const AllUserPostFeedforUser = () => {
                     {"  "} {val.user.IsSubscriber ? <MdVerified /> : <></>}
                   </h5>
                 </Link>
-                <img
-                  src={val.post_image}
-                  alt="Post Image"
-                  className="feedimage"
-                />
+                {val.post_image ? (
+                  val.post_image.match(/\.(jpeg|jpg|gif|png)$/) ? (
+                    <img
+                      src={val.post_image}
+                      alt="Post Image"
+                      className="feedimage"
+                    />
+                  ) : (
+                    <video controls className="feedvideo">
+                      <source src={val.post_image} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  )
+                ) : val.VideoUrl ? (
+                  <video controls className="feedvideo">
+                    <source src={val.VideoUrl} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                ) : (
+                  <p>No media available</p>
+                )}
                 <br />
                 <br />
                 <p>{val.content}</p>

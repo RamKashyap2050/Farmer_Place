@@ -57,7 +57,19 @@ const registerUser = asyncHandler(async (req, res) => {
     from: process.env.NODE_MAILER_USER,
     to: user.email,
     subject: "Welcome to Farmer Place App",
-    html: `<html><head><style>h1 {color: #000000;} p {font-size: 18px;}</style></head><body><div style="margin: auto; text-align: center"><h1>Happy to see you ${user.user_name}</h1><br><p style="color: #0000ff;">Thanks for signing up to Farmer Place!</p><br><br><a href="https://localhost:3000/dashboard/">Click Here to get started</a></div></body></html>`,
+    html: `
+    <html>
+    <head>
+      <style>h1 {color: #000000;} p {font-size: 18px;}</style>
+    </head>
+    <body>
+      <div style="margin: auto; text-align: center">
+        <h1>Happy to see you ${user.user_name}</h1><br>
+        <p style="color: #0000ff;">Thanks for signing up to Farmer Place!</p><br><br>
+        <a href="https://localhost:3000/dashboard/">Click Here to get started</a>
+      </div>
+    </body>
+    </html>`,
   };
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
@@ -82,7 +94,7 @@ const registerUser = asyncHandler(async (req, res) => {
 //Function which enables User to Login
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-
+  console.log(email, password);
   if (!email || !password) {
     res.status(400);
     throw new Error("Please enter all the fields");
@@ -191,25 +203,41 @@ const StoreFeedback = asyncHandler(async (req, res) => {
     message: "Succesfully Stored Feedback",
   });
 });
+// Import mongoose
+const mongoose = require("mongoose");
 
 const showresultsforoneuser = asyncHandler(async (req, res) => {
   const id = req.params.id;
-  console.log(id);
-  const showresultsforoneuser = await Feed.find({ user: id })
-    .populate("user", "user_name image AccountStatus archieved")
-    .select("title content user post_image");
-  res.status(200).json(showresultsforoneuser);
+  console.log("I am ID", id);
+
+  // Check if the id is valid
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: "Invalid ID format" });
+  }
+
+  try {
+    const showresultsforoneuser = await Feed.find({ user: id })
+      .populate("user", "user_name image AccountStatus archived") // Note: Make sure 'archieved' is the correct field name. It might be a typo for 'archived'.
+      .select("title content user post_image liked_by disliked_by comments");
+    console.log(showresultsforoneuser);
+    res.status(200).json(showresultsforoneuser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "An error occurred" });
+  }
 });
 
 const getuserinsearch = asyncHandler(async (req, res) => {
   const id = req.params.id;
-  const loggedinuserid  = req.params.loggedinuserid;
+  const loggedinuserid = req.params.loggedinuserid;
   let isCloseFriend = false;
 
-
-  
-  console.log(`ID(ID of whose results are being display,  Close_Friend_ID):${id} `)
-  console.log(`Who is Primary user(ID of whose are viewing those results are being display, user_ID):${loggedinuserid} `)
+  console.log(
+    `ID(ID of whose results are being display,  Close_Friend_ID):${id} `
+  );
+  console.log(
+    `Who is Primary user(ID of whose are viewing those results are being display, user_ID):${loggedinuserid} `
+  );
 
   try {
     const getuserinsearch = await Users.findOne({ _id: id });
@@ -224,7 +252,7 @@ const getuserinsearch = asyncHandler(async (req, res) => {
       Close_Friend_ID: id,
       user_ID: loggedinuserid,
     });
-    console.log("Close Friends", close_friends)
+    console.log("Close Friends", close_friends);
 
     // Retrieve follower IDs and requestStatus
     const followersInfo = await Promise.all(
@@ -250,7 +278,7 @@ const getuserinsearch = asyncHandler(async (req, res) => {
     if (close_friends) {
       isCloseFriend = true;
     }
-    
+
     const userWithFollowers = {
       ...getuserinsearch._doc,
       User_Followers: followersInfo,
@@ -265,7 +293,6 @@ const getuserinsearch = asyncHandler(async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 });
-
 
 const BecomeVerifiedUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
