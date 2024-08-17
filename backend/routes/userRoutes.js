@@ -10,7 +10,8 @@ const {
   showresultsforoneuser,
   getuserinsearch,
   contentrestriction,
-  BecomeVerifiedUser
+  BecomeVerifiedUser,
+  googlelogin
 } = require("../controllers/UserController");
 const {
   changepassword,
@@ -32,4 +33,5 @@ router.route("/getOneUserforSearch/:id").get(showresultsforoneuser)
 router.route("/getuser/:id/:loggedinuserid").get(getuserinsearch)
 router.route("/contentrestriction/:id").put(contentrestriction)
 router.route("/becomeverifieduser/:id").put(BecomeVerifiedUser)
+router.route("/googlelogin/").post(googlelogin)
 module.exports = router;

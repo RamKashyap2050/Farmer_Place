@@ -183,12 +183,12 @@ const FewPeopleYouwanttoknow = () => {
           </button>
         </div>
         <div className="row d-flex" style={{ justifyContent: "space-around" }}>
-          {limitedPeopleData.map((person) => (
-            <div className="col-md-4" key={person._id}>
+          { limitedPeopleData.map((person) => (
+            <div className="col-md-4" key={person?._id}>
               <div className="card cardinpeople">
-                <Link to={`/profile/${person._id}`}>
+                <Link to={`/profile/${person?._id}`}>
                   <img
-                    src={person.image}
+                    src={person?.image}
                     alt="User Profile"
                     className="card-img-top fewpeopleprofilephoto"
                   />
@@ -207,27 +207,27 @@ const FewPeopleYouwanttoknow = () => {
                   </h5>
                   <button
                     className={`btn btn-${
-                      isUserFollowed(person._id)
-                        ? isRequestAccepted(person._id)
+                      isUserFollowed(person?._id)
+                        ? isRequestAccepted(person?._id)
                           ? "secondary"
-                          : isRequestPending(person._id)
+                          : isRequestPending(person?._id)
                           ? "success"
                           : "danger"
                         : "primary"
                     } btn-md`}
                     style={{ width: "100%" }}
                     onClick={() => {
-                      isUserFollowed(person._id)
-                        ? isRequestAccepted(person._id)
-                          ? handleunFollow(person._id)
-                          : handleAcceptRequest(person._id)
-                        : handleFollow(person._id);
+                      isUserFollowed(person?._id)
+                        ? isRequestAccepted(person?._id)
+                          ? handleunFollow(person?._id)
+                          : handleAcceptRequest(person?._id)
+                        : handleFollow(person?._id);
                     }}
                   >
-                    {isUserFollowed(person._id)
-                      ? isRequestAccepted(person._id)
+                    {isUserFollowed(person?._id)
+                      ? isRequestAccepted(person?._id)
                         ? "Following"
-                        : isRequestPending(person._id)
+                        : isRequestPending(person?._id)
                         ? "Accept"
                         : "Request Sent"
                       : "Follow"}

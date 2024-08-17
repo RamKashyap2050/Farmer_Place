@@ -29,6 +29,7 @@
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
     "express-fileupload": "^1.4.0",
+    "firebase": "^10.12.2",
     "gridfs-stream": "^1.1.1",
     "image-validator": "^1.2.1",
     "jpeg-js": "^0.4.4",

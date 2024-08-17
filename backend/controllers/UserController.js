@@ -129,6 +129,67 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
 });
+
+// Function to authenticate or register a user
+const  googlelogin = asyncHandler(async (req, res) => {
+  const { email, name, photo } = req.body;
+  console.log(email,name, "This is in googlelogin")
+  if (!email || !name) {
+    res.status(400);
+    throw new Error("Please provide both email and name");
+  }
+
+  try {
+    let user = await Users.findOne({ email });
+
+    if (user) {
+      // User exists, generate token
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+      const { password: _, ...rest } = user._doc;
+      const expiryDate = new Date(Date.now() + 3600000); // 1 hour
+
+      res.cookie('access_token', token, {
+        httpOnly: true,
+        expires: expiryDate,
+      }).status(200).json(rest);
+
+    } else {
+      // New user, create account
+      const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+      const hashedPassword = bcrypt.hashSync(generatedPassword, 10);
+      const user_name = name.split(' ').join('').toLowerCase() + Math.random().toString(36).slice(-8);
+
+      user = new Users({
+        user_name,
+        email,
+        password: hashedPassword,
+        image: photo,
+      });
+      console.log("User", user)
+
+      try {
+        await user.save();
+        console.log("User saved successfully");
+      } catch (error) {
+        console.error("Error saving user:", error);
+        return res.status(500).json({ message: "Failed to create user", error: error.message });
+      }
+      
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+      const { password: _, ...rest } = user._doc;
+      const expiryDate = new Date(Date.now() + 3600000); // 1 hour
+
+      res.cookie('access_token', token, {
+        httpOnly: true,
+        expires: expiryDate,
+      }).status(200).json(rest);
+    }
+  } catch (error) {
+    res.status(500);
+    throw new Error("Server error during user authentication");
+  }
+});
+
 const updateUserProfile = asyncHandler(async (req, res) => {
   const { userID } = req.params;
   const updatedUser = await Users.findByIdAndUpdate(
@@ -203,23 +264,22 @@ const StoreFeedback = asyncHandler(async (req, res) => {
     message: "Succesfully Stored Feedback",
   });
 });
-// Import mongoose
-const mongoose = require("mongoose");
+
 
 const showresultsforoneuser = asyncHandler(async (req, res) => {
   const id = req.params.id;
   console.log("I am ID", id);
 
   // Check if the id is valid
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ message: "Invalid ID format" });
-  }
+  // if (!mongoose.Types.ObjectId.isValid(id)) {
+  //   return res.status(400).json({ message: "Invalid ID format" });
+  // }
 
   try {
     const showresultsforoneuser = await Feed.find({ user: id })
       .populate("user", "user_name image AccountStatus archived") // Note: Make sure 'archieved' is the correct field name. It might be a typo for 'archived'.
       .select("title content user post_image liked_by disliked_by comments");
-    console.log(showresultsforoneuser);
+    console.log("I am Content",showresultsforoneuser);
     res.status(200).json(showresultsforoneuser);
   } catch (error) {
     console.error(error);
@@ -395,4 +455,5 @@ module.exports = {
   getuserinsearch,
   contentrestriction,
   BecomeVerifiedUser,
+  googlelogin
 };

@@ -9,7 +9,6 @@ const userSchema = mongoose.Schema(
     },
     phone: {
       type: String,
-      required: [true, "Please enter your phone"],
     },
     email: {
       type: String,
@@ -21,6 +20,8 @@ const userSchema = mongoose.Schema(
     },
     image: {
       type: String,
+      default:
+        "https://murrayglass.com/wp-content/uploads/2020/10/avatar-2048x2048.jpeg",
     },
     AccountStatus: {
       type: Boolean,
@@ -36,7 +37,7 @@ const userSchema = mongoose.Schema(
     },
     IsSubscriber: {
       type: Boolean,
-      default: false
+      default: false,
     },
   },
   { collection: "Users", timestamp: true }
